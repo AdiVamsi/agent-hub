@@ -176,13 +176,13 @@ def search_products(query: str, products: list) -> list:
             if word in desc_lower:
                 score += 1
         if score > 0:
-            scored.append({"product": product, "score": score})
+            scored.append((score, product))
 
-    # Use sorted() instead of bubble sort
-    scored.sort(key=lambda x: x["score"], reverse=True)
+    # Use sort() instead of bubble sort
+    scored.sort(key=lambda x: x[0], reverse=True)
 
     # Return top 10
-    return [item["product"] for item in scored[:10]]
+    return [item[1] for item in scored[:10]]
 
 
 def get_product_with_reviews(product_id: int, products: list,
