@@ -223,33 +223,25 @@ def generate_recommendations(user_history: list, products: list,
     - Sorts ALL products even though only top 5 are needed
     - String concatenation in loop for category building
     """
-    # SLOW: recompute average ratings for ALL products every single call
-    product_ratings = {}
-    for product in products:
-        pid = product["id"]
-        ratings = []
-        # SLOW: scan ALL reviews for each product
-        for review in reviews:
-            if review["product_id"] == pid:
-                ratings.append(review["rating"])
-        if ratings:
-            avg = 0
-            for r in ratings:
-                avg += r
-            avg = avg / len(ratings)
-            product_ratings[pid] = round(avg, 2)
-        else:
-            product_ratings[pid] = 0.0
+    # Build reviews index: product_id -> (sum_ratings, count)
+    review_totals = {}
+    for review in reviews:
+        pid = review["product_id"]
+        if pid not in review_totals:
+            review_totals[pid] = [0, 0]
+        review_totals[pid][0] += review["rating"]
+        review_totals[pid][1] += 1
 
-    # Build set of categories user has bought from
-    # SLOW: string concatenation in a loop
-    user_categories = ""
+    # Compute average ratings from index
+    product_ratings = {}
+    for pid, (total, count) in review_totals.items():
+        product_ratings[pid] = round(total / count, 2)
+
+    # Build set of categories user has bought from using list comprehension
     history_set = set(user_history)
-    for product in products:
-        if product["id"] in history_set:
-            user_categories = user_categories + product["category"] + ","
-    user_cat_list = [c for c in user_categories.split(",") if c]
-    user_cat_set = set(user_cat_list)
+    product_index = {p["id"]: p for p in products}
+    user_cat_set = {product_index[pid]["category"]
+                   for pid in history_set if pid in product_index}
 
     # Score products
     scored = []
@@ -261,17 +253,14 @@ def generate_recommendations(user_history: list, products: list,
         if product["category"] in user_cat_set:
             score += 3.0
         # Rating bonus
-        score += product_ratings.get(product["id"], 0)
+        score += product_ratings.get(product["id"], 0.0)
         # Price bonus (prefer mid-range)
         if 20 <= product["price"] <= 200:
             score += 1.0
         scored.append({"product": product, "score": round(score, 2)})
 
-    # SLOW: sort ALL products even though we only need top 5
-    for i in range(len(scored)):
-        for j in range(len(scored) - 1 - i):
-            if scored[j]["score"] < scored[j + 1]["score"]:
-                scored[j], scored[j + 1] = scored[j + 1], scored[j]
+    # Use sorted() and only get top 5
+    scored.sort(key=lambda x: x["score"], reverse=True)
 
     return [item["product"] for item in scored[:5]]
 
