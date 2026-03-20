@@ -274,29 +274,23 @@ def generate_invoice(order_items: list, products: list,
     - String concatenation with += in loop
     - Recalculates subtotal multiple times
     """
+    # Build product dict index for O(1) lookups
+    product_index = {p["id"]: p for p in products}
+
     lines = []
-    # SLOW: build invoice text with string concatenation
-    invoice_text = ""
-    invoice_text += "=" * 50 + "\n"
-    invoice_text += "INVOICE\n"
-    invoice_text += "=" * 50 + "\n"
+    # Use list for building invoice text, join at end
+    invoice_parts = ["=" * 50 + "\n", "INVOICE\n", "=" * 50 + "\n"]
 
     subtotal = 0.0
     for item in order_items:
-        # SLOW: linear scan through all products for each item
-        product = None
-        for p in products:
-            if p["id"] == item["product_id"]:
-                product = p
-                break
-
+        product = product_index.get(item["product_id"])
         if product is None:
             continue
 
         qty = item["quantity"]
         line_total = product["price"] * qty
+        subtotal += line_total
 
-        # SLOW: recalculate running subtotal with explicit re-sum
         lines.append({
             "product_id": product["id"],
             "name": product["name"],
@@ -305,26 +299,20 @@ def generate_invoice(order_items: list, products: list,
             "line_total": round(line_total, 2),
         })
 
-        # SLOW: string concatenation in loop
-        invoice_text += f"  {product['name'][:30]:30s} x{qty:2d}  ${line_total:8.2f}\n"
+        invoice_parts.append(
+            f"  {product['name'][:30]:30s} x{qty:2d}  ${line_total:8.2f}\n"
+        )
 
-    # SLOW: recalculate subtotal by iterating lines again
-    subtotal = 0.0
-    for line in lines:
-        subtotal += line["line_total"]
+    subtotal = round(subtotal, 2)
+    tax = round(subtotal * tax_rate, 2)
+    total = round(subtotal + tax, 2)
 
-    # SLOW: recalculate subtotal AGAIN for tax
-    recalc_subtotal = 0.0
-    for line in lines:
-        recalc_subtotal += line["line_total"]
-    tax = round(recalc_subtotal * tax_rate, 2)
-    total = round(recalc_subtotal + tax, 2)
-
-    invoice_text += "-" * 50 + "\n"
-    invoice_text += f"  {'Subtotal':30s}        ${subtotal:8.2f}\n"
-    invoice_text += f"  {'Tax (' + str(int(tax_rate*100)) + '%)':30s}        ${tax:8.2f}\n"
-    invoice_text += f"  {'TOTAL':30s}        ${total:8.2f}\n"
-    invoice_text += "=" * 50 + "\n"
+    invoice_parts.append("-" * 50 + "\n")
+    invoice_parts.append(f"  {'Subtotal':30s}        ${subtotal:8.2f}\n")
+    invoice_parts.append(f"  {'Tax (' + str(int(tax_rate*100)) + '%)':30s}        ${tax:8.2f}\n")
+    invoice_parts.append(f"  {'TOTAL':30s}        ${total:8.2f}\n")
+    invoice_parts.append("=" * 50 + "\n")
+    invoice_text = "".join(invoice_parts)
 
     return {
         "lines": lines,
