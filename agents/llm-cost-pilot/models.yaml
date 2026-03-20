@@ -1,0 +1,63 @@
+models:
+  gpt-5-nano:
+    provider: openai
+    input_cost_per_m: 0.05
+    output_cost_per_m: 0.40
+    tier: nano
+  gpt-5-mini:
+    provider: openai
+    input_cost_per_m: 0.25
+    output_cost_per_m: 2.00
+    tier: small
+  gpt-4o:
+    provider: openai
+    input_cost_per_m: 2.50
+    output_cost_per_m: 10.00
+    tier: medium
+  gpt-5.2:
+    provider: openai
+    input_cost_per_m: 1.75
+    output_cost_per_m: 14.00
+    tier: large
+  o3-mini:
+    provider: openai
+    input_cost_per_m: 0.55
+    output_cost_per_m: 2.20
+    tier: small
+  claude-haiku-4-5:
+    provider: anthropic
+    input_cost_per_m: 0.80
+    output_cost_per_m: 4.00
+    tier: small
+  claude-sonnet-4-6:
+    provider: anthropic
+    input_cost_per_m: 3.00
+    output_cost_per_m: 15.00
+    tier: medium
+  claude-opus-4-6:
+    provider: anthropic
+    input_cost_per_m: 5.00
+    output_cost_per_m: 25.00
+    tier: flagship
+  gemini-2.5-flash:
+    provider: google
+    input_cost_per_m: 0.15
+    output_cost_per_m: 0.60
+    tier: nano
+  gemini-3.1-pro:
+    provider: google
+    input_cost_per_m: 2.00
+    output_cost_per_m: 12.00
+    tier: large
+  deepseek-v3:
+    provider: deepseek
+    input_cost_per_m: 0.27
+    output_cost_per_m: 1.10
+    tier: small
+
+tier_ranking:
+  nano: 0
+  small: 1
+  medium: 2
+  large: 3
+  flagship: 4

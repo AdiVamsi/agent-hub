@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+results.tsv
+*.log
+.env
+agents/*/traffic/*.jsonl
+!agents/*/traffic/README.md
+.ipynb_checkpoints/
