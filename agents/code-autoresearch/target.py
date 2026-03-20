@@ -10,6 +10,7 @@ the harness verifies correctness after every change.
 
 import copy
 import hashlib
+import heapq
 import random
 import string
 import time
@@ -178,11 +179,10 @@ def search_products(query: str, products: list) -> list:
         if score > 0:
             scored.append((score, product))
 
-    # Use sort() instead of bubble sort
-    scored.sort(key=lambda x: x[0], reverse=True)
+    # Use heapq.nlargest to avoid sorting full list (only need top 10)
+    top = heapq.nlargest(10, scored, key=lambda x: x[0])
 
-    # Return top 10
-    return [item[1] for item in scored[:10]]
+    return [item[1] for item in top]
 
 
 def get_product_with_reviews(product_id: int, products: list,
@@ -293,10 +293,10 @@ def generate_recommendations(user_history: list, products: list,
             score += 1.0
         scored.append((round(score, 2), product))
 
-    # Use sort() and only get top 5
-    scored.sort(key=lambda x: x[0], reverse=True)
+    # Use heapq.nlargest to avoid sorting full list (only need top 5)
+    top = heapq.nlargest(5, scored, key=lambda x: x[0])
 
-    return [item[1] for item in scored[:5]]
+    return [item[1] for item in top]
 
 
 def generate_invoice(order_items: list, products: list,
