@@ -189,22 +189,18 @@ def get_product_with_reviews(product_id: int, products: list,
     if product is None:
         return {"product": None, "reviews": [], "avg_rating": 0.0}
 
-    # SLOW: deep copy the entire product dict
-    result_product = copy.deepcopy(product)
+    # Shallow copy instead of expensive deep copy
+    result_product = dict(product)
 
-    # SLOW: N+1 — scan ALL reviews to find ones for this product
+    # Single pass: collect reviews and accumulate rating sum together
     product_reviews = []
+    total_rating = 0
     for review in reviews:
         if review["product_id"] == product_id:
             product_reviews.append(review)
+            total_rating += review["rating"]
 
-    # SLOW: compute average rating with two separate passes
-    total_rating = 0
-    for r in product_reviews:
-        total_rating += r["rating"]
-    review_count = 0
-    for r in product_reviews:
-        review_count += 1
+    review_count = len(product_reviews)
     avg_rating = total_rating / review_count if review_count > 0 else 0.0
 
     return {
