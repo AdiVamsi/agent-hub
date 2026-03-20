@@ -145,19 +145,26 @@ def search_products(query: str, products: list) -> list:
     query_words = query.lower().split()
     scored = []
 
-    # O(n * m) where n=products, m=query_words — but done inefficiently
+    # Pre-build search strings per product (avoids repeated str() conversion)
+    # Replicate str(product) behavior: include all fields the dict stringifies to
+    product_search_strings = []
     for product in products:
+        name_lower = product["name"].lower()
+        desc_lower = product["description"].lower()
+        # str(product) includes category, tags, price, etc.
+        cat_lower = product["category"].lower()
+        tags_lower = " ".join(product["tags"]).lower()
+        full_str = (name_lower + " " + desc_lower + " " + cat_lower + " " + tags_lower)
+        product_search_strings.append((product, full_str, name_lower, desc_lower))
+
+    for product, product_str, name_lower, desc_lower in product_search_strings:
         score = 0
-        # SLOW: convert entire product dict to string for every comparison
-        product_str = str(product).lower()
         for word in query_words:
             if word in product_str:
                 score += 1
-            # SLOW: also do a redundant check on name specifically
-            if word in product["name"].lower():
+            if word in name_lower:
                 score += 2
-            # SLOW: and description
-            if word in product["description"].lower():
+            if word in desc_lower:
                 score += 1
         if score > 0:
             scored.append({"product": product, "score": score})
