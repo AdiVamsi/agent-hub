@@ -19,6 +19,7 @@ _product_search_cache = {}  # id(products) -> list of (product, full_str, name, 
 _reviews_index_cache = {}   # id(reviews) -> dict of product_id -> [ratings sum, count]
 _product_index_cache = {}   # id(products) -> dict of product_id -> product
 _reviews_by_product_cache = {}  # id(reviews) -> dict of product_id -> list of reviews
+_product_ratings_cache = {}  # id(reviews) -> dict of product_id -> avg_rating
 
 
 # ---------------------------------------------------------------------------
@@ -257,11 +258,14 @@ def generate_recommendations(user_history: list, products: list,
             review_totals[pid][0] += review["rating"]
             review_totals[pid][1] += 1
         _reviews_index_cache[rev_cache_key] = review_totals
-    review_totals = _reviews_index_cache[rev_cache_key]
-
-    # Compute average ratings from index
-    product_ratings = {pid: round(total / count, 2)
-                       for pid, (total, count) in review_totals.items()}
+    # Use cached avg ratings dict (avoid recomputing per call)
+    if rev_cache_key not in _product_ratings_cache:
+        review_totals = _reviews_index_cache[rev_cache_key]
+        _product_ratings_cache[rev_cache_key] = {
+            pid: round(total / count, 2)
+            for pid, (total, count) in review_totals.items()
+        }
+    product_ratings = _product_ratings_cache[rev_cache_key]
 
     # Use cached product index
     prod_cache_key = id(products)
