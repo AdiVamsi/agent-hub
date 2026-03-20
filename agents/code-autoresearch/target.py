@@ -277,7 +277,7 @@ def generate_recommendations(user_history: list, products: list,
     user_cat_set = {product_index[pid]["category"]
                    for pid in history_set if pid in product_index}
 
-    # Score products
+    # Score products using tuples for lighter allocation
     scored = []
     for product in products:
         if product["id"] in history_set:
@@ -291,12 +291,12 @@ def generate_recommendations(user_history: list, products: list,
         # Price bonus (prefer mid-range)
         if 20 <= product["price"] <= 200:
             score += 1.0
-        scored.append({"product": product, "score": round(score, 2)})
+        scored.append((round(score, 2), product))
 
-    # Use sorted() and only get top 5
-    scored.sort(key=lambda x: x["score"], reverse=True)
+    # Use sort() and only get top 5
+    scored.sort(key=lambda x: x[0], reverse=True)
 
-    return [item["product"] for item in scored[:5]]
+    return [item[1] for item in scored[:5]]
 
 
 def generate_invoice(order_items: list, products: list,
