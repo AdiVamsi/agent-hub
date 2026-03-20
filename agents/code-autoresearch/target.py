@@ -14,6 +14,11 @@ import random
 import string
 import time
 
+# Module-level caches keyed by id(list) to avoid rebuilding per call
+_product_search_cache = {}  # id(products) -> list of (product, full_str, name, desc)
+_reviews_index_cache = {}   # id(reviews) -> dict of product_id -> [ratings sum, count]
+_product_index_cache = {}   # id(products) -> dict of product_id -> product
+
 
 # ---------------------------------------------------------------------------
 # Data generation (deterministic — do not modify seed behavior)
@@ -145,17 +150,19 @@ def search_products(query: str, products: list) -> list:
     query_words = query.lower().split()
     scored = []
 
-    # Pre-build search strings per product (avoids repeated str() conversion)
-    # Replicate str(product) behavior: include all fields the dict stringifies to
-    product_search_strings = []
-    for product in products:
-        name_lower = product["name"].lower()
-        desc_lower = product["description"].lower()
-        # str(product) includes category, tags, price, etc.
-        cat_lower = product["category"].lower()
-        tags_lower = " ".join(product["tags"]).lower()
-        full_str = (name_lower + " " + desc_lower + " " + cat_lower + " " + tags_lower)
-        product_search_strings.append((product, full_str, name_lower, desc_lower))
+    # Use cached search strings (rebuilt only when products list identity changes)
+    cache_key = id(products)
+    if cache_key not in _product_search_cache:
+        search_strings = []
+        for product in products:
+            name_lower = product["name"].lower()
+            desc_lower = product["description"].lower()
+            cat_lower = product["category"].lower()
+            tags_lower = " ".join(product["tags"]).lower()
+            full_str = (name_lower + " " + desc_lower + " " + cat_lower + " " + tags_lower)
+            search_strings.append((product, full_str, name_lower, desc_lower))
+        _product_search_cache[cache_key] = search_strings
+    product_search_strings = _product_search_cache[cache_key]
 
     for product, product_str, name_lower, desc_lower in product_search_strings:
         score = 0
@@ -226,23 +233,30 @@ def generate_recommendations(user_history: list, products: list,
     - Sorts ALL products even though only top 5 are needed
     - String concatenation in loop for category building
     """
-    # Build reviews index: product_id -> (sum_ratings, count)
-    review_totals = {}
-    for review in reviews:
-        pid = review["product_id"]
-        if pid not in review_totals:
-            review_totals[pid] = [0, 0]
-        review_totals[pid][0] += review["rating"]
-        review_totals[pid][1] += 1
+    # Use cached reviews index (rebuilt only when reviews list identity changes)
+    rev_cache_key = id(reviews)
+    if rev_cache_key not in _reviews_index_cache:
+        review_totals = {}
+        for review in reviews:
+            pid = review["product_id"]
+            if pid not in review_totals:
+                review_totals[pid] = [0, 0]
+            review_totals[pid][0] += review["rating"]
+            review_totals[pid][1] += 1
+        _reviews_index_cache[rev_cache_key] = review_totals
+    review_totals = _reviews_index_cache[rev_cache_key]
 
     # Compute average ratings from index
-    product_ratings = {}
-    for pid, (total, count) in review_totals.items():
-        product_ratings[pid] = round(total / count, 2)
+    product_ratings = {pid: round(total / count, 2)
+                       for pid, (total, count) in review_totals.items()}
 
-    # Build set of categories user has bought from using list comprehension
+    # Use cached product index
+    prod_cache_key = id(products)
+    if prod_cache_key not in _product_index_cache:
+        _product_index_cache[prod_cache_key] = {p["id"]: p for p in products}
+    product_index = _product_index_cache[prod_cache_key]
+
     history_set = set(user_history)
-    product_index = {p["id"]: p for p in products}
     user_cat_set = {product_index[pid]["category"]
                    for pid in history_set if pid in product_index}
 
