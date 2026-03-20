@@ -343,77 +343,39 @@ def analyze_sales(orders: list, products: list) -> dict:
     - Recomputes total revenue in multiple passes
     - Creates intermediate lists where generators would work
     """
-    # Build product lookup (but do it SLOWLY — iterate list each time)
-    # SLOW: nested loop to compute revenue by category
+    # Build product dict index once for O(1) lookups
+    product_index = {p["id"]: p for p in products}
+
+    # Single pass over all orders/items to compute all needed values
     category_revenue = {}
-    for order in orders:
-        for item in order["items"]:
-            # SLOW: linear scan for product
-            product = None
-            for p in products:
-                if p["id"] == item["product_id"]:
-                    product = p
-                    break
-            if product is None:
-                continue
-            cat = product["category"]
-            revenue = product["price"] * item["quantity"]
-            if cat not in category_revenue:
-                category_revenue[cat] = 0.0
-            category_revenue[cat] += revenue
-
-    # SLOW: compute total revenue by summing category_revenue values
-    # then recompute by iterating orders again
-    total_revenue_1 = 0.0
-    for cat_val in category_revenue.values():
-        total_revenue_1 += cat_val
-
-    # SLOW: recompute total from scratch for "verification"
-    total_revenue_2 = 0.0
-    all_line_revenues = []  # SLOW: materializes entire list
-    for order in orders:
-        for item in order["items"]:
-            for p in products:
-                if p["id"] == item["product_id"]:
-                    rev = p["price"] * item["quantity"]
-                    all_line_revenues.append(rev)
-                    total_revenue_2 += rev
-                    break
-
-    # Monthly revenue
     monthly_revenue = {}
+    total_revenue_1 = 0.0
+    order_totals = []
+
     for order in orders:
         month = order["date"][:7]  # "2025-01"
         order_total = 0.0
         for item in order["items"]:
-            # SLOW: yet another linear scan per item
-            for p in products:
-                if p["id"] == item["product_id"]:
-                    order_total += p["price"] * item["quantity"]
-                    break
-        if month not in monthly_revenue:
-            monthly_revenue[month] = 0.0
-        monthly_revenue[month] += order_total
+            product = product_index.get(item["product_id"])
+            if product is None:
+                continue
+            revenue = product["price"] * item["quantity"]
+            cat = product["category"]
+            category_revenue[cat] = category_revenue.get(cat, 0.0) + revenue
+            total_revenue_1 += revenue
+            order_total += revenue
+        monthly_revenue[month] = monthly_revenue.get(month, 0.0) + order_total
+        order_totals.append(order_total)
 
-    # Top categories
-    # SLOW: sort using bubble sort
-    cat_list = [{"category": k, "revenue": round(v, 2)}
-                for k, v in category_revenue.items()]
-    for i in range(len(cat_list)):
-        for j in range(len(cat_list) - 1 - i):
-            if cat_list[j]["revenue"] < cat_list[j + 1]["revenue"]:
-                cat_list[j], cat_list[j + 1] = cat_list[j + 1], cat_list[j]
+    # Top categories using sorted()
+    cat_list = sorted(
+        [{"category": k, "revenue": round(v, 2)} for k, v in category_revenue.items()],
+        key=lambda x: x["revenue"],
+        reverse=True,
+    )
 
-    # Average order value
-    # SLOW: recompute total yet again
-    total_for_avg = 0.0
-    for order in orders:
-        for item in order["items"]:
-            for p in products:
-                if p["id"] == item["product_id"]:
-                    total_for_avg += p["price"] * item["quantity"]
-                    break
-    avg_order_value = round(total_for_avg / len(orders), 2) if orders else 0
+    # Average order value from already-computed totals
+    avg_order_value = round(total_revenue_1 / len(orders), 2) if orders else 0
 
     # Sort monthly revenue
     sorted_months = sorted(monthly_revenue.keys())
