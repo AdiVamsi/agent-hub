@@ -18,6 +18,7 @@ import time
 _product_search_cache = {}  # id(products) -> list of (product, full_str, name, desc)
 _reviews_index_cache = {}   # id(reviews) -> dict of product_id -> [ratings sum, count]
 _product_index_cache = {}   # id(products) -> dict of product_id -> product
+_reviews_by_product_cache = {}  # id(reviews) -> dict of product_id -> list of reviews
 
 
 # ---------------------------------------------------------------------------
@@ -205,20 +206,23 @@ def get_product_with_reviews(product_id: int, products: list,
     # Shallow copy instead of expensive deep copy
     result_product = dict(product)
 
-    # Use cached reviews index: product_id -> [sum, count]
+    # Use cached reviews: both sum/count index AND per-product review lists
     rev_cache_key = id(reviews)
     if rev_cache_key not in _reviews_index_cache:
         review_totals = {}
+        reviews_by_product = {}
         for review in reviews:
             pid = review["product_id"]
             if pid not in review_totals:
                 review_totals[pid] = [0, 0]
+                reviews_by_product[pid] = []
             review_totals[pid][0] += review["rating"]
             review_totals[pid][1] += 1
+            reviews_by_product[pid].append(review)
         _reviews_index_cache[rev_cache_key] = review_totals
+        _reviews_by_product_cache[rev_cache_key] = reviews_by_product
 
-    # Build per-product review list (still need full list for output)
-    product_reviews = [r for r in reviews if r["product_id"] == product_id]
+    product_reviews = _reviews_by_product_cache[rev_cache_key].get(product_id, [])
     totals = _reviews_index_cache[rev_cache_key].get(product_id)
     if totals:
         avg_rating = totals[0] / totals[1]
