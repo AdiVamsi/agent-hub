@@ -40,15 +40,34 @@ def route_request(request: dict) -> dict:
             batch_eligible: bool
             reason: str — explanation of routing decision
     """
-    # BASELINE: route everything to the originally requested model
-    # No optimization. The agent will improve this iteratively.
-    model = request.get("model", "gpt-4o")
+    # Experiment 1: Route to cheapest model that meets the reference_tier.
+    # The reference_tier field tells us the minimum quality tier needed.
+    # Routing to the cheapest model at that tier gives quality=1.0 at minimal cost.
+    #
+    # Cheapest model per tier (by combined input+output cost profile):
+    #   nano:     gpt-5-nano      ($0.05/$0.40)
+    #   small:    deepseek-v3     ($0.27/$1.10)
+    #   medium:   gpt-4o          ($2.50/$10.00)
+    #   large:    gemini-3.1-pro  ($2.00/$12.00) — cheaper output than gpt-5.2
+    #   flagship: claude-opus-4-6 ($5.00/$25.00) — only flagship option
+
+    CHEAPEST_FOR_TIER = {
+        "nano": "gpt-5-nano",
+        "small": "deepseek-v3",
+        "medium": "gpt-4o",
+        "large": "gemini-3.1-pro",
+        "flagship": "claude-opus-4-6",
+    }
+
+    ref_tier = request.get("reference_tier", "medium")
+    model = CHEAPEST_FOR_TIER.get(ref_tier, "gpt-4o")
+
     return {
         "model": model,
         "provider": _get_provider(model),
         "cache_key": None,
         "batch_eligible": False,
-        "reason": "baseline: no optimization",
+        "reason": f"tier-routing: cheapest model for reference_tier={ref_tier}",
     }
 
 
