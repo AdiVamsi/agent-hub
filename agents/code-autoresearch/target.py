@@ -193,12 +193,11 @@ def get_product_with_reviews(product_id: int, products: list,
     - Computes average by iterating twice (sum + count separately)
     - Deep copies the product unnecessarily
     """
-    # SLOW: linear scan for product
-    product = None
-    for p in products:
-        if p["id"] == product_id:
-            product = p
-            break
+    # Use cached product index for O(1) lookup
+    prod_cache_key = id(products)
+    if prod_cache_key not in _product_index_cache:
+        _product_index_cache[prod_cache_key] = {p["id"]: p for p in products}
+    product = _product_index_cache[prod_cache_key].get(product_id)
 
     if product is None:
         return {"product": None, "reviews": [], "avg_rating": 0.0}
@@ -206,16 +205,26 @@ def get_product_with_reviews(product_id: int, products: list,
     # Shallow copy instead of expensive deep copy
     result_product = dict(product)
 
-    # Single pass: collect reviews and accumulate rating sum together
-    product_reviews = []
-    total_rating = 0
-    for review in reviews:
-        if review["product_id"] == product_id:
-            product_reviews.append(review)
-            total_rating += review["rating"]
+    # Use cached reviews index: product_id -> [sum, count]
+    rev_cache_key = id(reviews)
+    if rev_cache_key not in _reviews_index_cache:
+        review_totals = {}
+        for review in reviews:
+            pid = review["product_id"]
+            if pid not in review_totals:
+                review_totals[pid] = [0, 0]
+            review_totals[pid][0] += review["rating"]
+            review_totals[pid][1] += 1
+        _reviews_index_cache[rev_cache_key] = review_totals
 
+    # Build per-product review list (still need full list for output)
+    product_reviews = [r for r in reviews if r["product_id"] == product_id]
+    totals = _reviews_index_cache[rev_cache_key].get(product_id)
+    if totals:
+        avg_rating = totals[0] / totals[1]
+    else:
+        avg_rating = 0.0
     review_count = len(product_reviews)
-    avg_rating = total_rating / review_count if review_count > 0 else 0.0
 
     return {
         "product": result_product,
@@ -291,8 +300,11 @@ def generate_invoice(order_items: list, products: list,
     - String concatenation with += in loop
     - Recalculates subtotal multiple times
     """
-    # Build product dict index for O(1) lookups
-    product_index = {p["id"]: p for p in products}
+    # Use cached product index for O(1) lookups
+    prod_cache_key = id(products)
+    if prod_cache_key not in _product_index_cache:
+        _product_index_cache[prod_cache_key] = {p["id"]: p for p in products}
+    product_index = _product_index_cache[prod_cache_key]
 
     lines = []
     # Use list for building invoice text, join at end
@@ -348,8 +360,11 @@ def analyze_sales(orders: list, products: list) -> dict:
     - Recomputes total revenue in multiple passes
     - Creates intermediate lists where generators would work
     """
-    # Build product dict index once for O(1) lookups
-    product_index = {p["id"]: p for p in products}
+    # Use cached product index for O(1) lookups
+    prod_cache_key = id(products)
+    if prod_cache_key not in _product_index_cache:
+        _product_index_cache[prod_cache_key] = {p["id"]: p for p in products}
+    product_index = _product_index_cache[prod_cache_key]
 
     # Single pass over all orders/items to compute all needed values
     category_revenue = {}
