@@ -1,0 +1,14 @@
+[project]
+name = "code-autoresearch"
+version = "0.1.0"
+description = "AI agent that optimizes production code performance using Karpathy's AutoResearch pattern"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

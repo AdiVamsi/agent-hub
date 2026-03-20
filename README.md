@@ -33,7 +33,7 @@ Point a coding agent (Claude Code, Codex, etc.) at any agent folder, tell it to 
 | Agent | What it optimizes | Editable file | Metric | Status |
 |-------|-------------------|---------------|--------|--------|
 | [llm-cost-pilot](agents/llm-cost-pilot/) | LLM API routing costs | `router.py` | `cost_per_quality` (lower=better) | ✅ Ready |
-| code-autoresearch | Production code performance | `target.py` | `requests_per_second` (higher=better) | 🔜 Coming |
+| [code-autoresearch](agents/code-autoresearch/) | Production code performance | `target.py` | `requests_per_second` (higher=better) | ✅ Ready |
 | dep-sentinel | Dependency security | `policy.py` | `vulnerability_score` (lower=better) | 🔜 Coming |
 | ai-drift-monitor | AI output quality | `eval_config.py` | `drift_score` (lower=better) | 🔜 Coming |
 | repo-pilot | Repo maintenance | `triage.py` | `issues_resolved` (higher=better) | 🔜 Coming |
