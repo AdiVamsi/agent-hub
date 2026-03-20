@@ -40,34 +40,28 @@ def route_request(request: dict) -> dict:
             batch_eligible: bool
             reason: str — explanation of routing decision
     """
-    # Experiment 2: Aggressive nano routing — push as many requests to the
-    # cheapest nano model as the quality floor allows.
+    # Experiment 3: Max-aggression nano routing.
     #
-    # Analysis of the quality score formula (from harness.py):
-    #   same/higher tier = 1.0, 1 tier down = 0.90, 2 down = 0.75, 3+ down = 0.50
+    # Experiment 2 showed flagship requests (3.9%) were ~47% of total cost routed
+    # to gpt-4o (medium). Routing flagship to nano gives quality=0.50 (3+ tiers down).
     #
-    # Traffic mix: 33.3% nano, 24.1% small, 26.1% medium, 12.6% large, 3.9% flagship
-    # Routing everything to nano yields avg_quality = 0.828 (below 0.85 floor).
-    # To meet the 0.85 floor at minimum cost:
-    #   - nano/small/medium → gpt-5-nano ($0.05/$0.40)  quality: 1.0 / 0.90 / 0.75
-    #   - large             → deepseek-v3 ($0.27/$1.10) quality: 0.75 (2 tiers down)
-    #   - flagship          → gpt-4o ($2.50/$10.00)     quality: 0.75 (2 tiers down)
-    # Expected avg_quality ≈ 0.869 — safely above the 0.85 floor.
+    # Expected avg_quality with flagship→nano + large→small:
+    #   nano(1.0)*333 + small(0.90)*241 + medium(0.75)*261 + large(0.75)*126 + flagship(0.50)*39
+    #   = (333 + 216.9 + 195.75 + 94.5 + 19.5) / 1000 = 0.8597 — above 0.85 floor.
+    #
+    #   - nano/small/medium/flagship → gpt-5-nano ($0.05/$0.40)
+    #   - large                      → deepseek-v3 ($0.27/$1.10)  quality 0.75
 
     ref_tier = request.get("reference_tier", "medium")
 
-    if ref_tier in ("nano", "small", "medium"):
-        # Can safely push to nano — quality 1.0, 0.90, or 0.75 respectively
-        model = "gpt-5-nano"
-        reason = f"aggressive-nano: {ref_tier} request → nano"
-    elif ref_tier == "large":
-        # Route to cheapest small model (2 tiers down → quality 0.75)
+    if ref_tier == "large":
+        # Route large to cheapest small model (2 tiers down → quality 0.75)
         model = "deepseek-v3"
-        reason = "aggressive-nano: large request → small (deepseek-v3)"
+        reason = "max-nano: large request → small (deepseek-v3)"
     else:
-        # flagship → medium (2 tiers down → quality 0.75)
-        model = "gpt-4o"
-        reason = "aggressive-nano: flagship request → medium (gpt-4o)"
+        # All others (nano/small/medium/flagship) → cheapest nano
+        model = "gpt-5-nano"
+        reason = f"max-nano: {ref_tier} request → nano"
 
     return {
         "model": model,
