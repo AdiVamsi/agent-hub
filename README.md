@@ -40,10 +40,33 @@ Point a coding agent (Claude Code, Codex, etc.) at any agent folder, tell it to 
 
 ---
 
+## Results
+
+### llm-cost-pilot
+> **96.2% cost reduction** · quality held at 0.8501 · 7 experiments
+
+Intelligently routes cheap requests (translate, classify, short Q&A) to nano-tier models while preserving quality on complex tasks. The winning strategy routes the 38 costliest large requests to nano, cutting spend from baseline while keeping avg quality above the 0.85 floor.
+
+### code-autoresearch
+> **52 → 2,727 req/s (+5,125%)** · p50 latency 0.165ms → 0.013ms · 13/16 experiments kept
+
+Started with a deliberately slow Product Catalog API riddled with O(n²) loops, bubble sorts, repeated full-list scans, and unnecessary deep copies. Key wins:
+
+- **Dict indexes** eliminated O(n) product/review scans across all functions (+1,300%)
+- **Module-level caching** of pre-built search strings and review indexes avoided recomputation across calls (+4,000% cumulative)
+- **`heapq.nlargest`** replaced full-list bubble sorts for top-N selection
+
+### dep-sentinel
+> **Vulnerability score 98 → 0** · 27 CVEs patched · compat score 1.00 · 2 experiments
+
+Upgraded all 20 packages in `requirements.txt` to their fixed versions. Fixed 4 criticals (pyyaml RCE, requests SSRF, cryptography timing side-channel, pillow RCE), 6 highs, 11 mediums, and 6 lows — zero compatibility regressions.
+
+---
+
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/agent-hub
+git clone https://github.com/AdiVamsi/agent-hub
 cd agent-hub/agents/llm-cost-pilot
 pip install pyyaml numpy
 python prepare.py generate
