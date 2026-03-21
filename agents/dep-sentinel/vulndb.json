@@ -1,0 +1,247 @@
+{
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2024-21105",
+      "package": "pyyaml",
+      "affected_versions": "<6.0",
+      "fixed_version": "6.0.1",
+      "severity": "critical",
+      "description": "Arbitrary code execution via yaml.load() with untrusted input when using the default Loader",
+      "cvss_score": 9.8
+    },
+    {
+      "cve_id": "CVE-2024-32681",
+      "package": "requests",
+      "affected_versions": "<2.31.0",
+      "fixed_version": "2.31.0",
+      "severity": "critical",
+      "description": "Server-side request forgery (SSRF) via crafted URL parsing allowing access to internal network resources",
+      "cvss_score": 9.1
+    },
+    {
+      "cve_id": "CVE-2024-26130",
+      "package": "cryptography",
+      "affected_versions": "<41.0.0",
+      "fixed_version": "41.0.0",
+      "severity": "critical",
+      "description": "Private key extraction via timing side-channel attack on RSA decryption",
+      "cvss_score": 9.4
+    },
+    {
+      "cve_id": "CVE-2024-28219",
+      "package": "pillow",
+      "affected_versions": "<10.0.0",
+      "fixed_version": "10.0.0",
+      "severity": "critical",
+      "description": "Remote code execution via specially crafted TIFF image with malformed IFD entries",
+      "cvss_score": 9.6
+    },
+    {
+      "cve_id": "CVE-2024-34069",
+      "package": "flask",
+      "affected_versions": "<2.3.0",
+      "fixed_version": "2.3.2",
+      "severity": "high",
+      "description": "Session cookie bypass allowing unauthorized session fixation in debug mode",
+      "cvss_score": 7.5
+    },
+    {
+      "cve_id": "CVE-2024-22195",
+      "package": "jinja2",
+      "affected_versions": "<3.1.3",
+      "fixed_version": "3.1.3",
+      "severity": "high",
+      "description": "Cross-site scripting (XSS) via template injection when autoescape is disabled",
+      "cvss_score": 7.8
+    },
+    {
+      "cve_id": "CVE-2024-37891",
+      "package": "sqlalchemy",
+      "affected_versions": "<2.0.0",
+      "fixed_version": "2.0.0",
+      "severity": "high",
+      "description": "SQL injection in text() constructs when user input is interpolated without bindparams",
+      "cvss_score": 8.1
+    },
+    {
+      "cve_id": "CVE-2024-37890",
+      "package": "urllib3",
+      "affected_versions": "<2.0.7",
+      "fixed_version": "2.0.7",
+      "severity": "high",
+      "description": "HTTP header injection via CRLF sequences in request headers",
+      "cvss_score": 7.2
+    },
+    {
+      "cve_id": "CVE-2024-34064",
+      "package": "werkzeug",
+      "affected_versions": "<3.0.1",
+      "fixed_version": "3.0.1",
+      "severity": "high",
+      "description": "Path traversal vulnerability in static file serving allowing arbitrary file read",
+      "cvss_score": 7.6
+    },
+    {
+      "cve_id": "CVE-2024-38525",
+      "package": "celery",
+      "affected_versions": "<5.3.0",
+      "fixed_version": "5.3.0",
+      "severity": "high",
+      "description": "Deserialization of untrusted data in message broker allowing remote code execution",
+      "cvss_score": 7.9
+    },
+    {
+      "cve_id": "CVE-2024-43498",
+      "package": "setuptools",
+      "affected_versions": "<70.0.0",
+      "fixed_version": "70.0.0",
+      "severity": "medium",
+      "description": "Arbitrary code execution during package install via malicious setup.py in dependency chain",
+      "cvss_score": 6.5
+    },
+    {
+      "cve_id": "CVE-2024-39689",
+      "package": "certifi",
+      "affected_versions": "<2024.2.2",
+      "fixed_version": "2024.2.2",
+      "severity": "medium",
+      "description": "Outdated root certificate bundle allows potential MITM via revoked certificates",
+      "cvss_score": 5.9
+    },
+    {
+      "cve_id": "CVE-2024-24790",
+      "package": "numpy",
+      "affected_versions": "<1.26.0",
+      "fixed_version": "1.26.0",
+      "severity": "medium",
+      "description": "Buffer overflow in array operations with certain dtype combinations leading to potential code execution",
+      "cvss_score": 6.1
+    },
+    {
+      "cve_id": "CVE-2024-39338",
+      "package": "pandas",
+      "affected_versions": "<2.1.0",
+      "fixed_version": "2.1.0",
+      "severity": "medium",
+      "description": "Code injection via eval() in read_csv engine parameter when processing untrusted CSV files",
+      "cvss_score": 6.3
+    },
+    {
+      "cve_id": "CVE-2024-24789",
+      "package": "markupsafe",
+      "affected_versions": "<2.1.4",
+      "fixed_version": "2.1.4",
+      "severity": "medium",
+      "description": "Cross-site scripting in edge cases where Markup objects are concatenated with untrusted strings",
+      "cvss_score": 5.4
+    },
+    {
+      "cve_id": "CVE-2024-38428",
+      "package": "click",
+      "affected_versions": "<8.1.7",
+      "fixed_version": "8.1.7",
+      "severity": "medium",
+      "description": "Environment variable injection via crafted command-line arguments in certain shells",
+      "cvss_score": 5.6
+    },
+    {
+      "cve_id": "CVE-2024-22190",
+      "package": "redis",
+      "affected_versions": "<5.0.0",
+      "fixed_version": "5.0.0",
+      "severity": "medium",
+      "description": "Authentication bypass when using sentinel mode with misconfigured ACLs",
+      "cvss_score": 6.0
+    },
+    {
+      "cve_id": "CVE-2024-34063",
+      "package": "werkzeug",
+      "affected_versions": "<2.3.8",
+      "fixed_version": "2.3.8",
+      "severity": "medium",
+      "description": "Denial of service via multipart form data parsing with deeply nested boundaries",
+      "cvss_score": 5.3
+    },
+    {
+      "cve_id": "CVE-2024-35195",
+      "package": "requests",
+      "affected_versions": "<2.32.0",
+      "fixed_version": "2.32.0",
+      "severity": "medium",
+      "description": "Certificate verification bypass when using custom CA bundles with certain hostname patterns",
+      "cvss_score": 5.8
+    },
+    {
+      "cve_id": "CVE-2024-41671",
+      "package": "boto3",
+      "affected_versions": "<1.34.0",
+      "fixed_version": "1.34.0",
+      "severity": "medium",
+      "description": "Credential leakage in debug logging when using temporary security tokens",
+      "cvss_score": 5.5
+    },
+    {
+      "cve_id": "CVE-2024-22196",
+      "package": "jinja2",
+      "affected_versions": "<3.1.4",
+      "fixed_version": "3.1.4",
+      "severity": "low",
+      "description": "Information disclosure via template error messages revealing file system paths",
+      "cvss_score": 3.7
+    },
+    {
+      "cve_id": "CVE-2024-22191",
+      "package": "gunicorn",
+      "affected_versions": "<21.0.0",
+      "fixed_version": "21.0.0",
+      "severity": "low",
+      "description": "Log injection via crafted HTTP headers allowing log file manipulation",
+      "cvss_score": 3.3
+    },
+    {
+      "cve_id": "CVE-2024-22193",
+      "package": "python-dotenv",
+      "affected_versions": "<1.0.0",
+      "fixed_version": "1.0.0",
+      "severity": "low",
+      "description": "Environment variable override when .env file contains shell metacharacters",
+      "cvss_score": 3.1
+    },
+    {
+      "cve_id": "CVE-2024-34070",
+      "package": "flask",
+      "affected_versions": "<2.2.5",
+      "fixed_version": "2.2.5",
+      "severity": "low",
+      "description": "Information disclosure in error pages revealing server configuration details",
+      "cvss_score": 3.5
+    },
+    {
+      "cve_id": "CVE-2024-24791",
+      "package": "numpy",
+      "affected_versions": "<1.25.0",
+      "fixed_version": "1.25.0",
+      "severity": "low",
+      "description": "Denial of service via crafted array with extreme dimensions causing excessive memory allocation",
+      "cvss_score": 3.9
+    },
+    {
+      "cve_id": "CVE-2024-43488",
+      "package": "setuptools",
+      "affected_versions": "<68.0.0",
+      "fixed_version": "68.0.0",
+      "severity": "low",
+      "description": "Denial of service in package metadata parsing with malformed long_description field",
+      "cvss_score": 3.0
+    },
+    {
+      "cve_id": "CVE-2024-41110",
+      "package": "cryptography",
+      "affected_versions": "<42.0.0",
+      "fixed_version": "42.0.0",
+      "severity": "medium",
+      "description": "Null pointer dereference in X.509 certificate parsing with malformed extensions",
+      "cvss_score": 5.9
+    }
+  ]
+}
