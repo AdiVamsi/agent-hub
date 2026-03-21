@@ -9,3 +9,5 @@ agents/*/traffic/*.jsonl
 !agents/*/traffic/README.md
 .ipynb_checkpoints/
 .baseline.json
+eval_dataset.json
+issue_backlog.json
