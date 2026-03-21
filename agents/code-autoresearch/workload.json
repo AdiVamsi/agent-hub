@@ -1,0 +1,31 @@
+{
+  "workload": [
+    {
+      "function": "search_products",
+      "calls": 50,
+      "description": "Search across 1000 products with diverse queries"
+    },
+    {
+      "function": "get_product_with_reviews",
+      "calls": 50,
+      "description": "Fetch product details with reviews (N+1 problem)"
+    },
+    {
+      "function": "generate_recommendations",
+      "calls": 10,
+      "description": "Generate personalized recommendations"
+    },
+    {
+      "function": "generate_invoice",
+      "calls": 30,
+      "description": "Generate invoices from order items"
+    },
+    {
+      "function": "analyze_sales",
+      "calls": 5,
+      "description": "Full sales analytics on 500 orders"
+    }
+  ],
+  "benchmark_runs": 3,
+  "note": "Total: 145 function calls per benchmark run. Median of 3 runs used."
+}

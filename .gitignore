@@ -8,3 +8,4 @@ results.tsv
 agents/*/traffic/*.jsonl
 !agents/*/traffic/README.md
 .ipynb_checkpoints/
+.baseline.json
