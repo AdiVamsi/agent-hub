@@ -50,7 +50,7 @@ Each log entry has:
   - INFO with keywords: deploy, startup, shutdown, user_created
   - DEBUG: 5% random (stack traces, slow queries)
 - **Everything else:** Noise
-- **Ratio:** ~25% signal, ~75% noise
+- **Ratio:** ~31% signal, ~69% noise
 
 ## Hypotheses to Test
 
@@ -160,32 +160,33 @@ return entry["level"] in ["ERROR", "FATAL", "WARN"]
 
 ---
 
-### H7: Regex Patterns for Noise
-**Intuition:** Match known noise patterns: health checks, heartbeats, cache hits, routine startup.
+### H7: Combine Level + Source + Message-Length Heuristics
+**Intuition:** Use level severity, message length as quality signals, and source as a secondary factor.
 
 **Implementation:**
 ```python
-import re
-
-noise_patterns = [
-    r"health\s*(check)?.*pass",
-    r"heartbeat",
-    r"cache\s+hit",
-    r"no\s+errors?\s+detected",
-    r"request.*complete.*success",
-]
-
-for pattern in noise_patterns:
-    if re.search(pattern, entry["message"], re.IGNORECASE):
-        return False
-
-# Keep signal logs and ERROR/FATAL
-if entry["is_signal"]:
+# Always keep high-severity logs
+if entry["level"] in ["ERROR", "FATAL"]:
     return True
-return entry["level"] in ["ERROR", "FATAL"]
+
+# WARN: keep if contains signal keywords
+if entry["level"] == "WARN":
+    return any(kw in entry["message"].lower() for kw in ["timeout", "retry", "circuit"])
+
+# INFO: keep if contains deployment/lifecycle keywords
+if entry["level"] == "INFO":
+    return any(kw in entry["message"].lower() for kw in ["deploy", "startup", "shutdown", "user_created"])
+
+# DEBUG: keep only if long (likely stack trace) or from high-signal sources
+if entry["level"] == "DEBUG":
+    msg_len = len(entry["message"])
+    is_from_signal_source = entry["source"] in ["db", "auth"]
+    return msg_len > 100 or is_from_signal_source
+
+return False
 ```
 
-**Expected:** Surgically removes known noise patterns.
+**Expected:** Good balance of recall (catching signal) and precision (dropping noise).
 
 ---
 
@@ -261,32 +262,11 @@ return False
 
 ---
 
-### H10: Machine Learning-Inspired (Heuristic Approximation)
-**Intuition:** Learned from patterns: DEBUG is ~95% noise, ERROR is 100% signal. Apply empirical priors.
-
-**Implementation:**
-```python
-# Prior probability that level X is signal (from data)
-level_signal_prob = {
-    "DEBUG": 0.05,
-    "INFO": 0.40,
-    "WARN": 0.70,
-    "ERROR": 1.0,
-    "FATAL": 1.0,
-}
-
-# Keep if signal probability >= threshold
-return level_signal_prob.get(entry["level"], 0.5) >= 0.5
-```
-
-**Expected:** Simple but effective. Can be refined with source and keywords.
-
----
 
 ## Experiment Plan
 
 1. **Baseline**: evaluate() with default should_keep (keep all) → efficiency_score = 0.0
-2. **H1-H10**: Implement each hypothesis, measure efficiency_score, volume_reduction_pct
+2. **H1-H9**: Implement each hypothesis, measure efficiency_score, volume_reduction_pct
 3. **Combine Winners**: Take best hypotheses (e.g., H7 + H4) and iterate
 4. **Tune Parameters**: Adjust thresholds, keyword lists, weights
 5. **Validate**: Ensure signal_kept_pct >= 0.95 on every iteration

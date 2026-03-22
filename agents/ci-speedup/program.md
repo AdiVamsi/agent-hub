@@ -5,9 +5,9 @@ Minimize CI/CD pipeline total build time by optimizing job scheduling and parall
 
 **Metric:** `total_build_time` = sum of max(duration) per stage (lower is better)
 
-**Baseline:** ~3600 seconds (all jobs sequential)
+**Baseline:** 1790 seconds (all jobs sequential)
 
-**Target:** ~400-800 seconds (proper parallelization + critical path optimization)
+**Target:** 500-700 seconds (60-72% improvement via parallelization + critical path optimization)
 
 ---
 
@@ -36,13 +36,13 @@ python harness.py baseline
 
 Expected output: `BASELINE: total_build_time=XXXX.X`
 
-Record the baseline value (should be ~3600 seconds).
+Record the baseline value (should be 1790 seconds).
 
 ### 4. Initialize results tracking
 Create `results.tsv`:
 ```
 iteration	strategy	total_build_time	improvement_pct	notes
-0	baseline	3600.0	0.0	Sequential baseline
+0	baseline	1790.0	0.0	Sequential baseline
 ```
 
 ---
@@ -55,7 +55,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 - Jobs whose dependencies are all completed go in the next stage
 - Within a stage, put as many jobs as possible (up to memory/resource limits)
 
-**Expected improvement:** 30-40%
+**Expected improvement:** 20-35% (to ~1200-1430s)
 
 **Implementation:** Use a level-based topological sort; after finishing a stage, schedule all ready jobs in parallel.
 
@@ -63,7 +63,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 **Idea:** Find the longest dependency chain (critical path). Schedule critical path jobs early in their own stages to minimize idle time on the critical path.
 - Non-critical jobs can be sprinkled in empty slots
 
-**Expected improvement:** 40-50%
+**Expected improvement:** 35-50% (to ~895-1165s)
 
 **Implementation:** Compute critical path length for each job (longest path to end). Prioritize scheduling high-critical-path jobs.
 
@@ -71,7 +71,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 **Idea:** Jobs with the same `cache_key` share artifacts. Group them in adjacent stages to maximize cache hits and reduce redundancy.
 - If multiple jobs generate/use the same cache_key, run them close together
 
-**Expected improvement:** 10-20% (modest, but adds to other strategies)
+**Expected improvement:** 5-15% (modest, adds 80-270s on top of base)
 
 **Implementation:** Build cache dependency graph; schedule jobs with shared cache_keys in overlapping stages if dependencies allow.
 
@@ -79,7 +79,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 **Idea:** Jobs marked `parallelizable=True` can run in the same stage without conflicts.
 - Jobs marked `parallelizable=False` are sequential and should run alone or with very careful stage placement
 
-**Expected improvement:** 5-15% (mostly captured by earlier hypotheses, but refinement)
+**Expected improvement:** 3-10% (marginal, mostly captured by earlier hypotheses)
 
 **Implementation:** When building stages, prioritize fitting parallelizable jobs together.
 
@@ -88,7 +88,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 - If a job depends on A and B, but A takes much longer, run job early with just B done (cache miss penalty < time saved)
 - This is risky, so use only for jobs explicitly marked as suitable
 
-**Expected improvement:** 5-15% (high risk; test on safe jobs only)
+**Expected improvement:** 3-12% (high risk; test on safe jobs only)
 
 **Implementation:** Add a flag `relaxable_deps=True` on safe jobs; allow relaxed scheduling.
 
@@ -97,7 +97,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 - Instead of one job per stage, fit as many independent jobs as possible per stage
 - Use a greedy bin-packing approach
 
-**Expected improvement:** 20-35%
+**Expected improvement:** 15-30% (to ~1250-1523s)
 
 **Implementation:** For each stage, greedily add as many ready jobs as possible; advance to next stage only when no more can fit.
 
@@ -105,7 +105,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 **Idea:** Schedule longer-duration jobs first (within dependency constraints).
 - Longer jobs should run early to leave time for other jobs to complete in parallel
 
-**Expected improvement:** 10-25%
+**Expected improvement:** 8-20% (to ~1432-1645s)
 
 **Implementation:** When deciding which ready jobs to schedule next, prioritize by duration (longest first).
 
@@ -113,7 +113,7 @@ iteration	strategy	total_build_time	improvement_pct	notes
 **Idea:** Combine strategies: topological sort + critical path + LPT + cache grouping.
 - Run all earlier hypotheses; apply them in layers
 
-**Expected improvement:** 60-75%
+**Expected improvement:** 50-65% (to ~626-895s)
 
 **Implementation:** Build a composite scheduler that applies all strategies together.
 
@@ -121,14 +121,14 @@ iteration	strategy	total_build_time	improvement_pct	notes
 **Idea:** Use simulated annealing or genetic algorithm to search the schedule space.
 - Start with a greedy schedule; perturb and accept improvements
 
-**Expected improvement:** 65-80%
+**Expected improvement:** 55-70% (to ~537-805s)
 
 **Implementation:** Define a perturbation function (swap jobs in schedule); accept if total_time improves.
 
 ### Hypothesis 10: Constraint Relaxation with Backtracking
 **Idea:** If a greedy scheduler gets stuck, try relaxing constraints, schedule, then back-propagate
 
-**Expected improvement:** 50-70%
+**Expected improvement:** 45-65% (to ~626-985s)
 
 ---
 
@@ -175,9 +175,9 @@ After each experiment:
 
 ## Success Criteria
 
-- Baseline: ~3600 seconds
-- Target achieved: < 800 seconds (78% improvement)
-- Stretch goal: < 400 seconds (89% improvement)
+- Baseline: 1790 seconds
+- Target achieved: 500-700 seconds (60-72% improvement)
+- Stretch goal: < 400 seconds (78% improvement)
 
 ---
 

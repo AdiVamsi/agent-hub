@@ -16,23 +16,36 @@ def load_manifest(path="app_manifest.json"):
         return json.load(f)
 
 
-def build_dependency_graph(manifest):
-    """Build reverse dependency graph: which entries depend on each entry."""
-    graph = {}
-    for entry in manifest:
-        graph[entry["name"]] = []
+def build_dependency_map(manifest):
+    """Build dependency map: for each entry, what does it depend on?
+
+    If entry X has required_by=[A, B], it means A depends on X, B depends on X.
+    So we build: depends_on[A] includes X, depends_on[B] includes X.
+    """
+    depends_on = {}  # entry_name -> set of entries it depends on
 
     for entry in manifest:
-        for dependent in entry["required_by"]:
-            if dependent in graph:
-                graph[entry["name"]].append(dependent)
+        entry_name = entry["name"]
+        if entry_name not in depends_on:
+            depends_on[entry_name] = set()
 
-    return graph
+        # For each entry that depends on this one, add this entry as a dependency
+        for dependent in entry.get("required_by", []):
+            if dependent not in depends_on:
+                depends_on[dependent] = set()
+            depends_on[dependent].add(entry_name)
+
+    return depends_on
 
 
 def find_required_entries(manifest, removal_set):
-    """Find all entries required to keep (due to dependencies)."""
-    graph = build_dependency_graph(manifest)
+    """Find all entries required to keep (due to dependencies).
+
+    Returns the set of entries that must be kept:
+    1. All entries with removable_in_prod=False
+    2. All entries that are dependencies of (1)
+    """
+    depends_on = build_dependency_map(manifest)
 
     # Start with entries that can't be removed (removable_in_prod=False)
     required = set()
@@ -40,15 +53,18 @@ def find_required_entries(manifest, removal_set):
         if not entry["removable_in_prod"]:
             required.add(entry["name"])
 
-    # BFS to find all entries needed by required entries
+    # BFS to find all entries that required entries depend on
     queue = list(required)
+    visited = set(required)
+
     while queue:
         current = queue.pop(0)
-        current_entry = next(e for e in manifest if e["name"] == current)
 
-        for dep in current_entry.get("required_by", []):
-            if dep not in required and dep not in removal_set:
+        # For each dependency of current, add it to required
+        for dep in depends_on.get(current, set()):
+            if dep not in visited and dep not in removal_set:
                 required.add(dep)
+                visited.add(dep)
                 queue.append(dep)
 
     return required
@@ -90,25 +106,26 @@ def apply_config(manifest, config):
     # Start with all entries
     result_entries = {e["name"]: e.copy() for e in manifest}
 
-    # Apply removals
-    for name in config["remove"]:
+    # Apply removals first
+    removal_set = set(config["remove"])
+    for name in removal_set:
         if name in result_entries:
             del result_entries[name]
 
-    # Apply replacements: swap size of old with new
+    # Apply replacements: remove old entry, ensure new entry is present
+    # (new entry should already be in result_entries unless it was removed)
     for old_name, new_name in config["replace"].items():
-        if old_name in result_entries and new_name in result_entries:
-            old_size = result_entries[old_name]["size_mb"]
-            new_size = result_entries[new_name]["size_mb"]
-
-            # Copy alternative size to old entry (simulate replacement)
-            result_entries[old_name]["size_mb"] = new_size
-            result_entries[old_name]["replaced_with"] = new_name
+        if old_name in result_entries:
+            # Remove old entry
+            del result_entries[old_name]
+        # New entry should already be in result_entries (unless it was removed,
+        # which would be a validation error caught above)
 
     # Calculate base size
     total_size = sum(e["size_mb"] for e in result_entries.values())
 
     # Apply multi-stage reduction: 15% reduction for build tools that remain
+    # (only count build tools that are NOT in the removal set)
     if config["multi_stage"]:
         build_tools = [e for e in result_entries.values() if e["type"] == "build_tool"]
         build_tool_size = sum(e["size_mb"] for e in build_tools)

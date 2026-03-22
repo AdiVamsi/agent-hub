@@ -52,6 +52,7 @@ def generate():
         "Cache hit for key",
         "No errors detected",
         "Request completed successfully",
+        "Slow query detected: {} ms",
     ]
 
     # Info message templates

@@ -8,11 +8,13 @@ The rewritten query must be semantically equivalent (produce same results).
 
 The harness simulates a cost estimator:
 - Full table scan: rows_scanned * 1.0
-- Index scan: rows_scanned * 0.1 (if WHERE/JOIN uses indexed column)
+- Index scan: rows_scanned * 0.5 (if WHERE/JOIN uses indexed column)
 - SELECT * penalty: cost * 1.5 (selecting all columns)
 - Subquery penalty: cost * 2.0 per correlated subquery
-- DISTINCT penalty: cost * 1.3 if unnecessary
+- DISTINCT penalty: cost * 1.3 if unnecessary (with aggregates, no GROUP BY)
 - No-LIMIT penalty: cost * 1.2 on large result sets
+- Unindexed predicate penalty: cost * 1.5
+- Unnecessary ORDER BY in subquery: cost * 1.1
 
 Metric: total_query_cost (sum of costs) — LOWER is better.
 Baseline: return query unchanged.

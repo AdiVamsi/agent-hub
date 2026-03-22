@@ -10,6 +10,7 @@ Loads eval_dataset.json, runs classification, computes metrics.
 
 import json
 import sys
+import inspect
 from pathlib import Path
 from prompt_config import classify_text
 
@@ -42,6 +43,67 @@ class EvaluationHarness:
         except Exception as e:
             print(f"Error loading dataset: {e}")
             return False
+
+    def check_anti_memorization(self) -> bool:
+        """Check that classify_text doesn't contain hardcoded dataset strings.
+
+        This check verifies that the function doesn't memorize specific examples,
+        by looking for distinct phrases from the dataset that appear in the source code.
+        Generic class names and function keywords are excluded.
+        """
+        if not self.dataset:
+            return True
+
+        try:
+            source = inspect.getsource(classify_text)
+        except Exception as e:
+            print(f"Warning: Could not inspect classify_text source: {e}")
+            return True
+
+        # Extract distinct phrases from dataset (sequences of 2+ words)
+        # to catch actual example strings, not just single common words
+        dataset_phrases = set()
+        for example in self.dataset:
+            text = example["text"].lower()
+            # Split into words and create 2-3 word phrases
+            words = text.split()
+            for i in range(len(words) - 1):
+                phrase = " ".join(words[i:i+2]).strip(",:!?;.")
+                if len(phrase) > 5:  # Only longer phrases
+                    dataset_phrases.add(phrase)
+
+        # Words that are part of the function definition (safe to ignore)
+        safe_words = {
+            "text", "classify", "returns", "one", "of", "bug_report",
+            "feature_request", "question", "praise", "spam", "return",
+            "def", "args", "str", "input", "to"
+        }
+
+        # Count how many dataset phrases appear in the source code
+        source_lower = source.lower()
+        hardcoded_count = 0
+        matched_phrases = []
+
+        for phrase in dataset_phrases:
+            if phrase in source_lower:
+                # Verify it's not just safe words
+                phrase_words = phrase.split()
+                if not all(w in safe_words for w in phrase_words):
+                    hardcoded_count += 1
+                    matched_phrases.append(phrase)
+
+        # Threshold: allow max 5 hardcoded phrases from dataset in source
+        if hardcoded_count > 5:
+            print(f"\nWARNING: Anti-Memorization Check Failed!")
+            print(f"Found {hardcoded_count} hardcoded dataset phrases in classify_text source code.")
+            print(f"First 5 matched phrases: {matched_phrases[:5]}")
+            print(f"The function must use GENERAL rules (keywords, patterns, regex),")
+            print(f"not hardcoded strings from the evaluation dataset.")
+            return False
+
+        print(f"\nPASS: Anti-Memorization Check")
+        print(f"Found {hardcoded_count} hardcoded phrases in source (threshold: 5)")
+        return True
 
     def compute_baseline(self) -> float:
         """Compute baseline accuracy (always predict majority class)."""
@@ -221,6 +283,11 @@ class EvaluationHarness:
             return
 
         self.compute_baseline()
+
+        # Check for memorization before evaluating
+        if not self.check_anti_memorization():
+            print("\nEvaluation aborted due to anti-memorization check failure.")
+            sys.exit(1)
 
         if not self.evaluate():
             print("Evaluation failed")

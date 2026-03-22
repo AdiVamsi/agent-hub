@@ -9,6 +9,7 @@ CLI:
   python harness.py evaluate  — evaluate current pipeline_config
 """
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -22,17 +23,38 @@ def load_pipeline():
         return json.load(f)
 
 
+def compute_pipeline_hash(jobs):
+    """Compute a hash of the pipeline data for baseline validation."""
+    pipeline_json = json.dumps(jobs, sort_keys=True)
+    return hashlib.sha256(pipeline_json.encode()).hexdigest()
+
+
 def validate_and_compute(jobs, schedule):
     """
     Validate schedule and compute total_build_time.
 
     Checks:
+      - Schedule is a list of lists of strings
       - Every job appears exactly once
       - All dependencies are in earlier stages than the job
+      - No non-parallelizable jobs share a stage
 
     Returns:
         (is_valid, total_build_time, error_message)
     """
+    # Check return type: schedule should be list[list[str]]
+    if not isinstance(schedule, list):
+        return False, 999999, f"Schedule must be a list, got {type(schedule).__name__}"
+
+    for i, stage in enumerate(schedule):
+        if not isinstance(stage, list):
+            return False, 999999, f"Stage {i} must be a list, got {type(stage).__name__}"
+        if len(stage) == 0:
+            return False, 999999, f"Stage {i} is empty"
+        for job_name in stage:
+            if not isinstance(job_name, str):
+                return False, 999999, f"Stage {i} contains non-string job name: {job_name}"
+
     # Check every job appears exactly once
     scheduled_jobs = set()
     for stage in schedule:
@@ -72,10 +94,24 @@ def validate_and_compute(jobs, schedule):
                     f"depends on '{dep}' (stage {dep_stage})"
                 )
 
+    # Check that non-parallelizable jobs don't share a stage
+    for stage_idx, stage in enumerate(schedule):
+        non_parallelizable_jobs = [
+            job_name for job_name in stage
+            if not job_map[job_name].get("parallelizable", True)
+        ]
+        if len(non_parallelizable_jobs) > 1:
+            return False, 999999, (
+                f"Stage {stage_idx} has {len(non_parallelizable_jobs)} non-parallelizable jobs: "
+                f"{non_parallelizable_jobs}. Non-parallelizable jobs cannot share a stage."
+            )
+
     # Compute total_build_time
-    job_map = {job["name"]: job for job in jobs}
     total_build_time = 0.0
-    for stage in schedule:
+    for stage_idx, stage in enumerate(schedule):
+        # Check stage is non-empty (already checked above, but defensive)
+        if len(stage) == 0:
+            return False, 999999, f"Stage {stage_idx} is empty"
         max_duration = max(job_map[job_name]["duration_seconds"] for job_name in stage)
         total_build_time += max_duration
 
@@ -99,18 +135,28 @@ def main():
 
     if command == "baseline":
         baseline_time = compute_baseline(jobs)
-        baseline_data = {"baseline_time": baseline_time}
+        pipeline_hash = compute_pipeline_hash(jobs)
+        baseline_data = {
+            "baseline_time": baseline_time,
+            "pipeline_hash": pipeline_hash
+        }
         with open(".baseline.json", "w") as f:
             json.dump(baseline_data, f)
         print(f"BASELINE: total_build_time={baseline_time:.1f}")
         return
 
     if command == "evaluate":
-        # Compute baseline if not cached
+        # Compute baseline if not cached, and validate pipeline hasn't changed
+        pipeline_hash = compute_pipeline_hash(jobs)
         if Path(".baseline.json").exists():
             with open(".baseline.json", "r") as f:
                 baseline_data = json.load(f)
                 baseline_time = baseline_data["baseline_time"]
+                cached_hash = baseline_data.get("pipeline_hash")
+                # Invalidate baseline if pipeline changed
+                if cached_hash and cached_hash != pipeline_hash:
+                    print("BASELINE INVALIDATED: pipeline.json has changed")
+                    baseline_time = compute_baseline(jobs)
         else:
             baseline_time = compute_baseline(jobs)
 

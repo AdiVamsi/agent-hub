@@ -69,7 +69,7 @@ def generate_pipeline(seed=42, num_jobs=30):
     jobs = []
     job_names = []
 
-    # Create jobs with deterministic structure
+    # Create jobs with deterministic structure - first define all job names
     for i, (name, duration, parallelizable, cache_key) in enumerate(job_templates[:num_jobs]):
         job_names.append(name)
 
@@ -129,8 +129,13 @@ def generate_pipeline(seed=42, num_jobs=30):
             # Memory profiling after build
             dependencies = ["build-backend"]
 
-        # Filter dependencies to only include jobs that exist before this one
-        dependencies = [d for d in dependencies if d in job_names[:i]]
+        # Validate all dependencies exist in job_names, then filter to only jobs before this one
+        invalid_deps = [d for d in dependencies if d not in job_names]
+        if invalid_deps:
+            print(f"Warning: Job '{name}' has invalid dependencies: {invalid_deps}", file=sys.stderr)
+
+        # Filter to only include dependencies that exist AND come before this job in the list
+        dependencies = [d for d in dependencies if d in job_names and job_names.index(d) < i]
 
         jobs.append({
             "name": name,

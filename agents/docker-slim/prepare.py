@@ -25,12 +25,12 @@ def generate_manifest(seed=42):
         {"name": "image_processing", "type": "runtime_dep", "size_mb": 60, "required_by": ["app"], "removable_in_prod": False, "alternative": None},
 
         # Build tools (often removable in production)
-        {"name": "gcc", "type": "build_tool", "size_mb": 200, "required_by": ["numpy", "scipy", "opencv"], "removable_in_prod": True, "alternative": None},
-        {"name": "make", "type": "build_tool", "size_mb": 15, "required_by": ["gcc"], "removable_in_prod": True, "alternative": None},
+        {"name": "gcc", "type": "build_tool", "size_mb": 200, "required_by": [], "removable_in_prod": True, "alternative": None},
+        {"name": "make", "type": "build_tool", "size_mb": 15, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "git", "type": "build_tool", "size_mb": 40, "required_by": ["repo_setup"], "removable_in_prod": True, "alternative": None},
         {"name": "repo_setup", "type": "build_tool", "size_mb": 5, "required_by": [], "removable_in_prod": True, "alternative": None},
-        {"name": "cmake", "type": "build_tool", "size_mb": 35, "required_by": ["opencv"], "removable_in_prod": True, "alternative": None},
-        {"name": "curl", "type": "build_tool", "size_mb": 8, "required_by": ["downloads"], "removable_in_prod": True, "alternative": None},
+        {"name": "cmake", "type": "build_tool", "size_mb": 35, "required_by": [], "removable_in_prod": True, "alternative": None},
+        {"name": "curl", "type": "build_tool", "size_mb": 8, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "downloads", "type": "build_tool", "size_mb": 2, "required_by": [], "removable_in_prod": True, "alternative": None},
 
         # Dev dependencies
@@ -53,14 +53,14 @@ def generate_manifest(seed=42):
         # Assets and config
         {"name": "node_modules", "type": "asset", "size_mb": 250, "required_by": ["frontend_build"], "removable_in_prod": True, "alternative": "node_modules_prod"},
         {"name": "node_modules_prod", "type": "asset", "size_mb": 50, "required_by": [], "removable_in_prod": False, "alternative": None},
-        {"name": "webpack", "type": "build_tool", "size_mb": 80, "required_by": ["frontend_build"], "removable_in_prod": True, "alternative": None},
+        {"name": "webpack", "type": "build_tool", "size_mb": 80, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "frontend_build", "type": "asset", "size_mb": 5, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": ".git", "type": "config", "size_mb": 80, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "docs", "type": "config", "size_mb": 120, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "examples", "type": "config", "size_mb": 60, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "debug-tools", "type": "config", "size_mb": 30, "required_by": [], "removable_in_prod": True, "alternative": None},
         {"name": "app", "type": "runtime_dep", "size_mb": 25, "required_by": [], "removable_in_prod": False, "alternative": None},
-        {"name": "setuptools", "type": "build_tool", "size_mb": 12, "required_by": ["app"], "removable_in_prod": True, "alternative": None},
+        {"name": "setuptools", "type": "build_tool", "size_mb": 12, "required_by": [], "removable_in_prod": True, "alternative": None},
     ]
 
     return entries

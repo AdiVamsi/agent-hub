@@ -11,17 +11,9 @@ from filter_rules import should_keep
 
 def baseline():
     """Run with baseline filter (keep everything)."""
-    # Temporarily replace should_keep with baseline
-    from filter_rules import should_keep as _
-    import filter_rules
-    original = filter_rules.should_keep
-    filter_rules.should_keep = lambda entry: True
+    evaluate(use_baseline=True)
 
-    evaluate()
-
-    filter_rules.should_keep = original
-
-def evaluate():
+def evaluate(use_baseline=False):
     """Load logs, apply filter, compute metrics."""
     # Load log samples
     try:
@@ -31,7 +23,7 @@ def evaluate():
         print("ERROR: log_samples.json not found. Run: python prepare.py generate")
         sys.exit(1)
 
-    # Categorize logs
+    # Categorize logs (use internal is_signal for evaluation only)
     signal_logs = [log for log in logs if log["is_signal"]]
     noise_logs = [log for log in logs if not log["is_signal"]]
 
@@ -39,13 +31,24 @@ def evaluate():
     total_noise = len(noise_logs)
     total_bytes = sum(log["size_bytes"] for log in logs)
 
-    # Apply filter
-    signal_kept = sum(1 for log in signal_logs if should_keep(log))
+    # Apply filter - strip is_signal before passing to should_keep
+    def apply_filter(log):
+        if use_baseline:
+            return True
+        # Create a copy without is_signal
+        entry_for_filter = {k: v for k, v in log.items() if k != "is_signal"}
+        result = should_keep(entry_for_filter)
+        # Verify return type
+        if not isinstance(result, bool):
+            raise TypeError(f"should_keep() must return bool, got {type(result).__name__}")
+        return result
+
+    signal_kept = sum(1 for log in signal_logs if apply_filter(log))
     signal_dropped = total_signal - signal_kept
-    noise_kept = sum(1 for log in noise_logs if should_keep(log))
+    noise_kept = sum(1 for log in noise_logs if apply_filter(log))
     noise_dropped = total_noise - noise_kept
 
-    bytes_kept = sum(log["size_bytes"] for log in logs if should_keep(log))
+    bytes_kept = sum(log["size_bytes"] for log in logs if apply_filter(log))
     bytes_dropped = total_bytes - bytes_kept
 
     # Compute metrics
@@ -71,7 +74,10 @@ def evaluate():
     print(f"\nNoise Logs (is_signal=False):")
     print(f"  Total: {total_noise}")
     print(f"  Kept: {noise_kept}")
-    print(f"  Dropped: {noise_dropped} ({noise_dropped/total_noise*100:.1f}% of noise)")
+    if total_noise > 0:
+        print(f"  Dropped: {noise_dropped} ({noise_dropped/total_noise*100:.1f}% of noise)")
+    else:
+        print(f"  Dropped: {noise_dropped}")
 
     print(f"\nVolume:")
     print(f"  Total: {total_bytes:,} bytes ({total_bytes/1024:.1f}KB)")
@@ -81,7 +87,8 @@ def evaluate():
 
     print(f"\nMetrics:")
     print(f"  Signal Kept %: {signal_kept_pct*100:.1f}%")
-    print(f"  Noise Dropped %: {noise_dropped/total_noise*100:.1f}%")
+    if total_noise > 0:
+        print(f"  Noise Dropped %: {noise_dropped/total_noise*100:.1f}%")
     print(f"  Efficiency Score: {efficiency_score:.4f}")
 
     if signal_kept_pct < 0.95:

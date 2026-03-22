@@ -20,7 +20,7 @@ def load_workload(filename: str = "workload.json") -> list[dict[str, Any]]:
 
 def has_select_star(sql: str) -> bool:
     """Check if query contains SELECT *."""
-    return bool(re.search(r"\bSELECT\s+\*\b", sql, re.IGNORECASE))
+    return bool(re.search(r"\bSELECT\s+\*", sql, re.IGNORECASE))
 
 
 def count_correlated_subqueries(sql: str) -> int:
@@ -29,21 +29,21 @@ def count_correlated_subqueries(sql: str) -> int:
     subqueries = len(re.findall(r"\(\s*SELECT", sql, re.IGNORECASE))
     # Count correlated patterns: reference to outer alias in subquery
     correlated = len(re.findall(r"WHERE\s+.*=\s*\w+\.\w+", sql, re.IGNORECASE))
-    return max(subqueries - 1, 0) if correlated > 0 else 0
+    return subqueries if correlated > 0 else 0
 
 
 def has_unnecessary_distinct(sql: str) -> bool:
-    """Heuristic: DISTINCT is often unnecessary after GROUP BY or with aggregates."""
+    """Heuristic: DISTINCT is often unnecessary with aggregates but needed with GROUP BY."""
     has_distinct = bool(re.search(r"\bDISTINCT\b", sql, re.IGNORECASE))
     has_group_by = bool(re.search(r"\bGROUP\s+BY\b", sql, re.IGNORECASE))
     has_aggregate = bool(re.search(r"\b(COUNT|SUM|AVG|MIN|MAX)\s*\(", sql, re.IGNORECASE))
-    # DISTINCT is unnecessary with GROUP BY if result is already unique
-    return has_distinct and (has_group_by or has_aggregate)
+    # DISTINCT is unnecessary when aggregates are present (not GROUP BY)
+    return has_distinct and has_aggregate and not has_group_by
 
 
 def has_large_result_no_limit(sql: str, estimated_rows: int) -> bool:
     """Check if large result set lacks LIMIT."""
-    has_limit = bool(re.search(r"\bLIMIT\b", sql, re.IGNORECASE))
+    has_limit = bool(re.search(r"\bLIMIT\s+\d+", sql, re.IGNORECASE))
     return estimated_rows > 10000 and not has_limit
 
 
@@ -136,8 +136,26 @@ def validate_semantic_equivalence(original_sql: str, optimized_sql: str, query_i
     original_tables = extract_tables(original_sql)
     optimized_tables = extract_tables(optimized_sql)
 
-    # Check that all original tables are still referenced
-    return original_tables == optimized_tables or tables.issubset(optimized_tables)
+    # Check that tables are exactly the same (strict equality)
+    return original_tables == optimized_tables
+
+
+def validate_where_predicates(original_sql: str, optimized_sql: str) -> bool:
+    """Verify that WHERE clause predicates are preserved in optimized query."""
+    # Extract WHERE clause conditions (simple heuristic)
+    original_where = re.search(r"\bWHERE\s+(.+?)(?:\bGROUP\b|\bORDER\b|\bLIMIT\b|$)", original_sql, re.IGNORECASE)
+    optimized_where = re.search(r"\bWHERE\s+(.+?)(?:\bGROUP\b|\bORDER\b|\bLIMIT\b|$)", optimized_sql, re.IGNORECASE)
+
+    if not original_where:
+        # No WHERE clause in original, so optimized should not add restrictions
+        return not optimized_where or optimized_where.group(1).strip() == original_where.group(1).strip() if optimized_where else True
+
+    # Check that key predicate terms are present in optimized query
+    original_terms = re.findall(r"\b\w+\s*[=><]", original_where.group(1), re.IGNORECASE)
+    for term in original_terms:
+        if term not in optimized_sql:
+            return False
+    return True
 
 
 def evaluate_workload(workload: list[dict[str, Any]]) -> dict[str, Any]:
@@ -162,6 +180,15 @@ def evaluate_workload(workload: list[dict[str, Any]]) -> dict[str, Any]:
 
         try:
             optimized_sql = optimize_query(query_info)
+
+            # Input validation: check return type and non-empty result
+            if not isinstance(optimized_sql, str):
+                print(f"Error: {query_info['query_id']} optimize_query returned non-string type", file=sys.stderr)
+                optimized_sql = original_sql
+            elif not optimized_sql.strip():
+                print(f"Error: {query_info['query_id']} optimize_query returned empty string", file=sys.stderr)
+                optimized_sql = original_sql
+
         except Exception as e:
             print(f"Error optimizing {query_info['query_id']}: {e}", file=sys.stderr)
             optimized_sql = original_sql
@@ -169,6 +196,10 @@ def evaluate_workload(workload: list[dict[str, Any]]) -> dict[str, Any]:
         # Validate semantic equivalence
         if not validate_semantic_equivalence(original_sql, optimized_sql, query_info):
             print(f"Warning: {query_info['query_id']} may not be semantically equivalent", file=sys.stderr)
+
+        # Validate WHERE clause predicates are preserved
+        if not validate_where_predicates(original_sql, optimized_sql):
+            print(f"Warning: {query_info['query_id']} WHERE clause predicates may not be preserved", file=sys.stderr)
 
         original_cost, optimized_cost = estimate_query_cost(original_sql, optimized_sql, query_info)
 

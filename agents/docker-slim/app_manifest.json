@@ -106,11 +106,7 @@
     "name": "gcc",
     "type": "build_tool",
     "size_mb": 200,
-    "required_by": [
-      "numpy",
-      "scipy",
-      "opencv"
-    ],
+    "required_by": [],
     "removable_in_prod": true,
     "alternative": null
   },
@@ -118,9 +114,7 @@
     "name": "make",
     "type": "build_tool",
     "size_mb": 15,
-    "required_by": [
-      "gcc"
-    ],
+    "required_by": [],
     "removable_in_prod": true,
     "alternative": null
   },
@@ -146,9 +140,7 @@
     "name": "cmake",
     "type": "build_tool",
     "size_mb": 35,
-    "required_by": [
-      "opencv"
-    ],
+    "required_by": [],
     "removable_in_prod": true,
     "alternative": null
   },
@@ -156,9 +148,7 @@
     "name": "curl",
     "type": "build_tool",
     "size_mb": 8,
-    "required_by": [
-      "downloads"
-    ],
+    "required_by": [],
     "removable_in_prod": true,
     "alternative": null
   },
@@ -316,9 +306,7 @@
     "name": "webpack",
     "type": "build_tool",
     "size_mb": 80,
-    "required_by": [
-      "frontend_build"
-    ],
+    "required_by": [],
     "removable_in_prod": true,
     "alternative": null
   },
@@ -374,9 +362,7 @@
     "name": "setuptools",
     "type": "build_tool",
     "size_mb": 12,
-    "required_by": [
-      "app"
-    ],
+    "required_by": [],
     "removable_in_prod": true,
     "alternative": null
   }

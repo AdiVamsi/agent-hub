@@ -154,6 +154,22 @@ Estimated 15-25 experiments possible before diminishing returns:
 
 ---
 
+## Critical Constraint: Anti-Memorization
+
+Your `classify_text()` function must work through **GENERAL RULES** (keywords, patterns, regex), not by memorizing specific examples from the evaluation dataset.
+
+**Memorization is Prohibited:** The harness will check that your function source code does not contain more than 5 specific words appearing in eval_dataset.json examples.
+
+**Why:** With 200 unique examples in eval_dataset.json, memorization would trivially achieve high accuracy but would fail on new data. Your goal is to build a generalizable classifier using linguistic patterns and rule-based logic.
+
+**How to Pass:** Use general patterns like:
+- Keyword dictionaries (error, crash, bug, request, please, feature, etc.)
+- Regex patterns (question marks, URLs, ALL CAPS, emojis, etc.)
+- Weighted scoring systems
+- Do NOT hardcode specific phrases from the dataset
+
+---
+
 ## Notes for Implementation
 
 - Keep all logic in `prompt_config.py` in the `classify_text()` function
@@ -161,3 +177,4 @@ Estimated 15-25 experiments possible before diminishing returns:
 - Optimize for readability and interpretability
 - Comment your rules so they're understandable
 - Track changes via confusion matrix improvements per class
+- **Remember: generalize from patterns, not from memorization**

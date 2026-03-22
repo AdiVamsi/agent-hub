@@ -11,9 +11,16 @@ import random
 import argparse
 
 
-def generate_bug_report():
-    """Generate a realistic bug report message."""
-    bugs = [
+def generate_dataset(num_examples: int = 200, seed: int = 42) -> list:
+    """Generate synthetic dataset with specified distribution.
+
+    Ensures all examples are unique by cycling through template pools
+    rather than using random.choice with replacement.
+    """
+    random.seed(seed)
+
+    # Define template pools for each class
+    bug_templates = [
         "Getting an error when I try to upload files: 'FileNotFound' exception",
         "The dashboard keeps crashing when I open the analytics tab",
         "Search is broken, it returns no results even for existing items",
@@ -29,13 +36,54 @@ def generate_bug_report():
         "The autocomplete feature crashed my browser tab",
         "Scheduled jobs are failing silently without error messages",
         "Widget rendering is glitchy on older browsers",
+        "The application threw a NullPointerException when loading data",
+        "Critical bug: data is being lost on every save operation",
+        "Getting 'Connection refused' when trying to reach the API",
+        "The form validation is broken and allows invalid entries",
+        "Users experiencing data corruption after upgrade to v2.5",
+        "Severe performance degradation when processing large files",
+        "The application hangs indefinitely on startup",
+        "File upload fails silently with no error message displayed",
+        "The report export feature crashes every time I try to use it",
+        "Authentication tokens are not being refreshed properly",
+        "The web interface is throwing JavaScript errors in the console",
+        "Data synchronization is completely broken across devices",
+        "The API endpoint is returning 400 errors for valid requests",
+        "The background job queue is stuck and nothing is being processed",
+        "The cache is never invalidated, showing stale data permanently",
+        "Search functionality returns duplicate results repeatedly",
+        "The email notification system is completely non-functional",
+        "Users report 'Access Denied' errors on files they own",
+        "The backup process is failing with write permission errors",
+        "Encoding issues causing corrupted text in database records",
+        "The date picker crashes when trying to select dates in 2025",
+        "Users cannot import data due to format validation bug",
+        "The system is throwing out of memory errors under normal load",
+        "The undo functionality is corrupting the document state",
+        "The system crashes when exporting to PDF format",
+        "Critical: the admin panel is returning 403 errors for admins",
+        "The API rate limiter is blocking legitimate requests incorrectly",
+        "The cron job for cleanup has not run in 6 months",
+        "Users report inability to reset their password via email",
+        "The mobile app crashes on iOS 15 devices",
+        "The payment processing is failing with unhelpful error messages",
+        "The database index corruption is causing query failures",
+        "The session management is terminating users randomly",
+        "The real-time updates are not working due to websocket issues",
+        "Critical security bug: password hashing was not applied",
+        "The image processing service is crashing on large uploads",
+        "Users cannot log in due to session validation errors",
+        "The report scheduler is not triggering scheduled tasks",
+        "Console errors when switching between different views",
+        "The tooltip functionality is broken in the new UI",
+        "Batch processing is failing with timeout exceptions",
+        "The search index is out of sync with the database",
+        "Users experiencing random logouts during active sessions",
+        "The audit log viewer is crashing on large datasets",
+        "Field validation errors are blocking legitimate submissions",
     ]
-    return random.choice(bugs)
 
-
-def generate_feature_request():
-    """Generate a realistic feature request message."""
-    features = [
+    feature_templates = [
         "Would be nice to have dark mode for the interface",
         "Please add bulk export functionality to save time",
         "Can we implement two-factor authentication?",
@@ -51,13 +99,45 @@ def generate_feature_request():
         "Would it be possible to add SSO integration?",
         "Please implement data import from CSV files",
         "Can we have more granular permission controls?",
+        "It would be amazing to support Slack integration",
+        "Feature request: automatic backup scheduling",
+        "Could you please add keyboard shortcuts to the UI?",
+        "Would love to have email notifications for events",
+        "Please implement batch operations for efficiency",
+        "Feature: ability to customize dashboard widgets",
+        "Can we add support for multiple languages?",
+        "Feature request: advanced search with filters",
+        "Would be great to have API rate limit information visible",
+        "Please add mobile app for iOS users",
+        "Could we implement role-based access control?",
+        "Feature: export reports in multiple formats",
+        "Would love a read-only viewer mode for clients",
+        "Please add integration with Jira",
+        "Feature request: scheduled email digests",
+        "Can we implement field-level encryption?",
+        "Feature: bulk import from external sources",
+        "Would it be possible to add audit logging?",
+        "Please implement workflow automation capabilities",
+        "Feature: ability to clone existing configurations",
+        "Could you add support for custom API endpoints?",
+        "Feature request: advanced filtering and saved views",
+        "Would love to have a template system for tickets",
+        "Please add integration with GitHub",
+        "Feature: automatic retry logic for failed operations",
+        "Can we implement nested folder structures?",
+        "Feature request: user activity logging and monitoring",
+        "Would be nice to have a dark theme option",
+        "Please add support for inline file uploads",
+        "Feature: customizable email templates",
+        "Could you implement dependency tracking?",
+        "Feature request: batch user provisioning",
+        "Would love bulk labeling capabilities",
+        "Please add webhook delivery status tracking",
+        "Feature: multi-currency support for pricing",
+        "Could we add support for SAML authentication?",
     ]
-    return random.choice(features)
 
-
-def generate_question():
-    """Generate a realistic support question."""
-    questions = [
+    question_templates = [
         "How do I reset my password if I forgot it?",
         "What's the maximum file size for uploads?",
         "Why is my account locked? How can I unlock it?",
@@ -73,13 +153,45 @@ def generate_question():
         "What payment methods do you accept?",
         "How long are backups kept?",
         "Is the service available in my country?",
+        "How do I set up two-factor authentication?",
+        "What is the pricing for enterprise plans?",
+        "How can I export my data in bulk?",
+        "Is there an API available for automation?",
+        "How do I upgrade my subscription plan?",
+        "Can I use this on multiple devices simultaneously?",
+        "What are the bandwidth limitations?",
+        "How do I delete my account permanently?",
+        "Is there offline mode available?",
+        "How often is the service backed up?",
+        "What are the data retention policies?",
+        "Can I customize the interface for my team?",
+        "How do I set up custom webhooks?",
+        "What are the uptime guarantees?",
+        "How can I report a bug to the team?",
+        "Is there a command-line interface available?",
+        "How do I organize files into different projects?",
+        "Can I share access with external collaborators?",
+        "What is the latency of API calls typically?",
+        "How do I monitor usage and costs?",
+        "Is there a way to automate recurring tasks?",
+        "What authentication methods are supported?",
+        "How long does customer support take to respond?",
+        "Can I customize notification preferences?",
+        "Is the application GDPR compliant?",
+        "How do I bulk import users to my account?",
+        "What are the supported file formats?",
+        "How do I enable single sign-on for my team?",
+        "Is there a mobile app for Android?",
+        "How do I manage API keys and tokens?",
+        "Can I schedule tasks to run at specific times?",
+        "What regions are supported for data storage?",
+        "How do I troubleshoot connection issues?",
+        "Is there version control for my files?",
+        "How can I improve performance for large datasets?",
+        "What happens to my data if I cancel my subscription?",
     ]
-    return random.choice(questions)
 
-
-def generate_praise():
-    """Generate a realistic praise/positive feedback message."""
-    praise_messages = [
+    praise_templates = [
         "Love the new interface! Much cleaner than before.",
         "Amazing product, saved us so much time!",
         "Great customer support, they resolved my issue quickly",
@@ -95,13 +207,34 @@ def generate_praise():
         "The mobile app is incredibly smooth",
         "Your pricing is fair and the value is great",
         "Fantastic UI/UX design, very intuitive",
+        "Absolutely love how easy it is to use!",
+        "The integration with our other tools is seamless",
+        "Best product in its category, hands down",
+        "Your support team is incredibly responsive",
+        "The features are exactly what we needed",
+        "I'm impressed by how well this scales",
+        "The update yesterday was phenomenal",
+        "Your attention to detail is remarkable",
+        "The performance has improved dramatically",
+        "I can't believe how much time we save now",
+        "The user interface is beautifully designed",
+        "This product exceeded all our expectations",
+        "The quality of your work is exceptional",
+        "I love the attention to user experience",
+        "Your team is super helpful and responsive",
+        "The reliability of this service is outstanding",
+        "I'm thrilled with the latest features",
+        "The value for money is incredible",
+        "This is by far the best solution available",
+        "The customer service experience was excellent",
+        "I'm really impressed with your innovation",
+        "The product keeps getting better",
+        "Kudos to your engineering team",
+        "This solved all our problems perfectly",
+        "I appreciate the frequent updates",
     ]
-    return random.choice(praise_messages)
 
-
-def generate_spam():
-    """Generate a realistic spam message."""
-    spam_messages = [
+    spam_templates = [
         "CLICK HERE NOW!!! Get free money instantly!!!",
         "Buy cryptocurrency with our amazing service! Visit bit.ly/xyz123",
         "🚀🚀🚀 MAKE $5000/WEEK AT HOME 🚀🚀🚀 www.scam-site.com",
@@ -117,13 +250,25 @@ def generate_spam():
         "FREE MONEY - no strings attached! Visit our site!",
         "AMAZING DEAL - limited to first 100 people! HURRY!!!",
         "Work from home and earn BIG MONEY!! http://dodgy-site.xyz",
+        "Forex trading signals guaranteed to make profits!!! tinyurl.com/abc",
+        "Get Viagra NOW - BEST PRICES ONLINE!!! Click here",
+        "SEO SERVICES - GUARANTEED FIRST PAGE RANKING!!! http://seo.fake",
+        "WIN BIG at our online casino!! LIMITED SLOTS AVAILABLE!!!",
+        "Inheritance from long lost relative - claim your $2 million NOW",
+        "WEIGHT LOSS PILLS - Lose 30 pounds in 30 days!!!",
+        "Refinance your mortgage!!! GET CASH NOW!!! http://loan.scam",
+        "PENNY STOCKS that will TRIPLE in value!!! Buy now!!!",
+        "Congratulations, you have been selected for a FREE VACATION!!!",
+        "Nigerian prince needs your help! Easy money for you!!!",
+        "ROLEX WATCHES 50% OFF!!! ORIGINAL QUALITY!!! Buy here!!!",
+        "MALE ENHANCEMENT PILLS - ROCK HARD PERFORMANCE!!!",
+        "Emergency: Confirm your bank details or account frozen!!!",
+        "Click now to see EXCLUSIVE CONTENT!!! Adults only!!!",
+        "Become a millionaire in 90 days with our system!!!",
+        "FREE IPADS - Just pay shipping!!! http://freestuff.fake",
+        "INSTANT PAYDAY LOANS - NO CREDIT CHECK NEEDED!!!",
+        "FAKE DESIGNER BAGS - Cheap and authentic!!! Order now!!!",
     ]
-    return random.choice(spam_messages)
-
-
-def generate_dataset(num_examples: int = 200, seed: int = 42) -> list:
-    """Generate synthetic dataset with specified distribution."""
-    random.seed(seed)
 
     # Calculate counts based on distribution
     counts = {
@@ -137,19 +282,25 @@ def generate_dataset(num_examples: int = 200, seed: int = 42) -> list:
     # Adjust to ensure we hit exactly num_examples
     counts["bug_report"] += num_examples - sum(counts.values())
 
-    # Generate examples
+    # Generate examples by cycling through templates to ensure uniqueness
     examples = []
-    generators = {
-        "bug_report": generate_bug_report,
-        "feature_request": generate_feature_request,
-        "question": generate_question,
-        "praise": generate_praise,
-        "spam": generate_spam,
+    template_pools = {
+        "bug_report": bug_templates,
+        "feature_request": feature_templates,
+        "question": question_templates,
+        "praise": praise_templates,
+        "spam": spam_templates,
     }
 
+    # Create cycle indices for each class
+    indices = {label: 0 for label in counts.keys()}
+
     for label, count in counts.items():
-        for _ in range(count):
-            text = generators[label]()
+        pool = template_pools[label]
+        for i in range(count):
+            # Cycle through the template pool to avoid duplicates
+            text = pool[indices[label] % len(pool)]
+            indices[label] += 1
             examples.append({
                 "text": text,
                 "true_label": label
