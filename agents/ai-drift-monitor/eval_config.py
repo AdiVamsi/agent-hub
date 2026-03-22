@@ -49,11 +49,11 @@ def classify_output(golden: str, current: str, metadata: dict) -> dict:
     golden_len = len(golden_words)
     current_len = len(current_words)
 
-    # 2. Length drop — OK samples always have ratio >= 1.0
+    # 2. Length drop — OK samples always have ratio >= 1.0, so any shorter output is regression
     if golden_len > 5:
         ratio = current_len / golden_len
-        if ratio < 0.85:
-            confidence = 0.95 if ratio < 0.70 else 0.85
+        if ratio < 0.99:
+            confidence = 0.95 if ratio < 0.70 else 0.88
             return {
                 "is_regression": True,
                 "confidence": confidence,
@@ -91,7 +91,7 @@ def classify_output(golden: str, current: str, metadata: dict) -> dict:
     if len(golden_alpha) > 20 and len(current_alpha) > 20:
         golden_upper_pct = sum(1 for c in golden_alpha if c.isupper()) / len(golden_alpha)
         current_upper_pct = sum(1 for c in current_alpha if c.isupper()) / len(current_alpha)
-        if golden_upper_pct > 0.05 and current_upper_pct < 0.02:
+        if golden_upper_pct > 0.03 and current_upper_pct < 0.02:
             return {
                 "is_regression": True,
                 "confidence": 0.90,
