@@ -61,6 +61,16 @@ Started with a deliberately slow Product Catalog API riddled with O(n²) loops, 
 
 Upgraded all 20 packages in `requirements.txt` to their fixed versions. Fixed 4 criticals (pyyaml RCE, requests SSRF, cryptography timing side-channel, pillow RCE), 6 highs, 11 mediums, and 6 lows — zero compatibility regressions.
 
+### ai-drift-monitor
+> **drift_score 306 → 73 (76% reduction)** · precision 0.98 · recall 0.81 · f1 0.89 · 2 experiments
+
+Detects AI model output regressions across 200 golden/current pairs. Key insight: OK outputs are always ≥ the golden length, so any shorter output is a zero-false-positive regression signal. Layered `classify_output()` heuristics catch truncation (ends with `...`), length drops, prompt injection phrases, case degradation, and newline formatting loss — all with zero false positives on OK samples.
+
+### repo-pilot
+> **issues_resolved 262 → 1005 (+284%)** · label accuracy 0.00 → 0.93 · priority accuracy 0.50 → 0.88 · 2 experiments
+
+Triages 200 synthetic GitHub issues (bugs, features, docs, security, performance, questions). The harness only calls `classify_issue()` — all keyword rules, priority logic, and label ordering live there. Critical fixes: question detection runs before docs to avoid misclassifying "how do I … the documentation" issues, and signals like "completely broken" / "immediately crashes" map correctly to critical priority.
+
 ---
 
 ## Quick Start
