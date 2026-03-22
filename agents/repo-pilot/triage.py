@@ -44,11 +44,19 @@ def classify_issue(title: str, body: str) -> dict:
     Predict exactly ONE label to maximize precision (avoid wrong-label penalties).
     """
     text = (title + " " + body).lower()
+    title_lower = title.lower()
 
     # --- Label detection (ordered by specificity/priority) ---
 
+    # Question — check FIRST so "how do I ... documentation" stays a question, not docs
+    if any(kw in title_lower for kw in [
+        "how do i", "how do you", "how to ", "how can i",
+        "is it possible", "can i ", "should i ", "what is the best",
+    ]):
+        label = "question"
+
     # Security — highest priority label, clear keywords
-    if any(kw in text for kw in [
+    elif any(kw in text for kw in [
         "security", "vulnerability", "xss", "sql injection", "injection",
         "exploit", "cve-", "cve ", "attack", "privilege escalation",
         "csrf", "remote code execution", "rce", "authentication bypass",
@@ -141,7 +149,10 @@ def classify_issue(title: str, body: str) -> dict:
         "critical", "urgent", "blocker", "blocking my work",
         "blocking production", "blocks my", "data loss", "data corruption",
         "production down", "service down", "concurrent requests",
-        "stack trace attached",
+        "stack trace attached", "completely broken",
+        "immediately crashes", "app immediately crashes",
+        "it worked in version", "worked in version",
+        "no longer works", "stopped working",
     ]):
         priority = "critical"
 
