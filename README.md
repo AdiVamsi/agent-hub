@@ -47,6 +47,11 @@ Point a coding agent (Claude Code, Codex, etc.) at any agent folder, tell it to 
 | [iac-lint](agents/iac-lint/) | IaC security/compliance | `lint_rules.py` | `compliance_score` (higher=better) | ✅ Ready |
 | [cache-tuner](agents/cache-tuner/) | Cache hit rate | `eviction_policy.py` | `hit_rate` (higher=better) | ✅ Ready |
 | [bundle-phobia](agents/bundle-phobia/) | JS bundle size | `bundle_config.py` | `bundle_size_kb` (lower=better) | ✅ Ready |
+| [data-dedup](agents/data-dedup/) | Record deduplication | `match_rules.py` | `f1_score` (higher=better) | ✅ Ready |
+| [env-shrinker](agents/env-shrinker/) | Cloud resource right-sizing | `sizing_rules.py` | `total_monthly_cost` (lower=better) | ✅ Ready |
+| [regex-chef](agents/regex-chef/) | Regex pattern accuracy | `patterns.py` | `accuracy` (higher=better) | ✅ Ready |
+| [schema-guard](agents/schema-guard/) | API breaking change detection | `check_rules.py` | `detection_score` (higher=better) | ✅ Ready |
+| [cron-wizard](agents/cron-wizard/) | Cron job scheduling | `schedule_config.py` | `schedule_score` (higher=better) | ✅ Ready |
 
 ---
 

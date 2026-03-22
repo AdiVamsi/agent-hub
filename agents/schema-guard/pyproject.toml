@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "schema-guard"
+version = "0.1.0"
+description = "Detect breaking changes and anti-patterns in API schema evolution"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Schema Guard", email = "hello@schema-guard.dev"}
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+Homepage = "https://schema-guard.dev"
+Documentation = "https://schema-guard.dev/docs"
+Repository = "https://github.com/schema-guard/schema-guard"

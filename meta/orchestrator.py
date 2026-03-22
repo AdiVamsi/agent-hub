@@ -103,6 +103,36 @@ AGENTS = [
         "metric": "bundle_size_kb",
         "direction": "lower",
     },
+    {
+        "name": "data-dedup",
+        "editable": "match_rules.py",
+        "metric": "f1_score",
+        "direction": "higher",
+    },
+    {
+        "name": "env-shrinker",
+        "editable": "sizing_rules.py",
+        "metric": "total_monthly_cost",
+        "direction": "lower",
+    },
+    {
+        "name": "regex-chef",
+        "editable": "patterns.py",
+        "metric": "accuracy",
+        "direction": "higher",
+    },
+    {
+        "name": "schema-guard",
+        "editable": "check_rules.py",
+        "metric": "detection_score",
+        "direction": "higher",
+    },
+    {
+        "name": "cron-wizard",
+        "editable": "schedule_config.py",
+        "metric": "schedule_score",
+        "direction": "higher",
+    },
 ]
 
 

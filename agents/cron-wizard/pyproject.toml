@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cron-wizard"
+version = "0.1.0"
+description = "Optimize cron job scheduling to minimize resource contention and missed execution windows"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Cron Wizard Team", email = "team@agent-hub.dev"}
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+Homepage = "https://agent-hub.dev/agents/cron-wizard"
+Documentation = "https://agent-hub.dev/agents/cron-wizard/docs"
+Repository = "https://github.com/agent-hub/cron-wizard"
+
+[project.scripts]
+cron-wizard = "harness:main"
+
+[tool.setuptools]
+packages = ["cron_wizard"]

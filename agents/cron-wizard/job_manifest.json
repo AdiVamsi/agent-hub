@@ -1,0 +1,524 @@
+[
+  {
+    "job_id": "backup-db-primary",
+    "priority": 5,
+    "current_cron": "0 0 * * *",
+    "duration_minutes": 45,
+    "resource_type": "io",
+    "resource_weight": 9,
+    "depends_on": [],
+    "deadline_minutes": 240,
+    "preferred_window": {
+      "start_hour": 2,
+      "end_hour": 6
+    }
+  },
+  {
+    "job_id": "backup-db-replica",
+    "priority": 4,
+    "current_cron": "0 1 * * *",
+    "duration_minutes": 40,
+    "resource_type": "io",
+    "resource_weight": 8,
+    "depends_on": [
+      "backup-db-primary"
+    ],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 2,
+      "end_hour": 7
+    }
+  },
+  {
+    "job_id": "send-reports",
+    "priority": 3,
+    "current_cron": "0 0 * * *",
+    "duration_minutes": 30,
+    "resource_type": "network",
+    "resource_weight": 7,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 1,
+      "end_hour": 8
+    }
+  },
+  {
+    "job_id": "generate-daily-metrics",
+    "priority": 3,
+    "current_cron": "0 0 * * *",
+    "duration_minutes": 25,
+    "resource_type": "cpu",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 8
+    }
+  },
+  {
+    "job_id": "export-analytics",
+    "priority": 2,
+    "current_cron": "0 0 * * *",
+    "duration_minutes": 20,
+    "resource_type": "network",
+    "resource_weight": 5,
+    "depends_on": [
+      "generate-daily-metrics"
+    ],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 1,
+      "end_hour": 8
+    }
+  },
+  {
+    "job_id": "cleanup-logs",
+    "priority": 2,
+    "current_cron": "0 * * * *",
+    "duration_minutes": 15,
+    "resource_type": "io",
+    "resource_weight": 5,
+    "depends_on": [],
+    "deadline_minutes": 90,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "cleanup-temp-files",
+    "priority": 1,
+    "current_cron": "0 * * * *",
+    "duration_minutes": 12,
+    "resource_type": "io",
+    "resource_weight": 4,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "cleanup-cache",
+    "priority": 1,
+    "current_cron": "0 * * * *",
+    "duration_minutes": 10,
+    "resource_type": "memory",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 90,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "sync-user-data",
+    "priority": 4,
+    "current_cron": "0 * * * *",
+    "duration_minutes": 20,
+    "resource_type": "network",
+    "resource_weight": 7,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "sync-inventory",
+    "priority": 4,
+    "current_cron": "0 * * * *",
+    "duration_minutes": 18,
+    "resource_type": "network",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 90,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "sync-pricing",
+    "priority": 3,
+    "current_cron": "0 * * * *",
+    "duration_minutes": 15,
+    "resource_type": "network",
+    "resource_weight": 5,
+    "depends_on": [
+      "sync-inventory"
+    ],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "process-queue",
+    "priority": 3,
+    "current_cron": "30 * * * *",
+    "duration_minutes": 25,
+    "resource_type": "cpu",
+    "resource_weight": 8,
+    "depends_on": [],
+    "deadline_minutes": 90,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "ml-model-train",
+    "priority": 2,
+    "current_cron": "0 2 * * *",
+    "duration_minutes": 60,
+    "resource_type": "cpu",
+    "resource_weight": 9,
+    "depends_on": [],
+    "deadline_minutes": 240,
+    "preferred_window": {
+      "start_hour": 2,
+      "end_hour": 6
+    }
+  },
+  {
+    "job_id": "batch-process-images",
+    "priority": 2,
+    "current_cron": "0 3 * * *",
+    "duration_minutes": 50,
+    "resource_type": "cpu",
+    "resource_weight": 7,
+    "depends_on": [],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 2,
+      "end_hour": 7
+    }
+  },
+  {
+    "job_id": "database-vacuum",
+    "priority": 3,
+    "current_cron": "0 4 * * *",
+    "duration_minutes": 30,
+    "resource_type": "io",
+    "resource_weight": 7,
+    "depends_on": [
+      "backup-db-replica"
+    ],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 3,
+      "end_hour": 7
+    }
+  },
+  {
+    "job_id": "index-optimization",
+    "priority": 2,
+    "current_cron": "0 5 * * *",
+    "duration_minutes": 25,
+    "resource_type": "io",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 3,
+      "end_hour": 8
+    }
+  },
+  {
+    "job_id": "ssl-certificate-renewal",
+    "priority": 4,
+    "current_cron": "0 6 * * 0",
+    "duration_minutes": 10,
+    "resource_type": "network",
+    "resource_weight": 3,
+    "depends_on": [],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 5,
+      "end_hour": 9
+    }
+  },
+  {
+    "job_id": "health-check",
+    "priority": 5,
+    "current_cron": "*/15 * * * *",
+    "duration_minutes": 5,
+    "resource_type": "cpu",
+    "resource_weight": 2,
+    "depends_on": [],
+    "deadline_minutes": 30,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "log-aggregation",
+    "priority": 3,
+    "current_cron": "*/5 * * * *",
+    "duration_minutes": 8,
+    "resource_type": "io",
+    "resource_weight": 4,
+    "depends_on": [],
+    "deadline_minutes": 45,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "metrics-collection",
+    "priority": 3,
+    "current_cron": "*/10 * * * *",
+    "duration_minutes": 6,
+    "resource_type": "memory",
+    "resource_weight": 3,
+    "depends_on": [],
+    "deadline_minutes": 45,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "send-email-digest",
+    "priority": 2,
+    "current_cron": "0 9 * * *",
+    "duration_minutes": 20,
+    "resource_type": "network",
+    "resource_weight": 5,
+    "depends_on": [
+      "send-reports"
+    ],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 8,
+      "end_hour": 12
+    }
+  },
+  {
+    "job_id": "send-sms-alerts",
+    "priority": 4,
+    "current_cron": "*/30 * * * *",
+    "duration_minutes": 5,
+    "resource_type": "network",
+    "resource_weight": 3,
+    "depends_on": [],
+    "deadline_minutes": 60,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "push-notifications",
+    "priority": 2,
+    "current_cron": "*/30 * * * *",
+    "duration_minutes": 7,
+    "resource_type": "network",
+    "resource_weight": 4,
+    "depends_on": [],
+    "deadline_minutes": 75,
+    "preferred_window": {
+      "start_hour": 0,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "compress-old-logs",
+    "priority": 1,
+    "current_cron": "0 7 * * 0",
+    "duration_minutes": 40,
+    "resource_type": "cpu",
+    "resource_weight": 5,
+    "depends_on": [],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 6,
+      "end_hour": 10
+    }
+  },
+  {
+    "job_id": "archive-data",
+    "priority": 2,
+    "current_cron": "0 8 * * 0",
+    "duration_minutes": 35,
+    "resource_type": "io",
+    "resource_weight": 7,
+    "depends_on": [
+      "compress-old-logs"
+    ],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 7,
+      "end_hour": 11
+    }
+  },
+  {
+    "job_id": "warm-cache",
+    "priority": 2,
+    "current_cron": "0 8 * * *",
+    "duration_minutes": 15,
+    "resource_type": "memory",
+    "resource_weight": 5,
+    "depends_on": [],
+    "deadline_minutes": 90,
+    "preferred_window": {
+      "start_hour": 7,
+      "end_hour": 10
+    }
+  },
+  {
+    "job_id": "preload-cdn",
+    "priority": 2,
+    "current_cron": "0 8 * * *",
+    "duration_minutes": 18,
+    "resource_type": "network",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 7,
+      "end_hour": 11
+    }
+  },
+  {
+    "job_id": "batch-email-send",
+    "priority": 2,
+    "current_cron": "0 10 * * *",
+    "duration_minutes": 45,
+    "resource_type": "network",
+    "resource_weight": 7,
+    "depends_on": [],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 9,
+      "end_hour": 13
+    }
+  },
+  {
+    "job_id": "batch-sms-send",
+    "priority": 2,
+    "current_cron": "0 11 * * *",
+    "duration_minutes": 30,
+    "resource_type": "network",
+    "resource_weight": 5,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 10,
+      "end_hour": 14
+    }
+  },
+  {
+    "job_id": "delete-expired-sessions",
+    "priority": 1,
+    "current_cron": "0 18 * * *",
+    "duration_minutes": 20,
+    "resource_type": "io",
+    "resource_weight": 5,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 17,
+      "end_hour": 21
+    }
+  },
+  {
+    "job_id": "purge-old-uploads",
+    "priority": 1,
+    "current_cron": "0 19 * * *",
+    "duration_minutes": 25,
+    "resource_type": "io",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 18,
+      "end_hour": 22
+    }
+  },
+  {
+    "job_id": "reconcile-payments",
+    "priority": 4,
+    "current_cron": "0 20 * * *",
+    "duration_minutes": 30,
+    "resource_type": "cpu",
+    "resource_weight": 6,
+    "depends_on": [],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 19,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "reconcile-inventory",
+    "priority": 3,
+    "current_cron": "0 21 * * *",
+    "duration_minutes": 25,
+    "resource_type": "cpu",
+    "resource_weight": 5,
+    "depends_on": [
+      "reconcile-payments"
+    ],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 20,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "deep-analytics",
+    "priority": 1,
+    "current_cron": "0 22 * * *",
+    "duration_minutes": 40,
+    "resource_type": "cpu",
+    "resource_weight": 7,
+    "depends_on": [],
+    "deadline_minutes": 240,
+    "preferred_window": {
+      "start_hour": 21,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "nightly-aggregation",
+    "priority": 2,
+    "current_cron": "0 23 * * *",
+    "duration_minutes": 35,
+    "resource_type": "cpu",
+    "resource_weight": 6,
+    "depends_on": [
+      "deep-analytics"
+    ],
+    "deadline_minutes": 180,
+    "preferred_window": {
+      "start_hour": 22,
+      "end_hour": 23
+    }
+  },
+  {
+    "job_id": "final-backup",
+    "priority": 4,
+    "current_cron": "0 23 * * *",
+    "duration_minutes": 30,
+    "resource_type": "io",
+    "resource_weight": 7,
+    "depends_on": [
+      "nightly-aggregation"
+    ],
+    "deadline_minutes": 120,
+    "preferred_window": {
+      "start_hour": 22,
+      "end_hour": 23
+    }
+  }
+]

@@ -1,0 +1,2299 @@
+[
+  {
+    "change_id": "breaking_6967",
+    "endpoint": "/issues",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "type",
+      "type": "string",
+      "required": false,
+      "description": "The type field"
+    },
+    "new_schema": {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "The type field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'type' is now required"
+  },
+  {
+    "change_id": "breaking_2827",
+    "endpoint": "/users/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "city",
+      "type": "null",
+      "required": false,
+      "description": "The city field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "city",
+      "type": "null",
+      "required": false,
+      "description": "The city field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'city' is no longer nullable"
+  },
+  {
+    "change_id": "safe_8078",
+    "endpoint": "/comments",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "secret",
+      "type": "object",
+      "required": false,
+      "description": "The secret field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "secret",
+      "type": "boolean",
+      "required": true,
+      "description": "The secret field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_1514",
+    "endpoint": "/posts",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "zip_code",
+      "type": "array",
+      "required": true,
+      "description": "The zip_code field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'zip_code' was removed"
+  },
+  {
+    "change_id": "breaking_9976",
+    "endpoint": "/projects",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "rating",
+      "type": "number",
+      "required": false,
+      "description": "The rating field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "rating",
+      "type": "object",
+      "required": false,
+      "description": "The rating field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'rating' is no longer nullable"
+  },
+  {
+    "change_id": "safe_1659",
+    "endpoint": "/auth/login",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "archived",
+      "type": "string",
+      "required": true,
+      "description": "The archived field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "archived",
+      "type": "integer",
+      "required": true,
+      "description": "The archived field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_9317",
+    "endpoint": "/orders",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "path",
+      "type": "array",
+      "required": false,
+      "description": "The path field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'path' was removed"
+  },
+  {
+    "change_id": "safe_9056",
+    "endpoint": "/orders",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "deleted",
+      "type": "array",
+      "required": false,
+      "description": "The deleted field",
+      "format": "email"
+    },
+    "new_schema": {
+      "name": "deleted",
+      "type": "number",
+      "required": true,
+      "description": "The deleted field",
+      "format": "uuid"
+    },
+    "change_type": "format_changed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field format changed"
+  },
+  {
+    "change_id": "safe_4727",
+    "endpoint": "/projects/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "archived",
+      "type": "null",
+      "required": false,
+      "description": "The archived field",
+      "format": "email"
+    },
+    "new_schema": {
+      "name": "archived",
+      "type": "string",
+      "required": true,
+      "description": "The archived field",
+      "format": "uuid"
+    },
+    "change_type": "format_changed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field format changed"
+  },
+  {
+    "change_id": "breaking_7924",
+    "endpoint": "/teams",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "permissions",
+      "type": "null",
+      "required": false,
+      "description": "The permissions field"
+    },
+    "new_schema": {
+      "name": "permissions",
+      "type": "null",
+      "required": true,
+      "description": "The permissions field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'permissions' is now required"
+  },
+  {
+    "change_id": "breaking_6085",
+    "endpoint": "/projects/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "last_name",
+      "type": "number",
+      "required": false,
+      "description": "The last_name field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'last_name' was removed"
+  },
+  {
+    "change_id": "breaking_9727",
+    "endpoint": "/issues",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "tags",
+      "type": "array",
+      "required": false,
+      "description": "The tags field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'tags' was removed"
+  },
+  {
+    "change_id": "safe_9889",
+    "endpoint": "/products/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "secret",
+      "type": "number",
+      "required": true,
+      "description": "The secret field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "secret",
+      "type": "null",
+      "required": false,
+      "description": "The secret field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_8461",
+    "endpoint": "/orders/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "verified",
+      "type": "integer",
+      "required": false,
+      "description": "The verified field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'verified' was removed"
+  },
+  {
+    "change_id": "breaking_3647",
+    "endpoint": "/users",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "settings",
+      "type": "null",
+      "required": false,
+      "description": "The settings field"
+    },
+    "new_schema": {
+      "name": "settings",
+      "type": "array",
+      "required": true,
+      "description": "The settings field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'settings' is now required"
+  },
+  {
+    "change_id": "safe_4457",
+    "endpoint": "/posts",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "version",
+      "type": "object",
+      "required": true,
+      "description": "The version field"
+    },
+    "new_schema": {
+      "name": "latitude",
+      "type": "array",
+      "required": false,
+      "description": "The latitude field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "New optional field 'latitude' added"
+  },
+  {
+    "change_id": "breaking_8956",
+    "endpoint": "/issues/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "status",
+      "type": "null",
+      "required": true,
+      "description": "The status field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'status' was removed"
+  },
+  {
+    "change_id": "safe_3434",
+    "endpoint": "/teams/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "expires_at",
+      "type": "number",
+      "required": true,
+      "description": "The expires_at field",
+      "format": "email"
+    },
+    "new_schema": {
+      "name": "expires_at",
+      "type": "number",
+      "required": false,
+      "description": "The expires_at field",
+      "format": "uuid"
+    },
+    "change_type": "format_changed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field format changed"
+  },
+  {
+    "change_id": "safe_3441",
+    "endpoint": "/posts",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "likes",
+      "type": "array",
+      "required": true,
+      "description": "The likes field",
+      "format": "email"
+    },
+    "new_schema": {
+      "name": "likes",
+      "type": "boolean",
+      "required": true,
+      "description": "The likes field",
+      "format": "uuid"
+    },
+    "change_type": "format_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field format changed"
+  },
+  {
+    "change_id": "breaking_7482",
+    "endpoint": "/products/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "settings",
+      "type": "array",
+      "required": false,
+      "description": "The settings field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "settings",
+      "type": "integer",
+      "required": false,
+      "description": "The settings field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'settings' is no longer nullable"
+  },
+  {
+    "change_id": "safe_9617",
+    "endpoint": "/projects",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "price",
+      "type": "null",
+      "required": true,
+      "description": "The price field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "price",
+      "type": "null",
+      "required": false,
+      "description": "The price field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "safe_3037",
+    "endpoint": "/orders/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "settings",
+      "type": "integer",
+      "required": false,
+      "description": "The settings field"
+    },
+    "new_schema": {
+      "name": "settings_new",
+      "type": "object",
+      "required": false,
+      "description": "The settings field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "safe_8843",
+    "endpoint": "/orders/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "views",
+      "type": "null",
+      "required": true,
+      "description": "The views field"
+    },
+    "new_schema": {
+      "name": "views_new",
+      "type": "object",
+      "required": false,
+      "description": "The views field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "safe_4545",
+    "endpoint": "/posts",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "metadata",
+      "type": "number",
+      "required": true,
+      "description": "The metadata field"
+    },
+    "new_schema": {
+      "name": "metadata_v2",
+      "type": "array",
+      "required": true,
+      "description": "The metadata field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field renamed from metadata to metadata_v2"
+  },
+  {
+    "change_id": "safe_1823",
+    "endpoint": "/auth/refresh",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "updated_at",
+      "type": "array",
+      "required": false,
+      "description": "The updated_at field"
+    },
+    "new_schema": {
+      "name": "price",
+      "type": "null",
+      "required": false,
+      "description": "The price field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "New optional field 'price' added"
+  },
+  {
+    "change_id": "breaking_9666",
+    "endpoint": "/posts",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "created_at",
+      "type": "integer",
+      "required": false,
+      "description": "The created_at field"
+    },
+    "new_schema": {
+      "name": "created_at",
+      "type": "null",
+      "required": true,
+      "description": "The created_at field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'created_at' is now required"
+  },
+  {
+    "change_id": "safe_6507",
+    "endpoint": "/auth/register",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "first_name",
+      "type": "integer",
+      "required": false,
+      "description": "The first_name field"
+    },
+    "new_schema": {
+      "name": "path",
+      "type": "boolean",
+      "required": false,
+      "description": "The path field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field 'path' added"
+  },
+  {
+    "change_id": "breaking_6168",
+    "endpoint": "/comments/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "type",
+      "type": "string",
+      "required": false,
+      "description": "The type field"
+    },
+    "new_schema": {
+      "name": "type",
+      "type": "integer",
+      "required": true,
+      "description": "The type field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'type' type changed from string to integer"
+  },
+  {
+    "change_id": "safe_4846",
+    "endpoint": "/issues/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "likes",
+      "type": "array",
+      "required": false,
+      "description": "The likes field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "likes",
+      "type": "null",
+      "required": true,
+      "description": "The likes field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "safe_7046",
+    "endpoint": "/users/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "token",
+      "type": "integer",
+      "required": false,
+      "description": "The token field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "token",
+      "type": "array",
+      "required": true,
+      "description": "The token field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_7930",
+    "endpoint": "/auth/refresh",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "role",
+      "type": "integer",
+      "required": true,
+      "description": "The role field"
+    },
+    "new_schema": {
+      "name": "role",
+      "type": "boolean",
+      "required": false,
+      "description": "The role field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'role' type changed from integer to boolean"
+  },
+  {
+    "change_id": "breaking_4257",
+    "endpoint": "/teams/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "zip_code",
+      "type": "string",
+      "required": true,
+      "description": "The zip_code field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'zip_code' was removed"
+  },
+  {
+    "change_id": "breaking_3546",
+    "endpoint": "/issues/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "rating",
+      "type": "integer",
+      "required": false,
+      "description": "The rating field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'rating' was removed"
+  },
+  {
+    "change_id": "breaking_9540",
+    "endpoint": "/projects/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "description",
+      "type": "null",
+      "required": false,
+      "description": "The description field"
+    },
+    "new_schema": {
+      "name": "description",
+      "type": "null",
+      "required": true,
+      "description": "The description field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'description' is now required"
+  },
+  {
+    "change_id": "safe_6325",
+    "endpoint": "/teams",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "tags",
+      "type": "array",
+      "required": false,
+      "description": "The tags field",
+      "format": "email"
+    },
+    "new_schema": {
+      "name": "tags",
+      "type": "number",
+      "required": true,
+      "description": "The tags field",
+      "format": "uuid"
+    },
+    "change_type": "format_changed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field format changed"
+  },
+  {
+    "change_id": "breaking_5065",
+    "endpoint": "/teams/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "description": "The active field"
+    },
+    "new_schema": {
+      "name": "active",
+      "type": "null",
+      "required": false,
+      "description": "The active field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'active' type changed from boolean to null"
+  },
+  {
+    "change_id": "breaking_9837",
+    "endpoint": "/comments",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "longitude",
+      "type": "integer",
+      "required": true,
+      "description": "The longitude field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "longitude",
+      "type": "number",
+      "required": true,
+      "description": "The longitude field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'longitude' is no longer nullable"
+  },
+  {
+    "change_id": "breaking_6820",
+    "endpoint": "/auth/refresh",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "user_id",
+      "type": "array",
+      "required": false,
+      "description": "The user_id field",
+      "enum": [
+        "draft",
+        "published",
+        "archived",
+        "deleted"
+      ]
+    },
+    "new_schema": {
+      "name": "user_id",
+      "type": "integer",
+      "required": false,
+      "description": "The user_id field",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    },
+    "change_type": "enum_narrowed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Enum values were narrowed"
+  },
+  {
+    "change_id": "safe_5786",
+    "endpoint": "/orders",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "category",
+      "type": "array",
+      "required": true,
+      "description": "The category field"
+    },
+    "new_schema": {
+      "name": "category_new",
+      "type": "number",
+      "required": false,
+      "description": "The category field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "breaking_8260",
+    "endpoint": "/issues/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "verified",
+      "type": "string",
+      "required": true,
+      "description": "The verified field"
+    },
+    "new_schema": {
+      "name": "verified",
+      "type": "integer",
+      "required": false,
+      "description": "The verified field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'verified' type changed from string to integer"
+  },
+  {
+    "change_id": "safe_1845",
+    "endpoint": "/teams/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "secret",
+      "type": "object",
+      "required": false,
+      "description": "The secret field"
+    },
+    "new_schema": {
+      "name": "secret_v2",
+      "type": "object",
+      "required": false,
+      "description": "The secret field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field renamed from secret to secret_v2"
+  },
+  {
+    "change_id": "breaking_4143",
+    "endpoint": "/teams/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "rating",
+      "type": "array",
+      "required": false,
+      "description": "The rating field",
+      "enum": [
+        "draft",
+        "published",
+        "archived",
+        "deleted"
+      ]
+    },
+    "new_schema": {
+      "name": "rating",
+      "type": "object",
+      "required": true,
+      "description": "The rating field",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    },
+    "change_type": "enum_narrowed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Enum values were narrowed"
+  },
+  {
+    "change_id": "safe_7818",
+    "endpoint": "/issues",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "created_at",
+      "type": "integer",
+      "required": false,
+      "description": "The created_at field"
+    },
+    "new_schema": {
+      "name": "created_at_v2",
+      "type": "string",
+      "required": true,
+      "description": "The created_at field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field renamed from created_at to created_at_v2"
+  },
+  {
+    "change_id": "safe_8616",
+    "endpoint": "/auth/register",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "path",
+      "type": "boolean",
+      "required": true,
+      "description": "The path field"
+    },
+    "new_schema": {
+      "name": "path_v2",
+      "type": "array",
+      "required": false,
+      "description": "The path field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field renamed from path to path_v2"
+  },
+  {
+    "change_id": "breaking_8811",
+    "endpoint": "/posts/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "quantity",
+      "type": "string",
+      "required": true,
+      "description": "The quantity field"
+    },
+    "new_schema": {
+      "name": "quantity",
+      "type": "integer",
+      "required": false,
+      "description": "The quantity field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'quantity' type changed from string to integer"
+  },
+  {
+    "change_id": "safe_2876",
+    "endpoint": "/products",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "api_key",
+      "type": "boolean",
+      "required": false,
+      "description": "The api_key field"
+    },
+    "new_schema": {
+      "name": "api_key_v2",
+      "type": "null",
+      "required": false,
+      "description": "The api_key field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field renamed from api_key to api_key_v2"
+  },
+  {
+    "change_id": "breaking_1344",
+    "endpoint": "/projects",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "token",
+      "type": "integer",
+      "required": true,
+      "description": "The token field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'token' was removed"
+  },
+  {
+    "change_id": "safe_4681",
+    "endpoint": "/posts",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "longitude",
+      "type": "object",
+      "required": true,
+      "description": "The longitude field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "longitude",
+      "type": "object",
+      "required": false,
+      "description": "The longitude field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "safe_9041",
+    "endpoint": "/posts/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "phone",
+      "type": "array",
+      "required": false,
+      "description": "The phone field"
+    },
+    "new_schema": {
+      "name": "phone_v2",
+      "type": "boolean",
+      "required": true,
+      "description": "The phone field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field renamed from phone to phone_v2"
+  },
+  {
+    "change_id": "breaking_5033",
+    "endpoint": "/projects",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "status",
+      "type": "integer",
+      "required": true,
+      "description": "The status field"
+    },
+    "new_schema": {
+      "name": "status",
+      "type": "string",
+      "required": true,
+      "description": "The status field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'status' type changed from integer to string"
+  },
+  {
+    "change_id": "breaking_5803",
+    "endpoint": "/comments/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "country",
+      "type": "object",
+      "required": true,
+      "description": "The country field",
+      "enum": [
+        "draft",
+        "published",
+        "archived",
+        "deleted"
+      ]
+    },
+    "new_schema": {
+      "name": "country",
+      "type": "boolean",
+      "required": true,
+      "description": "The country field",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    },
+    "change_type": "enum_narrowed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Enum values were narrowed"
+  },
+  {
+    "change_id": "safe_1166",
+    "endpoint": "/projects/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "active",
+      "type": "null",
+      "required": false,
+      "description": "The active field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "active",
+      "type": "number",
+      "required": false,
+      "description": "The active field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_2512",
+    "endpoint": "/posts/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "timestamp",
+      "type": "integer",
+      "required": false,
+      "description": "The timestamp field"
+    },
+    "new_schema": {
+      "name": "timestamp",
+      "type": "string",
+      "required": false,
+      "description": "The timestamp field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'timestamp' type changed from integer to string"
+  },
+  {
+    "change_id": "breaking_8149",
+    "endpoint": "/comments/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "zip_code",
+      "type": "object",
+      "required": false,
+      "description": "The zip_code field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'zip_code' was removed"
+  },
+  {
+    "change_id": "safe_2729",
+    "endpoint": "/teams/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "address",
+      "type": "object",
+      "required": false,
+      "description": "The address field"
+    },
+    "new_schema": {
+      "name": "address_new",
+      "type": "string",
+      "required": false,
+      "description": "The address field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "safe_1659",
+    "endpoint": "/products/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "metadata",
+      "type": "array",
+      "required": true,
+      "description": "The metadata field"
+    },
+    "new_schema": {
+      "name": "metadata_new",
+      "type": "number",
+      "required": false,
+      "description": "The metadata field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "breaking_1090",
+    "endpoint": "/issues",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "longitude",
+      "type": "boolean",
+      "required": false,
+      "description": "The longitude field",
+      "enum": [
+        "draft",
+        "published",
+        "archived",
+        "deleted"
+      ]
+    },
+    "new_schema": {
+      "name": "longitude",
+      "type": "integer",
+      "required": true,
+      "description": "The longitude field",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    },
+    "change_type": "enum_narrowed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Enum values were narrowed"
+  },
+  {
+    "change_id": "breaking_9935",
+    "endpoint": "/products",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "longitude",
+      "type": "integer",
+      "required": false,
+      "description": "The longitude field"
+    },
+    "new_schema": {
+      "name": "longitude",
+      "type": "integer",
+      "required": true,
+      "description": "The longitude field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'longitude' is now required"
+  },
+  {
+    "change_id": "breaking_5279",
+    "endpoint": "/comments/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "expires_at",
+      "type": "boolean",
+      "required": false,
+      "description": "The expires_at field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "expires_at",
+      "type": "string",
+      "required": true,
+      "description": "The expires_at field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'expires_at' is no longer nullable"
+  },
+  {
+    "change_id": "safe_3068",
+    "endpoint": "/users/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "deleted",
+      "type": "null",
+      "required": true,
+      "description": "The deleted field"
+    },
+    "new_schema": {
+      "name": "deleted_v2",
+      "type": "object",
+      "required": true,
+      "description": "The deleted field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field renamed from deleted to deleted_v2"
+  },
+  {
+    "change_id": "safe_6688",
+    "endpoint": "/issues",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "created_at",
+      "type": "array",
+      "required": false,
+      "description": "The created_at field"
+    },
+    "new_schema": {
+      "name": "created_at_new",
+      "type": "null",
+      "required": false,
+      "description": "The created_at field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "breaking_4923",
+    "endpoint": "/auth/login",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "country",
+      "type": "string",
+      "required": false,
+      "description": "The country field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'country' was removed"
+  },
+  {
+    "change_id": "breaking_8541",
+    "endpoint": "/products",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "description",
+      "type": "null",
+      "required": false,
+      "description": "The description field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'description' was removed"
+  },
+  {
+    "change_id": "safe_7906",
+    "endpoint": "/auth/refresh",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "metadata",
+      "type": "boolean",
+      "required": false,
+      "description": "The metadata field"
+    },
+    "new_schema": {
+      "name": "metadata_v2",
+      "type": "number",
+      "required": false,
+      "description": "The metadata field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field renamed from metadata to metadata_v2"
+  },
+  {
+    "change_id": "safe_1606",
+    "endpoint": "/auth/refresh",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "comments",
+      "type": "null",
+      "required": false,
+      "description": "The comments field"
+    },
+    "new_schema": {
+      "name": "type",
+      "type": "array",
+      "required": false,
+      "description": "The type field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field 'type' added"
+  },
+  {
+    "change_id": "safe_9056",
+    "endpoint": "/auth/login",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "token",
+      "type": "number",
+      "required": false,
+      "description": "The token field"
+    },
+    "new_schema": {
+      "name": "token_new",
+      "type": "string",
+      "required": false,
+      "description": "The token field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "safe_4249",
+    "endpoint": "/orders",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "expires_at",
+      "type": "object",
+      "required": true,
+      "description": "The expires_at field"
+    },
+    "new_schema": {
+      "name": "expires_at_new",
+      "type": "number",
+      "required": false,
+      "description": "The expires_at field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "breaking_1152",
+    "endpoint": "/auth/refresh",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "metadata",
+      "type": "boolean",
+      "required": false,
+      "description": "The metadata field"
+    },
+    "new_schema": {
+      "name": "metadata",
+      "type": "null",
+      "required": true,
+      "description": "The metadata field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'metadata' is now required"
+  },
+  {
+    "change_id": "breaking_8244",
+    "endpoint": "/teams/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "role",
+      "type": "array",
+      "required": false,
+      "description": "The role field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "role",
+      "type": "boolean",
+      "required": false,
+      "description": "The role field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'role' is no longer nullable"
+  },
+  {
+    "change_id": "breaking_6930",
+    "endpoint": "/comments/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "quantity",
+      "type": "boolean",
+      "required": false,
+      "description": "The quantity field"
+    },
+    "new_schema": {
+      "name": "quantity",
+      "type": "object",
+      "required": false,
+      "description": "The quantity field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'quantity' type changed from boolean to object"
+  },
+  {
+    "change_id": "breaking_7735",
+    "endpoint": "/projects/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "started_at",
+      "type": "integer",
+      "required": true,
+      "description": "The started_at field"
+    },
+    "new_schema": {
+      "name": "started_at",
+      "type": "object",
+      "required": false,
+      "description": "The started_at field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'started_at' type changed from integer to object"
+  },
+  {
+    "change_id": "safe_6383",
+    "endpoint": "/users/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "started_at",
+      "type": "number",
+      "required": false,
+      "description": "The started_at field"
+    },
+    "new_schema": {
+      "name": "latitude",
+      "type": "array",
+      "required": false,
+      "description": "The latitude field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "New optional field 'latitude' added"
+  },
+  {
+    "change_id": "breaking_5073",
+    "endpoint": "/users",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "published",
+      "type": "boolean",
+      "required": false,
+      "description": "The published field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'published' was removed"
+  },
+  {
+    "change_id": "safe_6023",
+    "endpoint": "/issues/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "api_key",
+      "type": "boolean",
+      "required": false,
+      "description": "The api_key field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "api_key",
+      "type": "number",
+      "required": false,
+      "description": "The api_key field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_3184",
+    "endpoint": "/teams/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "expires_at",
+      "type": "string",
+      "required": false,
+      "description": "The expires_at field"
+    },
+    "new_schema": {
+      "name": "expires_at",
+      "type": "object",
+      "required": true,
+      "description": "The expires_at field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'expires_at' type changed from string to object"
+  },
+  {
+    "change_id": "safe_8385",
+    "endpoint": "/issues",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "path",
+      "type": "null",
+      "required": true,
+      "description": "The path field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "path",
+      "type": "null",
+      "required": true,
+      "description": "The path field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_3170",
+    "endpoint": "/issues",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "latitude",
+      "type": "object",
+      "required": true,
+      "description": "The latitude field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'latitude' was removed"
+  },
+  {
+    "change_id": "breaking_7537",
+    "endpoint": "/projects/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "price",
+      "type": "boolean",
+      "required": false,
+      "description": "The price field"
+    },
+    "new_schema": {
+      "name": "price",
+      "type": "number",
+      "required": true,
+      "description": "The price field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'price' type changed from boolean to number"
+  },
+  {
+    "change_id": "safe_5526",
+    "endpoint": "/posts",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "api_key",
+      "type": "integer",
+      "required": false,
+      "description": "The api_key field",
+      "format": "email"
+    },
+    "new_schema": {
+      "name": "api_key",
+      "type": "integer",
+      "required": true,
+      "description": "The api_key field",
+      "format": "uuid"
+    },
+    "change_type": "format_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field format changed"
+  },
+  {
+    "change_id": "breaking_5978",
+    "endpoint": "/auth/refresh",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "rating",
+      "type": "object",
+      "required": false,
+      "description": "The rating field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "rating",
+      "type": "boolean",
+      "required": true,
+      "description": "The rating field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'rating' is no longer nullable"
+  },
+  {
+    "change_id": "breaking_9308",
+    "endpoint": "/auth/login",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "created_at",
+      "type": "array",
+      "required": false,
+      "description": "The created_at field"
+    },
+    "new_schema": {
+      "name": "created_at",
+      "type": "array",
+      "required": true,
+      "description": "The created_at field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'created_at' is now required"
+  },
+  {
+    "change_id": "breaking_6862",
+    "endpoint": "/issues",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "category",
+      "type": "integer",
+      "required": true,
+      "description": "The category field"
+    },
+    "new_schema": {
+      "name": "category",
+      "type": "string",
+      "required": false,
+      "description": "The category field"
+    },
+    "change_type": "type_changed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'category' type changed from integer to string"
+  },
+  {
+    "change_id": "breaking_3677",
+    "endpoint": "/comments/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "rating",
+      "type": "array",
+      "required": true,
+      "description": "The rating field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "rating",
+      "type": "object",
+      "required": true,
+      "description": "The rating field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'rating' is no longer nullable"
+  },
+  {
+    "change_id": "breaking_5564",
+    "endpoint": "/posts",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "version",
+      "type": "array",
+      "required": true,
+      "description": "The version field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'version' was removed"
+  },
+  {
+    "change_id": "breaking_2307",
+    "endpoint": "/posts/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "state",
+      "type": "array",
+      "required": true,
+      "description": "The state field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'state' was removed"
+  },
+  {
+    "change_id": "breaking_6881",
+    "endpoint": "/orders/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "settings",
+      "type": "string",
+      "required": false,
+      "description": "The settings field"
+    },
+    "new_schema": {
+      "name": "settings",
+      "type": "boolean",
+      "required": true,
+      "description": "The settings field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'settings' is now required"
+  },
+  {
+    "change_id": "breaking_4878",
+    "endpoint": "/posts",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "likes",
+      "type": "null",
+      "required": false,
+      "description": "The likes field"
+    },
+    "new_schema": {
+      "name": "likes",
+      "type": "object",
+      "required": true,
+      "description": "The likes field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'likes' is now required"
+  },
+  {
+    "change_id": "breaking_8744",
+    "endpoint": "/projects",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "created_at",
+      "type": "array",
+      "required": false,
+      "description": "The created_at field"
+    },
+    "new_schema": {
+      "name": "created_at",
+      "type": "integer",
+      "required": true,
+      "description": "The created_at field"
+    },
+    "change_type": "required_added",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'created_at' is now required"
+  },
+  {
+    "change_id": "safe_8814",
+    "endpoint": "/posts/{id}",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "The url field"
+    },
+    "new_schema": {
+      "name": "url",
+      "type": "boolean",
+      "required": false,
+      "description": "The url field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field 'url' added"
+  },
+  {
+    "change_id": "safe_8905",
+    "endpoint": "/teams",
+    "method": "GET",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "product_id",
+      "type": "boolean",
+      "required": false,
+      "description": "The product_id field"
+    },
+    "new_schema": {
+      "name": "product_id_v2",
+      "type": "object",
+      "required": false,
+      "description": "The product_id field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field renamed from product_id to product_id_v2"
+  },
+  {
+    "change_id": "safe_1472",
+    "endpoint": "/comments/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "role",
+      "type": "number",
+      "required": false,
+      "description": "The role field"
+    },
+    "new_schema": {
+      "name": "role_v2",
+      "type": "array",
+      "required": false,
+      "description": "The role field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Field renamed from role to role_v2"
+  },
+  {
+    "change_id": "safe_2166",
+    "endpoint": "/projects/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "views",
+      "type": "integer",
+      "required": false,
+      "description": "The views field"
+    },
+    "new_schema": {
+      "name": "views_new",
+      "type": "array",
+      "required": false,
+      "description": "The views field"
+    },
+    "change_type": "field_added",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field added"
+  },
+  {
+    "change_id": "breaking_9669",
+    "endpoint": "/teams/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "started_at",
+      "type": "boolean",
+      "required": false,
+      "description": "The started_at field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "major",
+    "description": "Field 'started_at' was removed"
+  },
+  {
+    "change_id": "safe_3503",
+    "endpoint": "/posts",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "parent_id",
+      "type": "number",
+      "required": true,
+      "description": "The parent_id field"
+    },
+    "new_schema": {
+      "name": "price",
+      "type": "integer",
+      "required": false,
+      "description": "The price field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field 'price' added"
+  },
+  {
+    "change_id": "breaking_3504",
+    "endpoint": "/projects",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "price",
+      "type": "null",
+      "required": true,
+      "description": "The price field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'price' was removed"
+  },
+  {
+    "change_id": "safe_4912",
+    "endpoint": "/issues/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "token",
+      "type": "number",
+      "required": false,
+      "description": "The token field",
+      "default": "draft"
+    },
+    "new_schema": {
+      "name": "token",
+      "type": "boolean",
+      "required": false,
+      "description": "The token field",
+      "default": "published"
+    },
+    "change_type": "default_changed",
+    "is_breaking": false,
+    "severity": "minor",
+    "description": "Default value changed"
+  },
+  {
+    "change_id": "breaking_6147",
+    "endpoint": "/products/{id}",
+    "method": "DELETE",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "latitude",
+      "type": "object",
+      "required": false,
+      "description": "The latitude field",
+      "nullable": true
+    },
+    "new_schema": {
+      "name": "latitude",
+      "type": "number",
+      "required": true,
+      "description": "The latitude field",
+      "nullable": false
+    },
+    "change_type": "nullable_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'latitude' is no longer nullable"
+  },
+  {
+    "change_id": "breaking_9938",
+    "endpoint": "/teams/{id}",
+    "method": "PATCH",
+    "version_from": "1.0.0",
+    "version_to": "2.0.0",
+    "old_schema": {
+      "name": "city",
+      "type": "string",
+      "required": true,
+      "description": "The city field"
+    },
+    "new_schema": null,
+    "change_type": "field_removed",
+    "is_breaking": true,
+    "severity": "critical",
+    "description": "Field 'city' was removed"
+  },
+  {
+    "change_id": "safe_1601",
+    "endpoint": "/projects/{id}",
+    "method": "PUT",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "description",
+      "type": "number",
+      "required": false,
+      "description": "The description field"
+    },
+    "new_schema": {
+      "name": "views",
+      "type": "boolean",
+      "required": false,
+      "description": "The views field"
+    },
+    "change_type": "safe_addition",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "New optional field 'views' added"
+  },
+  {
+    "change_id": "safe_8381",
+    "endpoint": "/products/{id}",
+    "method": "POST",
+    "version_from": "1.0.0",
+    "version_to": "1.1.0",
+    "old_schema": {
+      "name": "metadata",
+      "type": "integer",
+      "required": true,
+      "description": "The metadata field"
+    },
+    "new_schema": {
+      "name": "metadata_v2",
+      "type": "integer",
+      "required": true,
+      "description": "The metadata field"
+    },
+    "change_type": "field_renamed",
+    "is_breaking": false,
+    "severity": "none",
+    "description": "Field renamed from metadata to metadata_v2"
+  }
+]

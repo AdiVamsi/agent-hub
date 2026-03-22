@@ -1,0 +1,1437 @@
+[
+  {
+    "test_id": 36,
+    "input_string": "user example@example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "space in middle"
+  },
+  {
+    "test_id": 13,
+    "input_string": "user+spam@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "plus at end"
+  },
+  {
+    "test_id": 198,
+    "input_string": "1.2.3.4",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "4 parts (actually valid in some contexts, mark as edge)"
+  },
+  {
+    "test_id": 121,
+    "input_string": "2023-02-28",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "non-leap feb"
+  },
+  {
+    "test_id": 61,
+    "input_string": "(555) 123-456",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "missing digit"
+  },
+  {
+    "test_id": 5,
+    "input_string": "user123@test-domain.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "number and hyphen"
+  },
+  {
+    "test_id": 64,
+    "input_string": "555-123-45678",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "11 digits"
+  },
+  {
+    "test_id": 30,
+    "input_string": "user@example..com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "double dot in domain"
+  },
+  {
+    "test_id": 52,
+    "input_string": "(555) 123 4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "mixed separators"
+  },
+  {
+    "test_id": 128,
+    "input_string": "2024-12-25",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "christmas"
+  },
+  {
+    "test_id": 60,
+    "input_string": "555-1234567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "wrong last group"
+  },
+  {
+    "test_id": 80,
+    "input_string": "1.1.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "cloudflare DNS"
+  },
+  {
+    "test_id": 89,
+    "input_string": "10.10.10.10",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "simple private"
+  },
+  {
+    "test_id": 191,
+    "input_string": "1.2.3-x.7.z.92",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "complex prerelease 2"
+  },
+  {
+    "test_id": 37,
+    "input_string": "user@exam ple.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "space in domain"
+  },
+  {
+    "test_id": 174,
+    "input_string": "http://exam ple.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "space in domain"
+  },
+  {
+    "test_id": 109,
+    "input_string": "2024-04-30",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "april 30"
+  },
+  {
+    "test_id": 44,
+    "input_string": "5551234567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "no separators"
+  },
+  {
+    "test_id": 15,
+    "input_string": "user@example.xn--80akhbyknj4f",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "IDN domain"
+  },
+  {
+    "test_id": 197,
+    "input_string": "v1.2.3",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "v prefix"
+  },
+  {
+    "test_id": 2,
+    "input_string": "alice+tag@example.co.uk",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "plus addressing"
+  },
+  {
+    "test_id": 133,
+    "input_string": "2024-04-31",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "april 31"
+  },
+  {
+    "test_id": 160,
+    "input_string": "https://example.com/file.pdf",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "file extension"
+  },
+  {
+    "test_id": 42,
+    "input_string": "555 123 4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "spaces"
+  },
+  {
+    "test_id": 120,
+    "input_string": "2025-01-01",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "next year"
+  },
+  {
+    "test_id": 178,
+    "input_string": "http://example.com//path",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "double slash in path"
+  },
+  {
+    "test_id": 177,
+    "input_string": "http:example.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no slashes"
+  },
+  {
+    "test_id": 204,
+    "input_string": "1.2.3-alpha-",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "trailing dash"
+  },
+  {
+    "test_id": 127,
+    "input_string": "2024-07-04",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "independence day"
+  },
+  {
+    "test_id": 165,
+    "input_string": "example.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no protocol"
+  },
+  {
+    "test_id": 3,
+    "input_string": "test.email+alex@leetcode.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "complex plus"
+  },
+  {
+    "test_id": 79,
+    "input_string": "255.255.255.255",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "broadcast"
+  },
+  {
+    "test_id": 132,
+    "input_string": "2024-02-30",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "feb 30"
+  },
+  {
+    "test_id": 73,
+    "input_string": "(555 123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "missing closing paren"
+  },
+  {
+    "test_id": 102,
+    "input_string": ".192.168.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "leading dot"
+  },
+  {
+    "test_id": 157,
+    "input_string": "http://192.168.1.1",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "IP address"
+  },
+  {
+    "test_id": 78,
+    "input_string": "172.16.0.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "private 172.x"
+  },
+  {
+    "test_id": 175,
+    "input_string": "://example.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no protocol"
+  },
+  {
+    "test_id": 162,
+    "input_string": "http://example.com/path?a=1&b=2",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "multiple params"
+  },
+  {
+    "test_id": 9,
+    "input_string": "test_underscore@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "underscore"
+  },
+  {
+    "test_id": 12,
+    "input_string": "admin@localhost.local",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "localhost domain"
+  },
+  {
+    "test_id": 38,
+    "input_string": "user@example,com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "comma instead of dot"
+  },
+  {
+    "test_id": 47,
+    "input_string": "(555)123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "parentheses no space"
+  },
+  {
+    "test_id": 45,
+    "input_string": "+1-555-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "+1 with hyphens"
+  },
+  {
+    "test_id": 84,
+    "input_string": "198.51.100.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "documentation range 3"
+  },
+  {
+    "test_id": 100,
+    "input_string": "192 168 1 1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "spaces instead of dots"
+  },
+  {
+    "test_id": 76,
+    "input_string": "192.168.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "private range"
+  },
+  {
+    "test_id": 190,
+    "input_string": "1.2.3-0.3.7",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "complex prerelease"
+  },
+  {
+    "test_id": 77,
+    "input_string": "10.0.0.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "private 10.x"
+  },
+  {
+    "test_id": 69,
+    "input_string": "(555) 123-4567 ",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "trailing space"
+  },
+  {
+    "test_id": 66,
+    "input_string": "+2 555 123 4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "wrong country code"
+  },
+  {
+    "test_id": 16,
+    "input_string": "a.b.c@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "multiple dots in local"
+  },
+  {
+    "test_id": 131,
+    "input_string": "2024-00-01",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "month 0"
+  },
+  {
+    "test_id": 95,
+    "input_string": "192.168.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "only 3 octets"
+  },
+  {
+    "test_id": 0,
+    "input_string": "user@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "basic email"
+  },
+  {
+    "test_id": 111,
+    "input_string": "2024-06-30",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "june 30"
+  },
+  {
+    "test_id": 10,
+    "input_string": "info@example.co.jp",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "international TLD"
+  },
+  {
+    "test_id": 113,
+    "input_string": "2024-08-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "august 31"
+  },
+  {
+    "test_id": 135,
+    "input_string": "2024-09-31",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "sept 31"
+  },
+  {
+    "test_id": 112,
+    "input_string": "2024-07-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "july 31"
+  },
+  {
+    "test_id": 21,
+    "input_string": "first+last@sub.example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "plus with subdomain"
+  },
+  {
+    "test_id": 136,
+    "input_string": "2024-11-31",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "nov 31"
+  },
+  {
+    "test_id": 200,
+    "input_string": "1.2.3+",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "plus but no build"
+  },
+  {
+    "test_id": 110,
+    "input_string": "2024-05-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "may 31"
+  },
+  {
+    "test_id": 148,
+    "input_string": "https://example.com/path",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "with path"
+  },
+  {
+    "test_id": 171,
+    "input_string": "http://example",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no TLD"
+  },
+  {
+    "test_id": 32,
+    "input_string": ".user@example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "leading dot in local"
+  },
+  {
+    "test_id": 156,
+    "input_string": "https://user:pass@example.com",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "with credentials"
+  },
+  {
+    "test_id": 125,
+    "input_string": "2024-06-15",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "mid-year mid-month"
+  },
+  {
+    "test_id": 124,
+    "input_string": "2100-12-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "future date"
+  },
+  {
+    "test_id": 146,
+    "input_string": "https://example.com",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "https basic"
+  },
+  {
+    "test_id": 104,
+    "input_string": "192.168..1.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "consecutive dots"
+  },
+  {
+    "test_id": 85,
+    "input_string": "169.254.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "link-local"
+  },
+  {
+    "test_id": 126,
+    "input_string": "2024-01-01",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "new year"
+  },
+  {
+    "test_id": 19,
+    "input_string": "noreply@github.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "common service"
+  },
+  {
+    "test_id": 14,
+    "input_string": "123@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "numeric local"
+  },
+  {
+    "test_id": 181,
+    "input_string": "1.0.0",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "major 1"
+  },
+  {
+    "test_id": 144,
+    "input_string": "01-15-2024",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "wrong order"
+  },
+  {
+    "test_id": 138,
+    "input_string": "2024-01-32",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "day 32"
+  },
+  {
+    "test_id": 65,
+    "input_string": "abc-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "letters in area code"
+  },
+  {
+    "test_id": 101,
+    "input_string": "192.168.1.",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "trailing dot"
+  },
+  {
+    "test_id": 122,
+    "input_string": "2000-02-29",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "leap century year"
+  },
+  {
+    "test_id": 46,
+    "input_string": "+1 (555) 123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "+1 with parentheses"
+  },
+  {
+    "test_id": 106,
+    "input_string": "2024-01-15",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "january"
+  },
+  {
+    "test_id": 164,
+    "input_string": "http://example.com/path%20with%20spaces",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "encoded spaces"
+  },
+  {
+    "test_id": 54,
+    "input_string": "555 123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "space then hyphen"
+  },
+  {
+    "test_id": 142,
+    "input_string": "24-01-15",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "2-digit year"
+  },
+  {
+    "test_id": 147,
+    "input_string": "http://www.example.com",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "www subdomain"
+  },
+  {
+    "test_id": 130,
+    "input_string": "2024-13-01",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "month 13"
+  },
+  {
+    "test_id": 119,
+    "input_string": "1999-12-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "before y2k"
+  },
+  {
+    "test_id": 152,
+    "input_string": "https://example.com#fragment",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "with fragment"
+  },
+  {
+    "test_id": 145,
+    "input_string": "http://example.com",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "http basic"
+  },
+  {
+    "test_id": 33,
+    "input_string": "user@.example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "leading dot in domain"
+  },
+  {
+    "test_id": 183,
+    "input_string": "10.20.30",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "multi-digit"
+  },
+  {
+    "test_id": 180,
+    "input_string": "0.0.0",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "all zeros"
+  },
+  {
+    "test_id": 82,
+    "input_string": "192.0.2.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "documentation range"
+  },
+  {
+    "test_id": 179,
+    "input_string": "http://example.com path",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "space in path"
+  },
+  {
+    "test_id": 63,
+    "input_string": "555 123 456",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "only 9 digits"
+  },
+  {
+    "test_id": 83,
+    "input_string": "203.0.113.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "documentation range 2"
+  },
+  {
+    "test_id": 169,
+    "input_string": "http://",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no domain"
+  },
+  {
+    "test_id": 115,
+    "input_string": "2024-10-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "october 31"
+  },
+  {
+    "test_id": 159,
+    "input_string": "https://api.example.com/v1/users",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "api endpoint"
+  },
+  {
+    "test_id": 72,
+    "input_string": "555) 123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "missing opening paren"
+  },
+  {
+    "test_id": 27,
+    "input_string": "user @example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "space in local"
+  },
+  {
+    "test_id": 196,
+    "input_string": "1",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "only 1 part"
+  },
+  {
+    "test_id": 123,
+    "input_string": "1900-01-01",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "old date"
+  },
+  {
+    "test_id": 51,
+    "input_string": "555-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "standard hyphen format"
+  },
+  {
+    "test_id": 170,
+    "input_string": "http://.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no domain name"
+  },
+  {
+    "test_id": 103,
+    "input_string": "192..168.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "double dot"
+  },
+  {
+    "test_id": 4,
+    "input_string": "name@subdomain.example.org",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "subdomain"
+  },
+  {
+    "test_id": 105,
+    "input_string": "192.168.1.01",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "leading zero"
+  },
+  {
+    "test_id": 29,
+    "input_string": "user@@example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "double at"
+  },
+  {
+    "test_id": 187,
+    "input_string": "1.2.3-rc.1",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "rc prerelease"
+  },
+  {
+    "test_id": 99,
+    "input_string": "a.b.c.d",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "letters"
+  },
+  {
+    "test_id": 98,
+    "input_string": "192.168.1.1a",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "letter at end"
+  },
+  {
+    "test_id": 176,
+    "input_string": "http:/example.com/",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "single slash"
+  },
+  {
+    "test_id": 134,
+    "input_string": "2024-06-31",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "june 31"
+  },
+  {
+    "test_id": 168,
+    "input_string": "htp://example.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "typo in protocol"
+  },
+  {
+    "test_id": 203,
+    "input_string": "1.2.03",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "leading zero in patch"
+  },
+  {
+    "test_id": 153,
+    "input_string": "https://example.com/path?query=value#fragment",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "all parts"
+  },
+  {
+    "test_id": 158,
+    "input_string": "http://localhost:3000",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "localhost"
+  },
+  {
+    "test_id": 81,
+    "input_string": "8.8.8.8",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "google DNS"
+  },
+  {
+    "test_id": 118,
+    "input_string": "2000-01-01",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "y2k"
+  },
+  {
+    "test_id": 34,
+    "input_string": "user@example.com.",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "trailing dot in domain"
+  },
+  {
+    "test_id": 48,
+    "input_string": "555.123.4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "dots"
+  },
+  {
+    "test_id": 140,
+    "input_string": "2024-1-15",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "single digit month"
+  },
+  {
+    "test_id": 149,
+    "input_string": "https://example.com/path/to/page",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "nested path"
+  },
+  {
+    "test_id": 199,
+    "input_string": "1.2.3-",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "dash but no prerelease"
+  },
+  {
+    "test_id": 43,
+    "input_string": "+1 555 123 4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "international with +1"
+  },
+  {
+    "test_id": 18,
+    "input_string": "user@example.\u4e2d\u56fd",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "unicode domain"
+  },
+  {
+    "test_id": 68,
+    "input_string": "555-123-456a",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "letter at end"
+  },
+  {
+    "test_id": 53,
+    "input_string": "+1(555)123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "all packed"
+  },
+  {
+    "test_id": 90,
+    "input_string": "99.99.99.99",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "valid public"
+  },
+  {
+    "test_id": 94,
+    "input_string": "192.168.300.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "third octet too large"
+  },
+  {
+    "test_id": 41,
+    "input_string": "555-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "hyphens"
+  },
+  {
+    "test_id": 93,
+    "input_string": "192.168.1.256",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "last octet too large"
+  },
+  {
+    "test_id": 116,
+    "input_string": "2024-11-30",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "november 30"
+  },
+  {
+    "test_id": 167,
+    "input_string": "http//example.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "no colon"
+  },
+  {
+    "test_id": 161,
+    "input_string": "https://example.co.uk/page",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "multi-part TLD"
+  },
+  {
+    "test_id": 25,
+    "input_string": "@example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "no local part"
+  },
+  {
+    "test_id": 184,
+    "input_string": "1.2.3-alpha",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "prerelease"
+  },
+  {
+    "test_id": 194,
+    "input_string": "1.0.0-beta.1",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "beta with number"
+  },
+  {
+    "test_id": 74,
+    "input_string": "0.0.0.0",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "all zeros"
+  },
+  {
+    "test_id": 58,
+    "input_string": "555-12-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "wrong grouping"
+  },
+  {
+    "test_id": 155,
+    "input_string": "http://example.com:8080",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "custom port"
+  },
+  {
+    "test_id": 17,
+    "input_string": "test@example.\u540d\u524d",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "unicode in domain"
+  },
+  {
+    "test_id": 49,
+    "input_string": "1 555 123 4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "country code 1 with spaces"
+  },
+  {
+    "test_id": 92,
+    "input_string": "256.1.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "octet > 255"
+  },
+  {
+    "test_id": 75,
+    "input_string": "127.0.0.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "localhost"
+  },
+  {
+    "test_id": 141,
+    "input_string": "2024-01-5",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "single digit day"
+  },
+  {
+    "test_id": 20,
+    "input_string": "no-reply@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "hyphen in local"
+  },
+  {
+    "test_id": 96,
+    "input_string": "192.168.1.1.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "5 octets"
+  },
+  {
+    "test_id": 31,
+    "input_string": "user.@example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "trailing dot in local"
+  },
+  {
+    "test_id": 137,
+    "input_string": "2023-02-29",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "non-leap year feb 29"
+  },
+  {
+    "test_id": 117,
+    "input_string": "2024-12-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "december 31"
+  },
+  {
+    "test_id": 11,
+    "input_string": "contact@my-site.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "hyphen in domain"
+  },
+  {
+    "test_id": 67,
+    "input_string": "+1 555 123",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "incomplete"
+  },
+  {
+    "test_id": 182,
+    "input_string": "1.2.3",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "basic version"
+  },
+  {
+    "test_id": 88,
+    "input_string": "200.100.50.25",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "valid arbitrary"
+  },
+  {
+    "test_id": 91,
+    "input_string": "111.111.111.111",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "all same octets"
+  },
+  {
+    "test_id": 24,
+    "input_string": "plainaddress",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "no at sign"
+  },
+  {
+    "test_id": 97,
+    "input_string": "192.168.-1.1",
+    "pattern_type": "ipv4",
+    "expected_match": false,
+    "description": "negative number"
+  },
+  {
+    "test_id": 186,
+    "input_string": "1.2.3-beta",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "beta prerelease"
+  },
+  {
+    "test_id": 195,
+    "input_string": "1.2",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "only 2 parts"
+  },
+  {
+    "test_id": 86,
+    "input_string": "224.0.0.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "multicast"
+  },
+  {
+    "test_id": 185,
+    "input_string": "1.2.3-alpha.1",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "prerelease with number"
+  },
+  {
+    "test_id": 39,
+    "input_string": "user#example.com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "hash instead of at"
+  },
+  {
+    "test_id": 172,
+    "input_string": "http://example..com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "double dot"
+  },
+  {
+    "test_id": 87,
+    "input_string": "100.64.0.1",
+    "pattern_type": "ipv4",
+    "expected_match": true,
+    "description": "carrier-grade NAT"
+  },
+  {
+    "test_id": 193,
+    "input_string": "0.1.0-alpha",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "zero major with prerelease"
+  },
+  {
+    "test_id": 40,
+    "input_string": "(555) 123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "parentheses with space"
+  },
+  {
+    "test_id": 1,
+    "input_string": "john.doe@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "dot in local part"
+  },
+  {
+    "test_id": 71,
+    "input_string": "555-123-4567x123",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "extension without space"
+  },
+  {
+    "test_id": 150,
+    "input_string": "https://example.com?query=value",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "with query string"
+  },
+  {
+    "test_id": 114,
+    "input_string": "2024-09-30",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "september 30"
+  },
+  {
+    "test_id": 56,
+    "input_string": "1-555-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "1 prefix hyphen"
+  },
+  {
+    "test_id": 107,
+    "input_string": "2024-02-29",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "leap year feb 29"
+  },
+  {
+    "test_id": 192,
+    "input_string": "2.0.0-rc.1+build.123",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "rc with build"
+  },
+  {
+    "test_id": 166,
+    "input_string": "http:/example.com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "single slash"
+  },
+  {
+    "test_id": 50,
+    "input_string": "+1 555 123 4567",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "plus 1"
+  },
+  {
+    "test_id": 143,
+    "input_string": "2024/01/15",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "slashes"
+  },
+  {
+    "test_id": 202,
+    "input_string": "1.02.3",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "leading zero in minor"
+  },
+  {
+    "test_id": 154,
+    "input_string": "ftp://example.com/file.txt",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "ftp protocol"
+  },
+  {
+    "test_id": 129,
+    "input_string": "2024-10-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "halloween"
+  },
+  {
+    "test_id": 59,
+    "input_string": "55-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "only 2 digits first"
+  },
+  {
+    "test_id": 55,
+    "input_string": "555-123-4567 ext 123",
+    "pattern_type": "phone_us",
+    "expected_match": true,
+    "description": "with extension"
+  },
+  {
+    "test_id": 23,
+    "input_string": "user_@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "trailing underscore"
+  },
+  {
+    "test_id": 7,
+    "input_string": "first.last@example.museum",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "long TLD"
+  },
+  {
+    "test_id": 8,
+    "input_string": "user@192.168.1.1",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "IP-based email"
+  },
+  {
+    "test_id": 108,
+    "input_string": "2024-03-31",
+    "pattern_type": "date_iso",
+    "expected_match": true,
+    "description": "march 31"
+  },
+  {
+    "test_id": 151,
+    "input_string": "https://example.com/path?query=value",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "path and query"
+  },
+  {
+    "test_id": 22,
+    "input_string": "_user@example.com",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "leading underscore"
+  },
+  {
+    "test_id": 139,
+    "input_string": "2024-01-00",
+    "pattern_type": "date_iso",
+    "expected_match": false,
+    "description": "day 0"
+  },
+  {
+    "test_id": 201,
+    "input_string": "01.2.3",
+    "pattern_type": "semver",
+    "expected_match": false,
+    "description": "leading zero"
+  },
+  {
+    "test_id": 173,
+    "input_string": "http://example .com",
+    "pattern_type": "url",
+    "expected_match": false,
+    "description": "space in domain"
+  },
+  {
+    "test_id": 26,
+    "input_string": "user@",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "no domain"
+  },
+  {
+    "test_id": 188,
+    "input_string": "1.2.3+build",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "build metadata"
+  },
+  {
+    "test_id": 35,
+    "input_string": "user@example.c",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "single char TLD (usually invalid)"
+  },
+  {
+    "test_id": 57,
+    "input_string": "123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "only 7 digits"
+  },
+  {
+    "test_id": 62,
+    "input_string": "(555) 1234-567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "wrong grouping"
+  },
+  {
+    "test_id": 70,
+    "input_string": " 555-123-4567",
+    "pattern_type": "phone_us",
+    "expected_match": false,
+    "description": "leading space"
+  },
+  {
+    "test_id": 189,
+    "input_string": "1.2.3-alpha+build",
+    "pattern_type": "semver",
+    "expected_match": true,
+    "description": "prerelease and build"
+  },
+  {
+    "test_id": 6,
+    "input_string": "a@b.c",
+    "pattern_type": "email",
+    "expected_match": true,
+    "description": "minimal valid"
+  },
+  {
+    "test_id": 28,
+    "input_string": "user@example .com",
+    "pattern_type": "email",
+    "expected_match": false,
+    "description": "space in domain"
+  },
+  {
+    "test_id": 163,
+    "input_string": "https://sub.domain.example.com",
+    "pattern_type": "url",
+    "expected_match": true,
+    "description": "nested subdomain"
+  }
+]
