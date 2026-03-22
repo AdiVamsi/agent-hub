@@ -43,6 +43,36 @@ AGENTS = [
         "metric": "issues_resolved",
         "direction": "higher",
     },
+    {
+        "name": "ci-speedup",
+        "editable": "pipeline_config.py",
+        "metric": "total_build_time",
+        "direction": "lower",
+    },
+    {
+        "name": "docker-slim",
+        "editable": "dockerfile_config.py",
+        "metric": "image_size_mb",
+        "direction": "lower",
+    },
+    {
+        "name": "prompt-tuner",
+        "editable": "prompt_config.py",
+        "metric": "classification_accuracy",
+        "direction": "higher",
+    },
+    {
+        "name": "log-trimmer",
+        "editable": "filter_rules.py",
+        "metric": "efficiency_score",
+        "direction": "higher",
+    },
+    {
+        "name": "sql-optimizer",
+        "editable": "rewrite_rules.py",
+        "metric": "total_query_cost",
+        "direction": "lower",
+    },
 ]
 
 

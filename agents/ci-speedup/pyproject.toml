@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ci-speedup"
+version = "0.1.0"
+description = "CI/CD pipeline optimizer to minimize total build time"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "CI-Speedup Team", email = "hello@agent-hub.dev"},
+]
+keywords = ["ci", "cd", "pipeline", "optimization", "scheduling"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/agent-hub/ci-speedup"
+Documentation = "https://agent-hub.dev/agents/ci-speedup"
+Repository = "https://github.com/agent-hub/ci-speedup"
+Issues = "https://github.com/agent-hub/ci-speedup/issues"

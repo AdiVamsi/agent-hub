@@ -37,6 +37,11 @@ Point a coding agent (Claude Code, Codex, etc.) at any agent folder, tell it to 
 | [dep-sentinel](agents/dep-sentinel/) | Dependency security | `policy.py` | `vulnerability_score` (lower=better) | ✅ Ready |
 | [ai-drift-monitor](agents/ai-drift-monitor/) | AI output quality | `eval_config.py` | `drift_score` (lower=better) | ✅ Ready |
 | [repo-pilot](agents/repo-pilot/) | Repo maintenance | `triage.py` | `issues_resolved` (higher=better) | ✅ Ready |
+| [ci-speedup](agents/ci-speedup/) | CI/CD pipeline build time | `pipeline_config.py` | `total_build_time` (lower=better) | ✅ Ready |
+| [docker-slim](agents/docker-slim/) | Docker image size | `dockerfile_config.py` | `image_size_mb` (lower=better) | ✅ Ready |
+| [prompt-tuner](agents/prompt-tuner/) | Text classification accuracy | `prompt_config.py` | `classification_accuracy` (higher=better) | ✅ Ready |
+| [log-trimmer](agents/log-trimmer/) | Log noise reduction | `filter_rules.py` | `efficiency_score` (higher=better) | ✅ Ready |
+| [sql-optimizer](agents/sql-optimizer/) | SQL query cost | `rewrite_rules.py` | `total_query_cost` (lower=better) | ✅ Ready |
 
 ---
 

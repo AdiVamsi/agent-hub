@@ -1,0 +1,252 @@
+[
+  {
+    "name": "lint",
+    "duration_seconds": 15,
+    "dependencies": [],
+    "cache_key": "lint-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "typecheck",
+    "duration_seconds": 20,
+    "dependencies": [],
+    "cache_key": "typecheck-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "unit-tests-api",
+    "duration_seconds": 45,
+    "dependencies": [
+      "lint",
+      "typecheck"
+    ],
+    "cache_key": "unit-cache",
+    "parallelizable": true
+  },
+  {
+    "name": "unit-tests-web",
+    "duration_seconds": 35,
+    "dependencies": [
+      "lint",
+      "typecheck"
+    ],
+    "cache_key": "unit-cache",
+    "parallelizable": true
+  },
+  {
+    "name": "unit-tests-worker",
+    "duration_seconds": 40,
+    "dependencies": [
+      "lint",
+      "typecheck"
+    ],
+    "cache_key": "unit-cache",
+    "parallelizable": true
+  },
+  {
+    "name": "build-frontend",
+    "duration_seconds": 120,
+    "dependencies": [],
+    "cache_key": "build-frontend-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "build-backend",
+    "duration_seconds": 95,
+    "dependencies": [],
+    "cache_key": "build-backend-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "build-worker",
+    "duration_seconds": 85,
+    "dependencies": [],
+    "cache_key": "build-worker-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "build-docker",
+    "duration_seconds": 150,
+    "dependencies": [
+      "build-frontend",
+      "build-backend",
+      "build-worker"
+    ],
+    "cache_key": "docker-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "integration-tests-api",
+    "duration_seconds": 80,
+    "dependencies": [
+      "build-backend"
+    ],
+    "cache_key": "integration-cache",
+    "parallelizable": true
+  },
+  {
+    "name": "integration-tests-web",
+    "duration_seconds": 70,
+    "dependencies": [
+      "build-frontend"
+    ],
+    "cache_key": "integration-cache",
+    "parallelizable": true
+  },
+  {
+    "name": "integration-tests-worker",
+    "duration_seconds": 75,
+    "dependencies": [
+      "build-worker"
+    ],
+    "cache_key": "integration-cache",
+    "parallelizable": true
+  },
+  {
+    "name": "e2e-tests-critical",
+    "duration_seconds": 120,
+    "dependencies": [
+      "build-docker"
+    ],
+    "cache_key": "e2e-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "e2e-tests-flows",
+    "duration_seconds": 110,
+    "dependencies": [
+      "build-docker"
+    ],
+    "cache_key": "e2e-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "e2e-tests-edge-cases",
+    "duration_seconds": 100,
+    "dependencies": [
+      "build-docker"
+    ],
+    "cache_key": "e2e-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "security-scan",
+    "duration_seconds": 60,
+    "dependencies": [
+      "lint"
+    ],
+    "cache_key": "security-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "sast-analysis",
+    "duration_seconds": 50,
+    "dependencies": [
+      "unit-tests-api",
+      "unit-tests-web"
+    ],
+    "cache_key": "sast-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "dependency-check",
+    "duration_seconds": 25,
+    "dependencies": [
+      "lint"
+    ],
+    "cache_key": null,
+    "parallelizable": false
+  },
+  {
+    "name": "code-coverage",
+    "duration_seconds": 35,
+    "dependencies": [
+      "unit-tests-api",
+      "unit-tests-web"
+    ],
+    "cache_key": "coverage-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "db-migrations-test",
+    "duration_seconds": 40,
+    "dependencies": [
+      "typecheck"
+    ],
+    "cache_key": "db-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "infra-validate",
+    "duration_seconds": 30,
+    "dependencies": [
+      "typecheck"
+    ],
+    "cache_key": null,
+    "parallelizable": false
+  },
+  {
+    "name": "docs-build",
+    "duration_seconds": 30,
+    "dependencies": [
+      "typecheck"
+    ],
+    "cache_key": "docs-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "api-docs-generate",
+    "duration_seconds": 20,
+    "dependencies": [
+      "build-backend"
+    ],
+    "cache_key": null,
+    "parallelizable": false
+  },
+  {
+    "name": "performance-tests",
+    "duration_seconds": 90,
+    "dependencies": [
+      "build-docker"
+    ],
+    "cache_key": "perf-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "memory-profiler",
+    "duration_seconds": 45,
+    "dependencies": [
+      "build-backend"
+    ],
+    "cache_key": null,
+    "parallelizable": false
+  },
+  {
+    "name": "deploy-staging",
+    "duration_seconds": 120,
+    "dependencies": [
+      "e2e-tests-critical",
+      "security-scan"
+    ],
+    "cache_key": null,
+    "parallelizable": false
+  },
+  {
+    "name": "smoke-tests-staging",
+    "duration_seconds": 60,
+    "dependencies": [
+      "deploy-staging"
+    ],
+    "cache_key": "smoke-cache",
+    "parallelizable": false
+  },
+  {
+    "name": "health-check-staging",
+    "duration_seconds": 25,
+    "dependencies": [
+      "smoke-tests-staging"
+    ],
+    "cache_key": null,
+    "parallelizable": false
+  }
+]

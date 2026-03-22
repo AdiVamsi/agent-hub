@@ -1,0 +1,770 @@
+[
+  {
+    "query_id": "q001",
+    "sql": "SELECT * FROM users WHERE status = 'active'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 5000,
+    "has_index": {
+      "users": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "1ae7dbcb"
+  },
+  {
+    "query_id": "q002",
+    "sql": "SELECT * FROM orders JOIN users ON orders.user_id = users.id",
+    "tables_touched": [
+      "orders",
+      "users"
+    ],
+    "estimated_rows_scanned": 15000,
+    "has_index": {
+      "orders": [
+        "user_id"
+      ],
+      "users": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "7e8c6932"
+  },
+  {
+    "query_id": "q003",
+    "sql": "SELECT * FROM products WHERE category IN ('electronics', 'books')",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 3000,
+    "has_index": {
+      "products": [
+        "category"
+      ]
+    },
+    "expected_result_hash": "6a96192b"
+  },
+  {
+    "query_id": "q004",
+    "sql": "SELECT * FROM order_items oi JOIN products p ON oi.product_id = p.id",
+    "tables_touched": [
+      "order_items",
+      "products"
+    ],
+    "estimated_rows_scanned": 20000,
+    "has_index": {
+      "order_items": [
+        "product_id"
+      ],
+      "products": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "d5800f20"
+  },
+  {
+    "query_id": "q005",
+    "sql": "SELECT * FROM users u JOIN orders o ON u.id = o.user_id WHERE o.status = 'completed'",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 10000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "c286d44c"
+  },
+  {
+    "query_id": "q006",
+    "sql": "SELECT user_id, COUNT(*) FROM orders GROUP BY user_id",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "orders": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "fe552356"
+  },
+  {
+    "query_id": "q007",
+    "sql": "SELECT id, name, email FROM users",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "13c68df2"
+  },
+  {
+    "query_id": "q008",
+    "sql": "SELECT product_id, SUM(quantity) FROM order_items GROUP BY product_id",
+    "tables_touched": [
+      "order_items"
+    ],
+    "estimated_rows_scanned": 200000,
+    "has_index": {
+      "order_items": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "a7f8faae"
+  },
+  {
+    "query_id": "q009",
+    "sql": "SELECT id, price, category FROM products",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "06d83c1f"
+  },
+  {
+    "query_id": "q010",
+    "sql": "SELECT o.id, o.user_id, o.total FROM orders o",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "3b04670e"
+  },
+  {
+    "query_id": "q011",
+    "sql": "SELECT * FROM orders WHERE user_id IN (SELECT id FROM users WHERE status = 'active')",
+    "tables_touched": [
+      "orders",
+      "users"
+    ],
+    "estimated_rows_scanned": 15000,
+    "has_index": {
+      "orders": [
+        "user_id"
+      ],
+      "users": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "3e05aabd"
+  },
+  {
+    "query_id": "q012",
+    "sql": "SELECT id, name FROM products WHERE id IN (SELECT product_id FROM order_items WHERE quantity > 5)",
+    "tables_touched": [
+      "products",
+      "order_items"
+    ],
+    "estimated_rows_scanned": 10000,
+    "has_index": {
+      "products": [
+        "id"
+      ],
+      "order_items": [
+        "product_id"
+      ]
+    },
+    "expected_result_hash": "ef9f50ad"
+  },
+  {
+    "query_id": "q013",
+    "sql": "SELECT * FROM users WHERE id NOT IN (SELECT user_id FROM orders WHERE status = 'cancelled')",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 30000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "acbf2d51"
+  },
+  {
+    "query_id": "q014",
+    "sql": "SELECT name, (SELECT COUNT(*) FROM orders WHERE user_id = users.id) as order_count FROM users",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 25000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "98875cca"
+  },
+  {
+    "query_id": "q015",
+    "sql": "SELECT * FROM orders WHERE total > (SELECT AVG(total) FROM orders)",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "507ce8d3"
+  },
+  {
+    "query_id": "q016",
+    "sql": "SELECT u.id, u.name FROM users u WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id AND o.status = 'pending')",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 20000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "1bb70de0"
+  },
+  {
+    "query_id": "q017",
+    "sql": "SELECT * FROM products WHERE category = 'electronics' OR category = 'books' OR category = 'toys'",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 10000,
+    "has_index": {
+      "products": [
+        "category"
+      ]
+    },
+    "expected_result_hash": "da61c9f1"
+  },
+  {
+    "query_id": "q018",
+    "sql": "SELECT * FROM orders WHERE status = 'completed' OR status = 'shipped' OR status = 'processing'",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 80000,
+    "has_index": {
+      "orders": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "907688e2"
+  },
+  {
+    "query_id": "q019",
+    "sql": "SELECT id, name FROM users WHERE email LIKE '%@gmail.com' OR email LIKE '%@yahoo.com'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "users": [
+        "email"
+      ]
+    },
+    "expected_result_hash": "86b8b265"
+  },
+  {
+    "query_id": "q020",
+    "sql": "SELECT * FROM users WHERE status = 'active' OR status = 'inactive' OR status = 'pending'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 80000,
+    "has_index": {
+      "users": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "1ad5c2ca"
+  },
+  {
+    "query_id": "q021",
+    "sql": "SELECT product_id, SUM(quantity) FROM order_items WHERE quantity = 1 OR quantity = 2 OR quantity = 3 GROUP BY product_id",
+    "tables_touched": [
+      "order_items"
+    ],
+    "estimated_rows_scanned": 120000,
+    "has_index": {
+      "order_items": [
+        "product_id"
+      ]
+    },
+    "expected_result_hash": "9c6d4bea"
+  },
+  {
+    "query_id": "q022",
+    "sql": "SELECT * FROM users WHERE name LIKE '%john%'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "b3cd6800"
+  },
+  {
+    "query_id": "q023",
+    "sql": "SELECT id, name FROM products WHERE name LIKE '%phone%' AND price > 500",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "price"
+      ]
+    },
+    "expected_result_hash": "b49ee55b"
+  },
+  {
+    "query_id": "q024",
+    "sql": "SELECT * FROM users WHERE email LIKE 'user_%'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "email"
+      ]
+    },
+    "expected_result_hash": "34a83921"
+  },
+  {
+    "query_id": "q025",
+    "sql": "SELECT name FROM products WHERE name LIKE '%sale%' OR name LIKE '%deal%'",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "3de3b149"
+  },
+  {
+    "query_id": "q026",
+    "sql": "SELECT DISTINCT user_id FROM orders",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "8f346c41"
+  },
+  {
+    "query_id": "q027",
+    "sql": "SELECT DISTINCT u.id, u.email FROM users u JOIN orders o ON u.id = o.user_id",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 25000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "a0ab2130"
+  },
+  {
+    "query_id": "q028",
+    "sql": "SELECT DISTINCT product_id FROM order_items WHERE order_id > 1000",
+    "tables_touched": [
+      "order_items"
+    ],
+    "estimated_rows_scanned": 80000,
+    "has_index": {
+      "order_items": [
+        "order_id"
+      ]
+    },
+    "expected_result_hash": "4d1a9799"
+  },
+  {
+    "query_id": "q029",
+    "sql": "SELECT DISTINCT category FROM products WHERE price > 100",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "category"
+      ]
+    },
+    "expected_result_hash": "d9394d3c"
+  },
+  {
+    "query_id": "q030",
+    "sql": "SELECT id, name, (SELECT MAX(total) FROM orders WHERE user_id = users.id) FROM users",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "dda8b78e"
+  },
+  {
+    "query_id": "q031",
+    "sql": "SELECT id, name FROM users u WHERE (SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) > 5",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 40000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "da9da841"
+  },
+  {
+    "query_id": "q032",
+    "sql": "SELECT product_id, name FROM products p WHERE (SELECT SUM(quantity) FROM order_items WHERE product_id = p.id) > 100",
+    "tables_touched": [
+      "products",
+      "order_items"
+    ],
+    "estimated_rows_scanned": 30000,
+    "has_index": {
+      "products": [
+        "id"
+      ],
+      "order_items": [
+        "product_id"
+      ]
+    },
+    "expected_result_hash": "61119ac9"
+  },
+  {
+    "query_id": "q033",
+    "sql": "SELECT * FROM orders o WHERE total > (SELECT AVG(total) FROM orders WHERE user_id = o.user_id)",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "5cd97ec7"
+  },
+  {
+    "query_id": "q034",
+    "sql": "SELECT u.id, u.name FROM users u WHERE u.created_at > (SELECT AVG(created_at) FROM users WHERE status = u.status)",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 80000,
+    "has_index": {
+      "users": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "158d9324"
+  },
+  {
+    "query_id": "q035",
+    "sql": "SELECT * FROM orders ORDER BY created_at DESC",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "created_at"
+      ]
+    },
+    "expected_result_hash": "5f8c913f"
+  },
+  {
+    "query_id": "q036",
+    "sql": "SELECT id, name, email FROM users ORDER BY created_at DESC",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "created_at"
+      ]
+    },
+    "expected_result_hash": "9f67a8f9"
+  },
+  {
+    "query_id": "q037",
+    "sql": "SELECT * FROM products ORDER BY price DESC",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "price"
+      ]
+    },
+    "expected_result_hash": "2f3b5cd8"
+  },
+  {
+    "query_id": "q038",
+    "sql": "SELECT o.*, u.name FROM orders o JOIN users u ON o.user_id = u.id ORDER BY o.created_at DESC",
+    "tables_touched": [
+      "orders",
+      "users"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "orders": [
+        "created_at"
+      ],
+      "users": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "aa48429d"
+  },
+  {
+    "query_id": "q039",
+    "sql": "SELECT product_id, SUM(quantity) as total_qty FROM order_items GROUP BY product_id ORDER BY total_qty DESC",
+    "tables_touched": [
+      "order_items"
+    ],
+    "estimated_rows_scanned": 200000,
+    "has_index": {
+      "order_items": [
+        "product_id"
+      ]
+    },
+    "expected_result_hash": "674770b9"
+  },
+  {
+    "query_id": "q040",
+    "sql": "SELECT * FROM (SELECT * FROM orders ORDER BY created_at) WHERE status = 'completed'",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "c782b448"
+  },
+  {
+    "query_id": "q041",
+    "sql": "SELECT id, name FROM (SELECT * FROM users ORDER BY id DESC) WHERE status = 'active'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "status"
+      ]
+    },
+    "expected_result_hash": "ea06c752"
+  },
+  {
+    "query_id": "q042",
+    "sql": "SELECT * FROM (SELECT * FROM products ORDER BY price DESC) WHERE category = 'electronics'",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "category"
+      ]
+    },
+    "expected_result_hash": "eff7c18b"
+  },
+  {
+    "query_id": "q043",
+    "sql": "SELECT oi.product_id FROM (SELECT * FROM order_items ORDER BY quantity DESC) oi WHERE oi.quantity > 10",
+    "tables_touched": [
+      "order_items"
+    ],
+    "estimated_rows_scanned": 200000,
+    "has_index": {
+      "order_items": [
+        "order_id"
+      ]
+    },
+    "expected_result_hash": "6107a007"
+  },
+  {
+    "query_id": "q044",
+    "sql": "SELECT * FROM users WHERE name = 'John'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "3a60f99b"
+  },
+  {
+    "query_id": "q045",
+    "sql": "SELECT * FROM products WHERE price * 1.1 > 1000",
+    "tables_touched": [
+      "products"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "products": [
+        "price"
+      ]
+    },
+    "expected_result_hash": "ce842bef"
+  },
+  {
+    "query_id": "q046",
+    "sql": "SELECT * FROM orders WHERE YEAR(created_at) = 2024",
+    "tables_touched": [
+      "orders"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "orders": [
+        "created_at"
+      ]
+    },
+    "expected_result_hash": "ca5322e3"
+  },
+  {
+    "query_id": "q047",
+    "sql": "SELECT * FROM users WHERE LOWER(email) = 'john@example.com'",
+    "tables_touched": [
+      "users"
+    ],
+    "estimated_rows_scanned": 100000,
+    "has_index": {
+      "users": [
+        "email"
+      ]
+    },
+    "expected_result_hash": "a175e94e"
+  },
+  {
+    "query_id": "q048",
+    "sql": "SELECT u.id, u.name, COUNT(o.id) FROM users u LEFT JOIN orders o ON u.id = o.user_id GROUP BY u.id, u.name",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 50000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "f3088c37"
+  },
+  {
+    "query_id": "q049",
+    "sql": "SELECT * FROM orders WHERE id IN (SELECT order_id FROM order_items WHERE product_id IN (SELECT id FROM products WHERE price > 100))",
+    "tables_touched": [
+      "orders",
+      "order_items",
+      "products"
+    ],
+    "estimated_rows_scanned": 40000,
+    "has_index": {
+      "orders": [
+        "id"
+      ],
+      "order_items": [
+        "order_id"
+      ],
+      "products": [
+        "id"
+      ]
+    },
+    "expected_result_hash": "25aa8ca8"
+  },
+  {
+    "query_id": "q050",
+    "sql": "SELECT DISTINCT u.id, u.name FROM users u JOIN orders o ON u.id = o.user_id WHERE o.status IN ('completed', 'shipped') ORDER BY u.id",
+    "tables_touched": [
+      "users",
+      "orders"
+    ],
+    "estimated_rows_scanned": 30000,
+    "has_index": {
+      "users": [
+        "id"
+      ],
+      "orders": [
+        "user_id"
+      ]
+    },
+    "expected_result_hash": "0ecb95cb"
+  }
+]

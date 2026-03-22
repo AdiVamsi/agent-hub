@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docker-slim-agent"
+version = "0.1.0"
+description = "Intelligent Docker image optimizer using AutoResearch methodology"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Agent Hub", email = "info@agent-hub.dev"},
+]
+keywords = ["docker", "optimization", "image-size", "dockerfile"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = []
+
+[project.urls]
+Homepage = "https://agent-hub.dev"
+Repository = "https://github.com/agent-hub/docker-slim"
+Issues = "https://github.com/agent-hub/docker-slim/issues"
+
+[tool.setuptools]
+packages = ["docker_slim"]

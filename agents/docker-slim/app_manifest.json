@@ -1,0 +1,383 @@
+[
+  {
+    "name": "python",
+    "type": "runtime_dep",
+    "size_mb": 50,
+    "required_by": [
+      "numpy",
+      "pandas",
+      "flask"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "numpy",
+    "type": "runtime_dep",
+    "size_mb": 120,
+    "required_by": [
+      "pandas",
+      "scipy"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "pandas",
+    "type": "runtime_dep",
+    "size_mb": 95,
+    "required_by": [
+      "app"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "scipy",
+    "type": "runtime_dep",
+    "size_mb": 85,
+    "required_by": [
+      "ml_inference"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "flask",
+    "type": "runtime_dep",
+    "size_mb": 15,
+    "required_by": [
+      "app"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "requests",
+    "type": "runtime_dep",
+    "size_mb": 10,
+    "required_by": [
+      "app"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "pillow",
+    "type": "runtime_dep",
+    "size_mb": 45,
+    "required_by": [
+      "image_processing"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "opencv",
+    "type": "runtime_dep",
+    "size_mb": 180,
+    "required_by": [
+      "image_processing"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "ml_inference",
+    "type": "runtime_dep",
+    "size_mb": 320,
+    "required_by": [
+      "app"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "image_processing",
+    "type": "runtime_dep",
+    "size_mb": 60,
+    "required_by": [
+      "app"
+    ],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "gcc",
+    "type": "build_tool",
+    "size_mb": 200,
+    "required_by": [
+      "numpy",
+      "scipy",
+      "opencv"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "make",
+    "type": "build_tool",
+    "size_mb": 15,
+    "required_by": [
+      "gcc"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "git",
+    "type": "build_tool",
+    "size_mb": 40,
+    "required_by": [
+      "repo_setup"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "repo_setup",
+    "type": "build_tool",
+    "size_mb": 5,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "cmake",
+    "type": "build_tool",
+    "size_mb": 35,
+    "required_by": [
+      "opencv"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "curl",
+    "type": "build_tool",
+    "size_mb": 8,
+    "required_by": [
+      "downloads"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "downloads",
+    "type": "build_tool",
+    "size_mb": 2,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "pytest",
+    "type": "dev_dep",
+    "size_mb": 25,
+    "required_by": [
+      "tests"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "coverage",
+    "type": "dev_dep",
+    "size_mb": 12,
+    "required_by": [
+      "tests"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "pytest-cov",
+    "type": "dev_dep",
+    "size_mb": 8,
+    "required_by": [
+      "tests"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "black",
+    "type": "dev_dep",
+    "size_mb": 10,
+    "required_by": [
+      "linting"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "pylint",
+    "type": "dev_dep",
+    "size_mb": 15,
+    "required_by": [
+      "linting"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "flake8",
+    "type": "dev_dep",
+    "size_mb": 9,
+    "required_by": [
+      "linting"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "linting",
+    "type": "dev_dep",
+    "size_mb": 3,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "jupyter",
+    "type": "dev_dep",
+    "size_mb": 150,
+    "required_by": [
+      "notebooks"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "ipython",
+    "type": "dev_dep",
+    "size_mb": 45,
+    "required_by": [
+      "notebooks"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "notebooks",
+    "type": "dev_dep",
+    "size_mb": 5,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "tests",
+    "type": "test_tool",
+    "size_mb": 10,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "mock-data",
+    "type": "test_tool",
+    "size_mb": 150,
+    "required_by": [
+      "tests"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "test-fixtures",
+    "type": "test_tool",
+    "size_mb": 200,
+    "required_by": [
+      "tests"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "node_modules",
+    "type": "asset",
+    "size_mb": 250,
+    "required_by": [
+      "frontend_build"
+    ],
+    "removable_in_prod": true,
+    "alternative": "node_modules_prod"
+  },
+  {
+    "name": "node_modules_prod",
+    "type": "asset",
+    "size_mb": 50,
+    "required_by": [],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "webpack",
+    "type": "build_tool",
+    "size_mb": 80,
+    "required_by": [
+      "frontend_build"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "frontend_build",
+    "type": "asset",
+    "size_mb": 5,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": ".git",
+    "type": "config",
+    "size_mb": 80,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "docs",
+    "type": "config",
+    "size_mb": 120,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "examples",
+    "type": "config",
+    "size_mb": 60,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "debug-tools",
+    "type": "config",
+    "size_mb": 30,
+    "required_by": [],
+    "removable_in_prod": true,
+    "alternative": null
+  },
+  {
+    "name": "app",
+    "type": "runtime_dep",
+    "size_mb": 25,
+    "required_by": [],
+    "removable_in_prod": false,
+    "alternative": null
+  },
+  {
+    "name": "setuptools",
+    "type": "build_tool",
+    "size_mb": 12,
+    "required_by": [
+      "app"
+    ],
+    "removable_in_prod": true,
+    "alternative": null
+  }
+]
