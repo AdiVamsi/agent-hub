@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iac-lint"
+version = "0.1.0"
+description = "Infrastructure-as-Code security and cost compliance agent"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Agent Hub", email = "info@agent-hub.dev"}
+]
+license = {text = "MIT"}
+keywords = ["terraform", "infrastructure", "security", "compliance", "cost"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+]
+
+[project.urls]
+Homepage = "https://agent-hub.dev"
+Repository = "https://github.com/agent-hub/iac-lint"
+Documentation = "https://agent-hub.dev/agents/iac-lint"
+Issues = "https://github.com/agent-hub/iac-lint/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[tool.setuptools]
+packages = ["iac_lint"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

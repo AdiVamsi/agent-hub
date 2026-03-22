@@ -1,0 +1,29 @@
+"""API Racer — editable file.
+
+Available data: api_workload.json with 100 endpoints, each having:
+  endpoint_id, method, path, avg_payload_bytes, calls_per_minute,
+  current_p50_ms, current_p99_ms, cacheable, db_queries, upstream_calls, auth_required
+
+Your job: implement optimize_endpoint(endpoint_info) returning a config dict with:
+  - cache_ttl_seconds: 0 = no cache, >0 = cache responses for this many seconds
+  - connection_pool_size: 1-50 (for upstream calls)
+  - db_pool_size: 1-20 (for database connections)
+  - batch_enabled: bool (batch multiple DB queries into one)
+  - compression_enabled: bool (compress large responses)
+  - rate_limit_rpm: 0 = no limit, >0 = requests per minute cap
+
+The harness simulates response time based on these configs:
+- cache_ttl > 0 on cacheable endpoint: p50 = 2ms (cache hit ~80%), misses use original
+- batch_enabled with db_queries > 2: reduces db time by 60%
+- connection_pool_size: reduces upstream latency by min(pool/5, 0.7) factor
+- compression: reduces payload transfer time by 70% for payloads > 1KB
+- Oversized pools waste memory: penalty of pool_size * 0.1ms if pool > 2x needed
+
+Metric: avg_response_ms (weighted by calls_per_minute) — LOWER is better.
+Baseline: return empty config (no optimizations).
+"""
+
+
+def optimize_endpoint(endpoint_info: dict) -> dict:
+    """Return optimization config. Baseline: no optimizations."""
+    return {}

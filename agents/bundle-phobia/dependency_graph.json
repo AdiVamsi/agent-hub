@@ -1,0 +1,557 @@
+{
+  "modules": [
+    {
+      "module_id": "react",
+      "size_bytes": 42000,
+      "tree_shakeable": false,
+      "has_side_effects": false,
+      "total_exports": 25,
+      "imports": [
+        "react-router"
+      ],
+      "exports_used": 15,
+      "alternatives": {}
+    },
+    {
+      "module_id": "react-dom",
+      "size_bytes": 38000,
+      "tree_shakeable": false,
+      "has_side_effects": false,
+      "total_exports": 15,
+      "imports": [],
+      "exports_used": 4,
+      "alternatives": {}
+    },
+    {
+      "module_id": "react-router",
+      "size_bytes": 28000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 12,
+      "imports": [
+        "react"
+      ],
+      "exports_used": 5,
+      "alternatives": {}
+    },
+    {
+      "module_id": "lodash",
+      "size_bytes": 72000,
+      "tree_shakeable": false,
+      "has_side_effects": false,
+      "total_exports": 320,
+      "imports": [],
+      "exports_used": 131,
+      "alternatives": {
+        "lodash-es": "lodash-es"
+      }
+    },
+    {
+      "module_id": "lodash-es",
+      "size_bytes": 72000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 320,
+      "imports": [],
+      "exports_used": 213,
+      "alternatives": {}
+    },
+    {
+      "module_id": "moment",
+      "size_bytes": 68000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 3,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {
+        "dayjs": "dayjs"
+      }
+    },
+    {
+      "module_id": "dayjs",
+      "size_bytes": 5000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 3,
+      "imports": [],
+      "exports_used": 2,
+      "alternatives": {}
+    },
+    {
+      "module_id": "axios",
+      "size_bytes": 14000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 8,
+      "imports": [
+        "isomorphic-fetch"
+      ],
+      "exports_used": 2,
+      "alternatives": {
+        "isomorphic-fetch": "isomorphic-fetch",
+        "ky": "ky"
+      }
+    },
+    {
+      "module_id": "isomorphic-fetch",
+      "size_bytes": 8000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 2,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "d3",
+      "size_bytes": 240000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 150,
+      "imports": [
+        "ramda"
+      ],
+      "exports_used": 47,
+      "alternatives": {
+        "d3-lite": "d3-lite"
+      }
+    },
+    {
+      "module_id": "d3-lite",
+      "size_bytes": 85000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 150,
+      "imports": [],
+      "exports_used": 61,
+      "alternatives": {}
+    },
+    {
+      "module_id": "chart.js",
+      "size_bytes": 165000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 8,
+      "imports": [
+        "moment"
+      ],
+      "exports_used": 4,
+      "alternatives": {
+        "recharts": "recharts"
+      }
+    },
+    {
+      "module_id": "recharts",
+      "size_bytes": 95000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 18,
+      "imports": [
+        "react",
+        "d3-lite"
+      ],
+      "exports_used": 5,
+      "alternatives": {}
+    },
+    {
+      "module_id": "plotly",
+      "size_bytes": 250000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 12,
+      "imports": [
+        "d3",
+        "moment"
+      ],
+      "exports_used": 4,
+      "alternatives": {
+        "recharts": "recharts"
+      }
+    },
+    {
+      "module_id": "material-ui",
+      "size_bytes": 145000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 200,
+      "imports": [
+        "react",
+        "styled-components",
+        "clsx"
+      ],
+      "exports_used": 124,
+      "alternatives": {
+        "bootstrap": "bootstrap"
+      }
+    },
+    {
+      "module_id": "bootstrap",
+      "size_bytes": 125000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 80,
+      "imports": [
+        "clsx"
+      ],
+      "exports_used": 45,
+      "alternatives": {}
+    },
+    {
+      "module_id": "antd",
+      "size_bytes": 185000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 150,
+      "imports": [
+        "react",
+        "styled-components"
+      ],
+      "exports_used": 61,
+      "alternatives": {
+        "bootstrap": "bootstrap"
+      }
+    },
+    {
+      "module_id": "yup",
+      "size_bytes": 32000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 15,
+      "imports": [],
+      "exports_used": 8,
+      "alternatives": {
+        "zod": "zod"
+      }
+    },
+    {
+      "module_id": "joi",
+      "size_bytes": 48000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 20,
+      "imports": [],
+      "exports_used": 14,
+      "alternatives": {
+        "zod": "zod"
+      }
+    },
+    {
+      "module_id": "zod",
+      "size_bytes": 18000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 12,
+      "imports": [],
+      "exports_used": 3,
+      "alternatives": {}
+    },
+    {
+      "module_id": "core-js",
+      "size_bytes": 92000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 1,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "babel-polyfill",
+      "size_bytes": 110000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 1,
+      "imports": [
+        "core-js"
+      ],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "styled-components",
+      "size_bytes": 35000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 8,
+      "imports": [],
+      "exports_used": 3,
+      "alternatives": {}
+    },
+    {
+      "module_id": "emotion",
+      "size_bytes": 32000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 6,
+      "imports": [
+        "styled-components"
+      ],
+      "exports_used": 2,
+      "alternatives": {}
+    },
+    {
+      "module_id": "tailwindcss",
+      "size_bytes": 45000,
+      "tree_shakeable": true,
+      "has_side_effects": true,
+      "total_exports": 3,
+      "imports": [
+        "clsx"
+      ],
+      "exports_used": 2,
+      "alternatives": {}
+    },
+    {
+      "module_id": "redux",
+      "size_bytes": 8000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 12,
+      "imports": [
+        "react"
+      ],
+      "exports_used": 5,
+      "alternatives": {}
+    },
+    {
+      "module_id": "zustand",
+      "size_bytes": 5000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 8,
+      "imports": [],
+      "exports_used": 2,
+      "alternatives": {}
+    },
+    {
+      "module_id": "recoil",
+      "size_bytes": 22000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 15,
+      "imports": [
+        "react"
+      ],
+      "exports_used": 5,
+      "alternatives": {}
+    },
+    {
+      "module_id": "mobx",
+      "size_bytes": 24000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 20,
+      "imports": [
+        "react"
+      ],
+      "exports_used": 14,
+      "alternatives": {}
+    },
+    {
+      "module_id": "node-fetch",
+      "size_bytes": 10000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 3,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "ky",
+      "size_bytes": 6000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 4,
+      "imports": [],
+      "exports_used": 2,
+      "alternatives": {}
+    },
+    {
+      "module_id": "got",
+      "size_bytes": 28000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 5,
+      "imports": [
+        "node-fetch"
+      ],
+      "exports_used": 3,
+      "alternatives": {}
+    },
+    {
+      "module_id": "formik",
+      "size_bytes": 38000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 20,
+      "imports": [
+        "react",
+        "yup",
+        "lodash"
+      ],
+      "exports_used": 11,
+      "alternatives": {}
+    },
+    {
+      "module_id": "react-hook-form",
+      "size_bytes": 12000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 15,
+      "imports": [
+        "react",
+        "zod"
+      ],
+      "exports_used": 11,
+      "alternatives": {}
+    },
+    {
+      "module_id": "uuid",
+      "size_bytes": 4000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 3,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "date-fns",
+      "size_bytes": 45000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 85,
+      "imports": [
+        "uuid"
+      ],
+      "exports_used": 48,
+      "alternatives": {}
+    },
+    {
+      "module_id": "ramda",
+      "size_bytes": 58000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 280,
+      "imports": [],
+      "exports_used": 200,
+      "alternatives": {
+        "lodash-es": "lodash-es"
+      }
+    },
+    {
+      "module_id": "underscore",
+      "size_bytes": 51000,
+      "tree_shakeable": false,
+      "has_side_effects": false,
+      "total_exports": 100,
+      "imports": [],
+      "exports_used": 60,
+      "alternatives": {
+        "lodash-es": "lodash-es"
+      }
+    },
+    {
+      "module_id": "clsx",
+      "size_bytes": 2500,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 2,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "framer-motion",
+      "size_bytes": 42000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 25,
+      "imports": [
+        "react"
+      ],
+      "exports_used": 14,
+      "alternatives": {}
+    },
+    {
+      "module_id": "react-spring",
+      "size_bytes": 36000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 18,
+      "imports": [
+        "react"
+      ],
+      "exports_used": 11,
+      "alternatives": {}
+    },
+    {
+      "module_id": "jest",
+      "size_bytes": 125000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 20,
+      "imports": [
+        "mocha"
+      ],
+      "exports_used": 6,
+      "alternatives": {}
+    },
+    {
+      "module_id": "mocha",
+      "size_bytes": 88000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 15,
+      "imports": [],
+      "exports_used": 6,
+      "alternatives": {}
+    },
+    {
+      "module_id": "unused-polyfill",
+      "size_bytes": 35000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 1,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "legacy-support",
+      "size_bytes": 28000,
+      "tree_shakeable": false,
+      "has_side_effects": true,
+      "total_exports": 1,
+      "imports": [],
+      "exports_used": 1,
+      "alternatives": {}
+    },
+    {
+      "module_id": "app",
+      "size_bytes": 15000,
+      "tree_shakeable": true,
+      "has_side_effects": false,
+      "total_exports": 8,
+      "imports": [
+        "react",
+        "react-dom",
+        "react-router",
+        "lodash",
+        "moment",
+        "axios",
+        "d3",
+        "chart.js",
+        "material-ui",
+        "redux",
+        "styled-components"
+      ],
+      "exports_used": 3,
+      "alternatives": {}
+    }
+  ],
+  "baseline_size_bytes": 2731500,
+  "num_modules": 46
+}

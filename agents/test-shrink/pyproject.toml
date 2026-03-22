@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "test-shrink"
+version = "1.0.0"
+description = "AI-guided test suite optimization to minimize runtime while maintaining code coverage"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Agent Hub", email = "contact@agent-hub.dev"}
+]
+keywords = ["testing", "optimization", "coverage", "ci-cd", "performance"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=22.0",
+    "isort>=5.0",
+]
+
+[project.urls]
+Homepage = "https://agent-hub.dev/test-shrink"
+Documentation = "https://agent-hub.dev/test-shrink/docs"
+Repository = "https://github.com/agent-hub/test-shrink"
+Issues = "https://github.com/agent-hub/test-shrink/issues"
+
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+line_length = 100

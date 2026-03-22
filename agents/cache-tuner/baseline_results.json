@@ -1,0 +1,8 @@
+{
+  "hits": 2602,
+  "misses": 2398,
+  "evictions": 2358,
+  "hit_rate": 0.5204,
+  "cache_bytes": 498408,
+  "cache_items": 40
+}

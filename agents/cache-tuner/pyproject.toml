@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cache-tuner"
+version = "0.1.0"
+description = "AutoResearch agent that optimizes cache eviction policies to maximize hit rate on realistic access patterns"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Cache Tuner Contributors", email = "cache-tuner@agent-hub.dev"}
+]
+
+# No external dependencies — uses only Python standard library
+dependencies = []
+
+[project.urls]
+Homepage = "https://agent-hub.dev/agents/cache-tuner"
+Documentation = "https://agent-hub.dev/agents/cache-tuner/docs"
+Repository = "https://github.com/agent-hub/cache-tuner"
+Issues = "https://github.com/agent-hub/cache-tuner/issues"
+
+[project.scripts]
+cache-tuner-prepare = "prepare:main"
+cache-tuner-harness = "harness:main"

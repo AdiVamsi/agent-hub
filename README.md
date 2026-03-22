@@ -42,6 +42,11 @@ Point a coding agent (Claude Code, Codex, etc.) at any agent folder, tell it to 
 | [prompt-tuner](agents/prompt-tuner/) | Text classification accuracy | `prompt_config.py` | `classification_accuracy` (higher=better) | ✅ Ready |
 | [log-trimmer](agents/log-trimmer/) | Log noise reduction | `filter_rules.py` | `efficiency_score` (higher=better) | ✅ Ready |
 | [sql-optimizer](agents/sql-optimizer/) | SQL query cost | `rewrite_rules.py` | `total_query_cost` (lower=better) | ✅ Ready |
+| [api-racer](agents/api-racer/) | API endpoint response time | `endpoint_config.py` | `avg_response_ms` (lower=better) | ✅ Ready |
+| [test-shrink](agents/test-shrink/) | Test suite runtime | `test_config.py` | `total_runtime_ms` (lower=better) | ✅ Ready |
+| [iac-lint](agents/iac-lint/) | IaC security/compliance | `lint_rules.py` | `compliance_score` (higher=better) | ✅ Ready |
+| [cache-tuner](agents/cache-tuner/) | Cache hit rate | `eviction_policy.py` | `hit_rate` (higher=better) | ✅ Ready |
+| [bundle-phobia](agents/bundle-phobia/) | JS bundle size | `bundle_config.py` | `bundle_size_kb` (lower=better) | ✅ Ready |
 
 ---
 

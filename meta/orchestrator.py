@@ -73,6 +73,36 @@ AGENTS = [
         "metric": "total_query_cost",
         "direction": "lower",
     },
+    {
+        "name": "api-racer",
+        "editable": "endpoint_config.py",
+        "metric": "avg_response_ms",
+        "direction": "lower",
+    },
+    {
+        "name": "test-shrink",
+        "editable": "test_config.py",
+        "metric": "total_runtime_ms",
+        "direction": "lower",
+    },
+    {
+        "name": "iac-lint",
+        "editable": "lint_rules.py",
+        "metric": "compliance_score",
+        "direction": "higher",
+    },
+    {
+        "name": "cache-tuner",
+        "editable": "eviction_policy.py",
+        "metric": "hit_rate",
+        "direction": "higher",
+    },
+    {
+        "name": "bundle-phobia",
+        "editable": "bundle_config.py",
+        "metric": "bundle_size_kb",
+        "direction": "lower",
+    },
 ]
 
 

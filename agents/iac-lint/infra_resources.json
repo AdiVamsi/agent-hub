@@ -1,0 +1,2401 @@
+{
+  "resources": [
+    {
+      "resource_id": "res-000",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "t2.micro",
+        "monitoring": true,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-0",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 370.87,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-001",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-1488",
+        "acl": "private",
+        "server_side_encryption_configuration": {},
+        "versioning": {
+          "enabled": true
+        },
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-1",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 124.0,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C001",
+          "description": "S3 bucket does not have encryption enabled"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-002",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 234,
+        "engine": "mysql",
+        "instance_class": "db.t3.small",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 0,
+        "multi_az": false
+      },
+      "tags": {
+        "Name": "resource-2",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 406.62,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C004",
+          "description": "RDS instance does not have backups configured"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-003",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-7924",
+        "ingress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": ""
+      },
+      "tags": {
+        "Name": "resource-3",
+        "Environment": "staging"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 86.18,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S002",
+          "description": "Security group allows unrestricted ingress (0.0.0.0/0)"
+        },
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP001",
+          "description": "Security group is missing description"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-004",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-2584",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-4",
+        "Environment": "staging"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 305.83,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-005",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-7201",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 3
+      },
+      "tags": {
+        "Name": "resource-5",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 416.41,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP002",
+          "description": "Lambda function is not running in VPC"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-006",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-2139",
+        "availability_zones": [
+          "us-east-1"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [
+          "sg-12345"
+        ],
+        "access_logs": {},
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-6",
+        "Environment": "prod"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 388.8,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-007",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.119.0.0/16",
+        "enable_dns_hostnames": false,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-7",
+        "Environment": "staging"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 89.7,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-008",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "m5.large",
+        "monitoring": true,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-8",
+        "Environment": "prod"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 308.47,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-009",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-4598",
+        "acl": "public-read",
+        "server_side_encryption_configuration": {},
+        "versioning": {
+          "enabled": true
+        },
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-9",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 423.0,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S001",
+          "description": "S3 bucket is publicly readable"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C001",
+          "description": "S3 bucket does not have encryption enabled"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-010",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 157,
+        "engine": "mysql",
+        "instance_class": "db.t3.micro",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": true
+      },
+      "tags": {
+        "Name": "resource-10",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 114.19,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-011",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-8517",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": ""
+      },
+      "tags": {
+        "Name": "resource-11",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 78.42,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP001",
+          "description": "Security group is missing description"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-012",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-8019",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-12",
+        "Environment": "prod"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 187.38,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-013",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-1771",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 3,
+        "environment": {
+          "variables": {
+            "KEY": "value"
+          }
+        }
+      },
+      "tags": {
+        "Name": "resource-13",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 317.45,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP002",
+          "description": "Lambda function is not running in VPC"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-014",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-7252",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [],
+        "access_logs": {},
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-14",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 485.83,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-015",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.5.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-15",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 386.61,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-016",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "m5.large",
+        "monitoring": true,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-16",
+        "Environment": "staging"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 477.37,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-017",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-2743",
+        "acl": "private",
+        "server_side_encryption_configuration": {
+          "rule": {
+            "apply_server_side_encryption_by_default": {
+              "sse_algorithm": "AES256"
+            }
+          }
+        },
+        "versioning": {},
+        "logging": {
+          "target_bucket": "log-bucket"
+        }
+      },
+      "tags": {
+        "Name": "resource-17",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 422.42,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-018",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 418,
+        "engine": "mysql",
+        "instance_class": "db.m5.large",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": true
+      },
+      "tags": {
+        "Name": "resource-18",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 19.54,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-019",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-6038",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": ""
+      },
+      "tags": {
+        "Name": "resource-19",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 128.03,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP001",
+          "description": "Security group is missing description"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-020",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-2133",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"s3:GetObject\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-20",
+        "Environment": "prod"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 72.91,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S006",
+          "description": "IAM role allows access to all resources (*)"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-021",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-7932",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 896,
+        "vpc_config": {
+          "subnet_ids": [
+            "subnet-12345"
+          ],
+          "security_group_ids": [
+            "sg-12345"
+          ]
+        }
+      },
+      "tags": {
+        "Name": "resource-21",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 359.34,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-022",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-9479",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [
+          "sg-12345"
+        ],
+        "access_logs": {},
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-22",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 120.1,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-023",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.117.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": {
+          "Name": "my-vpc",
+          "Environment": "prod"
+        }
+      },
+      "tags": {
+        "Name": "resource-23",
+        "Environment": "prod"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 122.18,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-024",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "t2.micro",
+        "monitoring": false,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-24",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 337.8,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C003",
+          "description": "Instance monitoring is not enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-025",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-8744",
+        "acl": "public-read",
+        "server_side_encryption_configuration": {
+          "rule": {
+            "apply_server_side_encryption_by_default": {
+              "sse_algorithm": "AES256"
+            }
+          }
+        },
+        "versioning": {},
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-25",
+        "Environment": "dev"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 405.67,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S001",
+          "description": "S3 bucket is publicly readable"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-026",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 259,
+        "engine": "mysql",
+        "instance_class": "db.m5.large",
+        "publicly_accessible": true,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": false
+      },
+      "tags": {
+        "Name": "resource-26",
+        "Environment": "prod"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 39.7,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S003",
+          "description": "RDS instance is publicly accessible"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-027",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-2790",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": ""
+      },
+      "tags": {
+        "Name": "resource-27",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 103.2,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP001",
+          "description": "Security group is missing description"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-028",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-5092",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-28",
+        "Environment": "dev"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 405.93,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-029",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-9856",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 3,
+        "environment": {
+          "variables": {
+            "KEY": "value"
+          }
+        }
+      },
+      "tags": {
+        "Name": "resource-29",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 463.92,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP002",
+          "description": "Lambda function is not running in VPC"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-030",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-4502",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [],
+        "access_logs": {
+          "bucket": "log-bucket"
+        },
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-30",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 195.7,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-031",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.135.0.0/16",
+        "enable_dns_hostnames": false,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-31",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 351.33,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-032",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "m5.2xlarge",
+        "monitoring": false,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-32",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 116.67,
+      "known_issues": [
+        {
+          "severity": "medium",
+          "category": "cost",
+          "rule_id": "CO001",
+          "description": "Instance type is oversized for typical workload"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C003",
+          "description": "Instance monitoring is not enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-033",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-1821",
+        "acl": "public-read",
+        "server_side_encryption_configuration": {},
+        "versioning": {
+          "enabled": true
+        },
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-33",
+        "Environment": "prod"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 256.4,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S001",
+          "description": "S3 bucket is publicly readable"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C001",
+          "description": "S3 bucket does not have encryption enabled"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-034",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 115,
+        "engine": "mysql",
+        "instance_class": "db.m5.large",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 0,
+        "multi_az": true
+      },
+      "tags": {
+        "Name": "resource-34",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 207.85,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C004",
+          "description": "RDS instance does not have backups configured"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-035",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-1651",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": "Security group"
+      },
+      "tags": {
+        "Name": "resource-35",
+        "Environment": "prod"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 215.42,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-036",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-4346",
+        "assume_role_policy": {},
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-36",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 126.96,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C005",
+          "description": "IAM role is missing principal definition"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-037",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-2188",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 326,
+        "vpc_config": {
+          "subnet_ids": [
+            "subnet-12345"
+          ],
+          "security_group_ids": [
+            "sg-12345"
+          ]
+        }
+      },
+      "tags": {
+        "Name": "resource-37",
+        "Environment": "dev"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 314.37,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-038",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-9288",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [
+          "sg-12345"
+        ],
+        "access_logs": {
+          "bucket": "log-bucket"
+        },
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-38",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 441.62,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-039",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.189.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-39",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 309.72,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-040",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "m5.2xlarge",
+        "monitoring": true,
+        "ebs_block_device": {}
+      },
+      "tags": {
+        "Name": "resource-40",
+        "Environment": "staging"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 470.08,
+      "known_issues": [
+        {
+          "severity": "medium",
+          "category": "cost",
+          "rule_id": "CO001",
+          "description": "Instance type is oversized for typical workload"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-041",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-5462",
+        "acl": "public-read",
+        "server_side_encryption_configuration": {
+          "rule": {
+            "apply_server_side_encryption_by_default": {
+              "sse_algorithm": "AES256"
+            }
+          }
+        },
+        "versioning": {
+          "enabled": true
+        },
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-41",
+        "Environment": "staging"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 361.63,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S001",
+          "description": "S3 bucket is publicly readable"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-042",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 483,
+        "engine": "mysql",
+        "instance_class": "db.t3.micro",
+        "publicly_accessible": true,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": false
+      },
+      "tags": {
+        "Name": "resource-42",
+        "Environment": "prod"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 416.38,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S003",
+          "description": "RDS instance is publicly accessible"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-043",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-3143",
+        "ingress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": "Security group"
+      },
+      "tags": {
+        "Name": "resource-43",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 89.18,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S002",
+          "description": "Security group allows unrestricted ingress (0.0.0.0/0)"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-044",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-2832",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-44",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 277.34,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-045",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-3088",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 3,
+        "vpc_config": {
+          "subnet_ids": [
+            "subnet-12345"
+          ],
+          "security_group_ids": [
+            "sg-12345"
+          ]
+        }
+      },
+      "tags": {
+        "Name": "resource-45",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 188.68,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-046",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-6862",
+        "availability_zones": [
+          "us-east-1"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [],
+        "access_logs": {},
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-46",
+        "Environment": "prod"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 336.8,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-047",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.208.0.0/16",
+        "enable_dns_hostnames": false,
+        "enable_dns_support": true,
+        "tags": {
+          "Name": "my-vpc",
+          "Environment": "prod"
+        }
+      },
+      "tags": {
+        "Name": "resource-47",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 488.34,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-048",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "t2.small",
+        "monitoring": false,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-48",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 393.37,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C003",
+          "description": "Instance monitoring is not enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-049",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-3608",
+        "acl": "private",
+        "server_side_encryption_configuration": {},
+        "versioning": {},
+        "logging": {
+          "target_bucket": "log-bucket"
+        }
+      },
+      "tags": {
+        "Name": "resource-49",
+        "Environment": "prod"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 197.45,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C001",
+          "description": "S3 bucket does not have encryption enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-050",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 199,
+        "engine": "postgres",
+        "instance_class": "db.t3.micro",
+        "publicly_accessible": true,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": false
+      },
+      "tags": {
+        "Name": "resource-50",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 333.42,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S003",
+          "description": "RDS instance is publicly accessible"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-051",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-2137",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": "Security group"
+      },
+      "tags": {
+        "Name": "resource-51",
+        "Environment": "staging"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 324.33,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-052",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-1452",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-52",
+        "Environment": "dev"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 97.5,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-053",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-8119",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 3,
+        "environment": {
+          "variables": {
+            "KEY": "value"
+          }
+        },
+        "vpc_config": {
+          "subnet_ids": [
+            "subnet-12345"
+          ],
+          "security_group_ids": [
+            "sg-12345"
+          ]
+        }
+      },
+      "tags": {
+        "Name": "resource-53",
+        "Environment": "staging"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 223.83,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-054",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-4114",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [],
+        "access_logs": {
+          "bucket": "log-bucket"
+        },
+        "instances": []
+      },
+      "tags": {
+        "Name": "resource-54",
+        "Environment": "dev"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 10.83,
+      "known_issues": [
+        {
+          "severity": "medium",
+          "category": "cost",
+          "rule_id": "CO002",
+          "description": "Load balancer has no instances attached (idle)"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-055",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.100.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-55",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 315.35,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-056",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "t2.micro",
+        "monitoring": false,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-56",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 169.83,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C003",
+          "description": "Instance monitoring is not enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-057",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-7211",
+        "acl": "private",
+        "server_side_encryption_configuration": {
+          "rule": {
+            "apply_server_side_encryption_by_default": {
+              "sse_algorithm": "AES256"
+            }
+          }
+        },
+        "versioning": {
+          "enabled": true
+        },
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-57",
+        "Environment": "prod"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 311.6,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-058",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 240,
+        "engine": "postgres",
+        "instance_class": "db.t3.small",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": true
+      },
+      "tags": {
+        "Name": "resource-58",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 341.06,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-059",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-3780",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": ""
+      },
+      "tags": {
+        "Name": "resource-59",
+        "Environment": "prod"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 149.06,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP001",
+          "description": "Security group is missing description"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-060",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-4848",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-60",
+        "Environment": "prod"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 120.07,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-061",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-2193",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 489,
+        "environment": {
+          "variables": {
+            "KEY": "value"
+          }
+        },
+        "vpc_config": {
+          "subnet_ids": [
+            "subnet-12345"
+          ],
+          "security_group_ids": [
+            "sg-12345"
+          ]
+        }
+      },
+      "tags": {
+        "Name": "resource-61",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 444.21,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-062",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-7547",
+        "availability_zones": [
+          "us-east-1"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [
+          "sg-12345"
+        ],
+        "access_logs": {},
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-62",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 447.4,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-063",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.54.0.0/16",
+        "enable_dns_hostnames": false,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-63",
+        "Environment": "prod"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 34.61,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-064",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "t2.small",
+        "monitoring": false,
+        "ebs_block_device": {
+          "encrypted": true
+        }
+      },
+      "tags": {
+        "Name": "resource-64",
+        "Environment": "dev"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 337.11,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C003",
+          "description": "Instance monitoring is not enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-065",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-9270",
+        "acl": "private",
+        "server_side_encryption_configuration": {
+          "rule": {
+            "apply_server_side_encryption_by_default": {
+              "sse_algorithm": "AES256"
+            }
+          }
+        },
+        "versioning": {},
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-65",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 449.63,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-066",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 346,
+        "engine": "postgres",
+        "instance_class": "db.m5.large",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": true
+      },
+      "tags": {
+        "Name": "resource-66",
+        "Environment": "staging"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 144.55,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-067",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-5451",
+        "ingress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": "Security group"
+      },
+      "tags": {
+        "Name": "resource-67",
+        "Environment": "staging"
+      },
+      "region": "eu-west-1",
+      "monthly_cost_estimate": 447.58,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S002",
+          "description": "Security group allows unrestricted ingress (0.0.0.0/0)"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-068",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-3503",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"*\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-68",
+        "Environment": "prod"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 41.47,
+      "known_issues": [
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S005",
+          "description": "IAM role allows all actions (*)"
+        },
+        {
+          "severity": "critical",
+          "category": "security",
+          "rule_id": "S006",
+          "description": "IAM role allows access to all resources (*)"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-069",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-7883",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 214
+      },
+      "tags": {
+        "Name": "resource-69",
+        "Environment": "staging"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 429.8,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP002",
+          "description": "Lambda function is not running in VPC"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-070",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-6763",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [],
+        "access_logs": {},
+        "instances": [
+          "i-1234567"
+        ]
+      },
+      "tags": {
+        "Name": "resource-70",
+        "Environment": "staging"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 273.73,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-071",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.112.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-71",
+        "Environment": "staging"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 200.54,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-072",
+      "resource_type": "aws_instance",
+      "properties": {
+        "instance_type": "m5.xlarge",
+        "monitoring": false,
+        "ebs_block_device": {}
+      },
+      "tags": {
+        "Name": "resource-72",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 454.4,
+      "known_issues": [
+        {
+          "severity": "medium",
+          "category": "cost",
+          "rule_id": "CO001",
+          "description": "Instance type is oversized for typical workload"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C003",
+          "description": "Instance monitoring is not enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-073",
+      "resource_type": "aws_s3_bucket",
+      "properties": {
+        "bucket": "data-bucket-8564",
+        "acl": "private",
+        "server_side_encryption_configuration": {},
+        "versioning": {
+          "enabled": true
+        },
+        "logging": {}
+      },
+      "tags": {
+        "Name": "resource-73",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 137.48,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C001",
+          "description": "S3 bucket does not have encryption enabled"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C002",
+          "description": "S3 bucket does not have logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-074",
+      "resource_type": "aws_rds_instance",
+      "properties": {
+        "allocated_storage": 162,
+        "engine": "postgres",
+        "instance_class": "db.t3.small",
+        "publicly_accessible": false,
+        "storage_encrypted": true,
+        "backup_retention_period": 7,
+        "multi_az": false
+      },
+      "tags": {
+        "Name": "resource-74",
+        "Environment": "dev"
+      },
+      "region": "ap-southeast-1",
+      "monthly_cost_estimate": 19.5,
+      "known_issues": []
+    },
+    {
+      "resource_id": "res-075",
+      "resource_type": "aws_security_group",
+      "properties": {
+        "name": "sg-6733",
+        "ingress": [
+          {
+            "from_port": 443,
+            "to_port": 443,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "10.0.0.0/8"
+            ]
+          }
+        ],
+        "egress": [
+          {
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ]
+          }
+        ],
+        "description": ""
+      },
+      "tags": {
+        "Name": "resource-75",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 392.8,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP001",
+          "description": "Security group is missing description"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-076",
+      "resource_type": "aws_iam_role",
+      "properties": {
+        "name": "role-4266",
+        "assume_role_policy": {},
+        "inline_policy": {
+          "policy": "{\"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeInstances\"], \"Resource\": [\"*\"]}]}"
+        }
+      },
+      "tags": {
+        "Name": "resource-76",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 126.89,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C005",
+          "description": "IAM role is missing principal definition"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-077",
+      "resource_type": "aws_lambda_function",
+      "properties": {
+        "filename": "lambda.zip",
+        "function_name": "func-5198",
+        "role": "arn:aws:iam::123456789012:role/lambda-role",
+        "handler": "index.handler",
+        "runtime": "python3.9",
+        "timeout": 479,
+        "environment": {
+          "variables": {
+            "KEY": "value"
+          }
+        }
+      },
+      "tags": {
+        "Name": "resource-77",
+        "Environment": "staging"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 306.89,
+      "known_issues": [
+        {
+          "severity": "low",
+          "category": "best-practice",
+          "rule_id": "BP002",
+          "description": "Lambda function is not running in VPC"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-078",
+      "resource_type": "aws_elb",
+      "properties": {
+        "name": "elb-3683",
+        "availability_zones": [
+          "us-west-2"
+        ],
+        "listener": {
+          "instance_port": 80,
+          "instance_protocol": "HTTP",
+          "lb_port": 80,
+          "lb_protocol": "HTTP"
+        },
+        "security_groups": [],
+        "access_logs": {},
+        "instances": []
+      },
+      "tags": {
+        "Name": "resource-78",
+        "Environment": "dev"
+      },
+      "region": "us-east-1",
+      "monthly_cost_estimate": 465.15,
+      "known_issues": [
+        {
+          "severity": "medium",
+          "category": "cost",
+          "rule_id": "CO002",
+          "description": "Load balancer has no instances attached (idle)"
+        },
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C007",
+          "description": "Load balancer does not have access logging enabled"
+        }
+      ]
+    },
+    {
+      "resource_id": "res-079",
+      "resource_type": "aws_vpc",
+      "properties": {
+        "cidr_block": "10.192.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": {}
+      },
+      "tags": {
+        "Name": "resource-79",
+        "Environment": "dev"
+      },
+      "region": "us-west-2",
+      "monthly_cost_estimate": 59.93,
+      "known_issues": [
+        {
+          "severity": "high",
+          "category": "compliance",
+          "rule_id": "C008",
+          "description": "VPC is missing required tags"
+        }
+      ]
+    }
+  ]
+}
