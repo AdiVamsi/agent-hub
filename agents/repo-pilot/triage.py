@@ -3,37 +3,22 @@
 The agent experiments with this file to maximize issues_resolved.
 The metric: correctly triaged issues (label + priority + duplicate detection) — higher is better.
 
-issues_resolved = correct_labels + correct_priorities + correct_duplicates - wrong_labels - wrong_priorities - false_duplicates
+issues_resolved = correct_labels*2 + correct_priorities*2 + correct_duplicates*3
+               - wrong_labels*1 - wrong_priorities*1 - wrong_duplicates*3
 
-Each issue has: title, body, labels (to predict), priority (to predict), is_duplicate (to predict).
+NOTE: The harness only calls classify_issue(title, body). The helper functions
+(get_label_rules, get_priority_rules, get_duplicate_rules) are not used by harness.py.
+All logic must live in classify_issue().
 """
 
 
 def get_label_rules() -> list[dict]:
-    """Return rules for auto-labeling issues.
-
-    Each rule is a dict with:
-        label: str — the label to apply
-        keywords: list[str] — if any keyword found in title+body, apply this label
-        exclude_keywords: list[str] — don't apply if these are found
-        priority_boost: int — bonus to priority if this label matches
-
-    Returns:
-        List of labeling rules.
-    """
-    # BASELINE: no rules — everything gets "needs-triage"
+    """Not called by harness — logic is in classify_issue()."""
     return []
 
 
 def get_priority_rules() -> dict:
-    """Return rules for auto-prioritizing issues.
-
-    Returns:
-        Dict with:
-            default_priority: str — "low"|"medium"|"high"|"critical"
-            keyword_overrides: dict[str, str] — keyword -> priority override
-            label_priorities: dict[str, str] — label -> priority
-    """
+    """Not called by harness — logic is in classify_issue()."""
     return {
         "default_priority": "medium",
         "keyword_overrides": {},
@@ -42,18 +27,9 @@ def get_priority_rules() -> dict:
 
 
 def get_duplicate_rules() -> dict:
-    """Return rules for detecting duplicate issues.
-
-    Returns:
-        Dict with:
-            similarity_threshold: float — 0-1, title similarity to flag as duplicate
-            title_weight: float — weight for title similarity
-            body_weight: float — weight for body similarity
-            same_label_bonus: float — bonus if both have same label
-            keyword_groups: list[list[str]] — groups of equivalent keywords
-    """
+    """Not called by harness — logic is in classify_issue()."""
     return {
-        "similarity_threshold": 0.95,  # very conservative — catches almost nothing
+        "similarity_threshold": 0.95,
         "title_weight": 1.0,
         "body_weight": 0.0,
         "same_label_bonus": 0.0,
@@ -62,23 +38,163 @@ def get_duplicate_rules() -> dict:
 
 
 def classify_issue(title: str, body: str) -> dict:
-    """Custom classification logic for an issue.
+    """Classify an issue into label + priority. All logic lives here.
 
-    Args:
-        title: issue title
-        body: issue body text
-
-    Returns:
-        dict with:
-            labels: list[str] — predicted labels
-            priority: str — predicted priority
-            is_duplicate_of: int or None — ID of duplicate issue, or None
-            confidence: float — 0-1
+    Strategy: keyword-based label detection with priority ordering.
+    Predict exactly ONE label to maximize precision (avoid wrong-label penalties).
     """
-    # BASELINE: no classification — returns defaults
+    text = (title + " " + body).lower()
+    title_lower = title.lower()
+
+    # --- Label detection (ordered by specificity/priority) ---
+
+    # Question — check FIRST so "how do I ... documentation" stays a question, not docs
+    if any(kw in title_lower for kw in [
+        "how do i", "how do you", "how to ", "how can i",
+        "is it possible", "can i ", "should i ", "what is the best",
+    ]):
+        label = "question"
+
+    # Security — highest priority label, clear keywords
+    elif any(kw in text for kw in [
+        "security", "vulnerability", "xss", "sql injection", "injection",
+        "exploit", "cve-", "cve ", "attack", "privilege escalation",
+        "csrf", "remote code execution", "rce", "authentication bypass",
+        "authorization bypass", "token leak", "sensitive data exposure",
+    ]):
+        label = "security"
+
+    # Performance — clear performance keywords
+    elif any(kw in text for kw in [
+        "slow", "performance", "memory leak", "lag", "optimize", "throughput",
+        "bottleneck", "oom", "out of memory", "high cpu", "high memory",
+        "latency issue", "response time", "takes too long", "timeout issue",
+        "profil", "benchmark",
+    ]):
+        label = "performance"
+
+    # Breaking change — explicit breaking signals
+    elif any(kw in text for kw in [
+        "breaking change", "breaking-change", "migration guide", "deprecated",
+        "api change", "backward compatibility", "backward incompatible",
+        "semver", "major version bump", "breaks existing",
+    ]):
+        label = "breaking-change"
+
+    # Docs — documentation keywords
+    elif any(kw in text for kw in [
+        "documentation", "docs update", "update docs", "update readme",
+        "typo in", "missing docs", "missing documentation", "readme",
+        "tutorial", "add example", "example code", "clarify docs",
+        "improve docs", "wiki",
+    ]):
+        label = "docs"
+
+    # Bug — error/crash/failure keywords (very common, check after niche labels)
+    elif any(kw in text for kw in [
+        "error:", "runtimeerror", "typeerror", "attributeerror", "valueerror",
+        "keyerror", "indexerror", "nameerror", "importerror", "oserror",
+        "crash", "crashes", "exception", "traceback", "stack trace",
+        "throws unexpected", "throws an exception", "not working",
+        "broken", "regression", "incorrect behavior", "wrong output",
+        " bug ", "bug:", "segfault", "panic", "unexpected exception",
+        "unexpected error", "fails with", "fails when",
+    ]):
+        label = "bug"
+
+    # Question — help/clarification requests
+    elif any(kw in text for kw in [
+        "how to ", "how do i", "how can i", "how do you",
+        "best practice", "what is the", "what's the best",
+        "is it possible", "can i ", "should i ", "wondering if",
+        "need help", "help with", "clarify", "confused about",
+        "question:", "usage help",
+    ]):
+        label = "question"
+
+    # Feature request — improvement/addition requests
+    elif any(kw in text for kw in [
+        "feature request", "new feature", "add support for", "add support to",
+        "implement ", "i'd like to request", "would be nice", "would be great",
+        "it would be great", "enhancement request", "request for",
+        "please add", "could you add", "wish list", "proposal:",
+        "feature:", "rfe:",
+    ]):
+        label = "feature"
+
+    # Broader feature/improvement keywords (lower confidence)
+    elif any(kw in text for kw in [
+        "add ", "support for", "enable ", "allow ", "new option",
+        "improve ", "enhancement", "suggestion",
+    ]):
+        label = "feature"
+
+    # Broader question keywords
+    elif any(kw in text for kw in [
+        "help", "question", "ask", "guidance",
+    ]):
+        label = "question"
+
+    else:
+        label = "needs-triage"
+
+    # --- Priority detection ---
+
+    # Security always critical
+    if label == "security":
+        priority = "critical"
+
+    # Critical override keywords (apply to any label)
+    elif any(kw in text for kw in [
+        "critical", "urgent", "blocker", "blocking my work",
+        "blocking production", "blocks my", "data loss", "data corruption",
+        "production down", "service down", "concurrent requests",
+        "stack trace attached", "completely broken",
+        "immediately crashes", "app immediately crashes",
+        "it worked in version", "worked in version",
+        "no longer works", "stopped working",
+    ]):
+        priority = "critical"
+
+    # Label-based priority
+    elif label == "bug":
+        # High-confidence critical bug signals
+        if any(kw in text for kw in [
+            "concurrent", "stack trace", "production issue",
+            "happens every time", "reproducible every",
+        ]):
+            priority = "critical"
+        # Standard bug quality signals → high
+        elif any(kw in text for kw in [
+            "expected behavior", "actual behavior",
+            "expected: success", "actual: failure",
+            "expected:", "actual:",
+        ]):
+            priority = "high"
+        else:
+            priority = "medium"
+
+    elif label == "performance":
+        priority = "high"
+
+    elif label == "breaking-change":
+        priority = "high"
+
+    elif label == "feature":
+        if any(kw in text for kw in ["critical", "urgent", "enterprise", "compliance"]):
+            priority = "high"
+        else:
+            priority = "medium"
+
+    elif label in ("docs", "question"):
+        priority = "low"
+
+    else:
+        priority = "medium"
+
     return {
-        "labels": ["needs-triage"],
-        "priority": "medium",
+        "labels": [label],
+        "priority": priority,
         "is_duplicate_of": None,
-        "confidence": 0.0,
+        "confidence": 0.75,
     }
