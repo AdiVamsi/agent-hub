@@ -1,6 +1,6 @@
 # agent-hub
 
-**A collection of AI agents built on Karpathy's AutoResearch pattern. Each agent optimizes a real-world problem overnight while you sleep.**
+**A self-improving collection of AI agents built on Karpathy's AutoResearch pattern. Each agent optimizes a real-world problem overnight while you sleep. The meta-agent improves them all.**
 
 ---
 
@@ -84,6 +84,22 @@ python harness.py baseline
 # Point Claude Code at this folder:
 # "Read program.md and start optimizing"
 ```
+
+---
+
+## The Meta-Agent
+
+The meta-agent lives in [`meta/`](meta/) and does something no other open-source agent collection does: **it improves the other agents automatically.**
+
+It cycles through all 5 agents, runs their optimization loops, analyzes which experiment strategies succeed vs fail, and rewrites their `program.md` files to prioritize better approaches. Two levels of AutoResearch — agents optimizing agents.
+
+```bash
+cd meta/
+python meta-harness.py status    # See all agent statuses
+# Point Claude Code here and say: "Read meta-program.md and start"
+```
+
+This is where agent-hub becomes a self-improving system, not just a collection of tools.
 
 ---
 
