@@ -1,0 +1,2 @@
+cycle_id	agent	experiments_run	experiments_kept	improvement_pct	agent_metric_before	agent_metric_after	timestamp
+1	dep-sentinel	0	0	0	0	0	maxed-out — vulnerability_score already 0	2026-03-22T18:39:21Z
