@@ -28,8 +28,34 @@ def optimize_layers(manifest: list[dict]) -> dict:
     Returns:
         Dict with keys: remove, replace, multi_stage
     """
+    # Build dependency map: X.required_by=[A,B] means A and B depend on X
+    depends_on = {}
+    for entry in manifest:
+        name = entry["name"]
+        if name not in depends_on:
+            depends_on[name] = set()
+        for dep in entry.get("required_by", []):
+            if dep not in depends_on:
+                depends_on[dep] = set()
+            depends_on[dep].add(name)
+
+    # Required set: non-removable items + their transitive dependencies
+    required = {e["name"] for e in manifest if not e["removable_in_prod"]}
+    queue = list(required)
+    visited = set(required)
+    while queue:
+        current = queue.pop(0)
+        for dep in depends_on.get(current, set()):
+            if dep not in visited:
+                required.add(dep)
+                visited.add(dep)
+                queue.append(dep)
+
+    # Remove everything removable that's not in the required set
+    to_remove = [e["name"] for e in manifest if e["removable_in_prod"] and e["name"] not in required]
+
     return {
-        "remove": [],
+        "remove": to_remove,
         "replace": {},
         "multi_stage": False,
     }
