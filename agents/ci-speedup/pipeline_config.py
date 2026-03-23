@@ -33,5 +33,60 @@ def optimize_pipeline(jobs: list[dict]) -> list[list[str]]:
         All jobs in a stage run in parallel.
         A job cannot start until all its dependencies are completed.
     """
-    # Baseline: one job per stage (fully sequential)
-    return [[job["name"]] for job in jobs]
+    # Greedy critical-path scheduling:
+    # At each step, pick the non-parallelizable job with highest critical path value.
+    # Pack all ready parallelizable jobs into the same stage.
+    # This respects: max 1 non-para job per stage, all deps in earlier stages.
+
+    job_map = {j["name"]: j for j in jobs}
+
+    # Build dependents map (reverse edges)
+    dependents = {j["name"]: [] for j in jobs}
+    for j in jobs:
+        for dep in j.get("dependencies", []):
+            dependents[dep].append(j["name"])
+
+    # Critical path: duration + max CP of all dependents
+    cp = {}
+    def get_cp(name):
+        if name in cp:
+            return cp[name]
+        dur = job_map[name]["duration_seconds"]
+        if not dependents[name]:
+            cp[name] = dur
+        else:
+            cp[name] = dur + max(get_cp(d) for d in dependents[name])
+        return cp[name]
+
+    for j in jobs:
+        get_cp(j["name"])
+
+    completed = set()
+    scheduled = set()
+    stages = []
+
+    while len(scheduled) < len(jobs):
+        ready = [
+            j["name"] for j in jobs
+            if j["name"] not in scheduled
+            and all(d in completed for d in j.get("dependencies", []))
+        ]
+
+        para_ready = [n for n in ready if job_map[n].get("parallelizable", True)]
+        nonpara_ready = [n for n in ready if not job_map[n].get("parallelizable", True)]
+
+        if nonpara_ready:
+            # Pick non-para job with highest critical path (most urgent)
+            chosen = max(nonpara_ready, key=lambda n: cp[n])
+            stage = [chosen] + para_ready
+        elif para_ready:
+            stage = para_ready
+        else:
+            break  # No progress (shouldn't happen with valid DAG)
+
+        stages.append(stage)
+        for name in stage:
+            scheduled.add(name)
+            completed.add(name)
+
+    return stages
