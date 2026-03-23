@@ -27,7 +27,33 @@ def should_keep(entry: dict) -> bool:
 
     Baseline: keep everything.
     """
-    # Verify is_signal is not in entry (safety check)
     if "is_signal" in entry:
         raise ValueError("is_signal should not be passed to should_keep()")
-    return True
+
+    import re
+    level = entry.get("level", "")
+    msg = entry.get("message", "")
+    lower = msg.lower()
+
+    # ERROR and FATAL: always signal
+    if level in ("ERROR", "FATAL"):
+        return True
+
+    # WARN: only circuit breaker, timeout, retry are signals
+    if level == "WARN":
+        return ("circuit breaker" in lower or "timeout" in lower or "retry" in lower)
+
+    # INFO: only startup/shutdown/deployment events are signals
+    if level == "INFO":
+        return ("startup" in lower or "shutdown" in lower or "deployment" in lower)
+
+    # DEBUG: slow queries above threshold + thread pool size signals
+    if level == "DEBUG":
+        if "slow query" in lower:
+            m = re.search(r"(\d+)\s*ms", lower)
+            return bool(m) and int(m.group(1)) >= 200
+        if "thread pool size" in lower:
+            return entry.get("size_bytes", 9999) <= 800
+        return False
+
+    return False
