@@ -38,7 +38,8 @@ Edit `schedule_config.py`:
 def optimize_schedule(jobs: list[dict]) -> dict:
     """Return {job_id: new_cron_expression}."""
     # Your scheduling logic here
-    return {
+    return {0
+    
         "backup-db-primary": "0 2 * * *",  # Move to 2am
         "send-reports": "30 1 * * *",       # Stagger to 1:30am
     }
